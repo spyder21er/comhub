@@ -1,0 +1,75 @@
+#honor,
+#depAward {
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #393;
+}
+
+#jumpTable>tbody{
+    display: block;
+    height: 350px;
+    overflow-y: auto;
+}
+
+.bordered-fieldset{
+    border: 3px solid #036;
+    border-radius: 7px;
+    -webkit-box-shadow:  3px 3px 0px 0px #999;
+            box-shadow:  3px 3px 0px 0px #999;
+	margin-bottom: 10px;
+}
+
+.table-bordered,
+.table-bordered>thead>tr>th,
+.table-bordered>tbody>tr>td  {
+    border: 1px solid #000;
+}
+
+.bordered-legend {
+    width: auto;
+    border-style: none;
+    border-width: 0;
+    padding: 10px 2px;
+    font-size: 24px;
+    line-height: 20px;
+    margin-bottom: 0;
+}
+
+.stud-pic {
+    margin: auto;
+}
+
+.studInfo{
+	font-size: 1.6em;
+	margin-bottom: 1px solid #333;
+}
+
+.optionA{
+    color: #030;
+    background: #cfc;
+}
+
+.optionB{
+    color: #003;
+    background: #ccf;
+}
+
+.optionC{
+    color: #330;
+    background: #ffc;
+}
+
+.optionD{
+    color: #300;
+    background: #fcc;
+}
+
+.optionE{
+    color: #300;
+    background: #fb4;
+}
+
+.id-input {
+    width: 50px;
+    display: inline;
+}
