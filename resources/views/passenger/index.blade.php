@@ -51,10 +51,11 @@
                                             <option selected value="">Time</option>
                                             @foreach (['AM', 'PM'] as $AMPM)
                                                 @for ($i = 12; $i < 24; ++$i)
-                                                    @if($i = 12)
+                                                    @if($i == 12)
                                                         <option value="{{ $i }}{{ $AMPM }}">{{ $i }} {{ $AMPM }}</option>
-                                                    @endif
+                                                    @else
                                                         <option value="{{ $i % 12 }}{{ $AMPM }}">{{ $i % 12 }} {{ $AMPM }}</option>
+                                                    @endif
                                                 @endfor
                                             @endforeach
                                         </select>
@@ -100,4 +101,7 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('page-scripts')
 @endsection
