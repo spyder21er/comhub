@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+
+@section('page-styles')
+<link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -13,7 +18,7 @@
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newTripModal">
                         New Trip
                     </button>
-                    
+
                     <div class="modal fade" id="newTripModal" tabindex="-1" role="dialog" aria-labelledby="newTripModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -47,18 +52,12 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <select class="form-control" id="selectTime">
-                                            <option selected value="">Time</option>
-                                            @foreach (['AM', 'PM'] as $AMPM)
-                                                @for ($i = 12; $i < 24; ++$i)
-                                                    @if($i == 12)
-                                                        <option value="{{ $i }}{{ $AMPM }}">{{ $i }} {{ $AMPM }}</option>
-                                                    @else
-                                                        <option value="{{ $i % 12 }}{{ $AMPM }}">{{ $i % 12 }} {{ $AMPM }}</option>
-                                                    @endif
-                                                @endfor
-                                            @endforeach
-                                        </select>
+                                        <div class="input-group date" id="tripdate" data-target-input="nearest">
+                                            <input type="text" placeholder="Select Date" class="form-control datetimepicker-input" data-target="#tripdate" />
+                                            <div class="input-group-append" data-target="#tripdate" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -104,4 +103,13 @@
 @endsection
 
 @section('page-scripts')
+<script src="{{ asset('js/moment.js') }}"></script>
+<script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#tripdate').datetimepicker({
+            format: 'L'
+        });
+    });
+</script>
 @endsection
