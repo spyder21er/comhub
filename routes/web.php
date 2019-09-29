@@ -12,6 +12,8 @@
 */
 
 Route::get('/passenger_dashboard', 'PassengerController@index')->name('passenger.index');
+Route::get('/driver_dashboard', 'DriverController@index')->name('driver.index');
+Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
