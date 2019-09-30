@@ -23,6 +23,7 @@ class CreateTripsTable extends Migration
             $table->string('passenger_compliance_code');
             $table->dateTime('departure_time');
             $table->dateTime('estimated_arrival_time');
+            $table->boolean('exclusive');
             $table->timestamps();
         });
     }

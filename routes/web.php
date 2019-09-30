@@ -12,6 +12,7 @@
 */
 
 Route::get('/passenger_dashboard', 'PassengerController@index')->name('passenger.index');
+Route::post('/passenger_dashboard', 'PassengerController@createTrip')->name('createTrip');
 Route::get('/driver_dashboard', 'DriverController@index')->name('driver.index');
 Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
 

@@ -16,4 +16,10 @@ class PassengerController extends Controller
     {
         return view('passenger.index');
     }
+
+    public function createTrip(Request $request)
+    {
+        dump($request->has('exclusive'));
+        dd($request->all());
+    }
 }
