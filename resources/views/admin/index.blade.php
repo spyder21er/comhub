@@ -23,10 +23,10 @@
                             </ul>
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="passengers-tab" role="tabpanel">
-                                    Passenger content
+                                    @include('admin.pass-table')
                                 </div>
                                 <div class="tab-pane fade" id="drivers-tab" role="tabpanel">
-                                    Driver content
+                                    @include('admin.driver-table')
                                 </div>
                                 <div class="tab-pane fade" id="accounts-tab" role="tabpanel">
                                     Accounts content
