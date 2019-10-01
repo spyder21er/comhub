@@ -37,4 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
 });
 
+Route::get('/home', function() {
+    return redirect('/');
+});
+
 Auth::routes();

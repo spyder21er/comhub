@@ -67,6 +67,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            // only passengers can create account
+            'user_role_id' => 4,
         ]);
     }
 }
