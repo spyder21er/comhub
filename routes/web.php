@@ -19,11 +19,15 @@ Route::middleware('auth')->group(function () {
         switch ($roleId)
         {
             case 1:
-                return redirect('/admin_dashboard');
             case 2:
-                return redirect('/driver_dashboard');
+                return redirect('/admin_dashboard');
+                break;
             case 3:
+                return redirect('/driver_dashboard');
+                break;
+            case 4:
                 return redirect('/passenger_dashboard');
+                break;
         }
     });
 

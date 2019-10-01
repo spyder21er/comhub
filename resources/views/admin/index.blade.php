@@ -5,7 +5,21 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Admin Dashboard</div>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-9">
+                            <h3>Admin Dashboard</h3>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     <div class="row">
@@ -18,7 +32,7 @@
                                     <a class="nav-link" data-toggle="tab" href="#drivers-tab">Drivers Activity</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#accounts-tab">Manage Accounts</a>
+                                    <a class="nav-link" data-toggle="tab" href="#accounts-tab">Create Driver Account</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="nav-tabContent">
