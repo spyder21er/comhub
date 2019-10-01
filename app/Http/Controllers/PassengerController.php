@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 
 class PassengerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('passenger');
+    }
+
     /**
      * Handle index request
      * 
      * @return View
      */
-
     public function index()
     {
         return view('passenger.index');

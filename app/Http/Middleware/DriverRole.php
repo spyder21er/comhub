@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class AdminRole
+class DriverRole
 {
     /**
      * Handle an incoming request.
@@ -18,8 +18,8 @@ class AdminRole
     {
         $userRole = Auth::user()->role->id;
 
-        // if the user is not admin or super admin redirect to home
-        if($userRole !== 1 && $userRole !== 2)
+        // if the user is not driver or super admin redirect to home
+        if($userRole !== 1 && $userRole !== 3)
             return redirect('/');
 
         return $next($request);
