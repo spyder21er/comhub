@@ -28,7 +28,9 @@
                                             <th scope="col">Destination</th>
                                             <th scope="col">Departure Time</th>
                                             <th scope="col">Passengers</th>
-                                            <th scope="col">Commands</th>
+                                            @if(Auth::user()->role->id !== 1)
+                                                <th scope="col">Commands</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -38,11 +40,13 @@
                                             <td>Pasacao</td>
                                             <td>10pm</td>
                                             <td>5</td>
+                                            @if(Auth::user()->role->id !== 1)
                                             <td>
                                                 <button class="btn btn-sm btn-success" type="button">
                                                     Fetch
                                                 </button>
                                             </td>
+                                            @endif
                                         </tr>
                                     </tbody>
                                 </table>
