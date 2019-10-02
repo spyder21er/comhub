@@ -113,84 +113,72 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="newTripModal" tabindex="-1" role="dialog" aria-labelledby="newTripModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newTripModalLabel">Hail new trip</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<modal id="newTripModal" label="newTripModalLabel" title="Hail new trip">
+    <form action="{{ route('createTrip') }}" method="POST" id="createNewTripForm">
+        @csrf
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <select name="origin" class="form-control" id="selectOrigin">
+                        <option selected value="">Origin</option>
+                        <option>Naga</option>
+                        <option>Pasacao</option>
+                        <option>Milaor</option>
+                        <option>San Fernando</option>
+                        <option>Calabanga</option>
+                        <option>San Fernando</option>
+                    </select>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('createTrip') }}" method="POST" id="createNewTripForm">
-                    @csrf
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <select name="origin" class="form-control" id="selectOrigin">
-                                    <option selected value="">Origin</option>
-                                    <option>Naga</option>
-                                    <option>Pasacao</option>
-                                    <option>Milaor</option>
-                                    <option>San Fernando</option>
-                                    <option>Calabanga</option>
-                                    <option>San Fernando</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <select name="destination" class="form-control" id="selectDestination">
-                                    <option selected value="">Destination</option>
-                                    <option>Naga</option>
-                                    <option>Pasacao</option>
-                                    <option>Milaor</option>
-                                    <option>San Fernando</option>
-                                    <option>Calabanga</option>
-                                    <option>San Fernando</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <div class="input-group date" id="tripTime" data-target-input="nearest">
-                                    <input name="time" type="text" placeholder="Select Time" class="form-control datetimepicker-input" data-target="#tripTime" />
-                                    <div class="input-group-append" data-target="#tripTime" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <select name="count" class="form-control" id="selectCount">
-                                    <option selected value="">With how many?</option>
-                                    <option>Only me</option>
-                                    @for ($i = 2; $i <= 15; $i++) <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="exclusive" type="checkbox" id="checkExclusive">
-                        <label class="form-check-label" for="checkExclusive">
-                            Exclusive?
-                        </label>
-                    </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <select name="destination" class="form-control" id="selectDestination">
+                        <option selected value="">Destination</option>
+                        <option>Naga</option>
+                        <option>Pasacao</option>
+                        <option>Milaor</option>
+                        <option>San Fernando</option>
+                        <option>Calabanga</option>
+                        <option>San Fernando</option>
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="event.preventDefault();
-                    document.getElementById('createNewTripForm').submit();">Submit</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <div class="input-group date" id="tripTime" data-target-input="nearest">
+                        <input name="time" type="text" placeholder="Select Time" class="form-control datetimepicker-input" data-target="#tripTime" />
+                        <div class="input-group-append" data-target="#tripTime" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <select name="count" class="form-control" id="selectCount">
+                        <option selected value="">With how many?</option>
+                        <option value="1">Only me</option>
+                        @for ($i = 2; $i <= 15; $i++) 
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="exclusive" type="checkbox" id="checkExclusive">
+            <label class="form-check-label" for="checkExclusive">
+                Exclusive?
+            </label>
+        </div>
+    </form>
+    <slot name="submitButton">
+    <button type="button" class="btn btn-primary" onclick="event.preventDefault();
+    document.getElementById('createNewTripForm').submit();">Submit</button>
+    </slot>
+</modal>
 @endsection
 
 @section('page-scripts')
