@@ -20,12 +20,12 @@
                             <td>
                                 @if (Auth::user()->hasTripToday())
                                     @if ($my_trips->contains($trip))
-                                        <button class="btn btn-sm btn-danger" type="button">
+                                        <button trip_id="{{ $trip->id }}" class="btn btn-sm btn-danger leave-btn" type="button">
                                             Leave
                                         </button>
                                     @endif
                                 @else
-                                    <button class="btn btn-sm btn-success" type="button">
+                                    <button trip_id="{{ $trip->id }}" class="btn btn-sm btn-success join-btn" type="button">
                                         Join
                                     </button>
                                 @endif

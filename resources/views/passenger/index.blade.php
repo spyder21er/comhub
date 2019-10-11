@@ -37,6 +37,8 @@
     </div>
 </div>
 @include('passenger.create-modal')
+@include('passenger.exclude-form')
+@include('passenger.include-form')
 @endsection
 
 @section('page-scripts')
@@ -70,6 +72,14 @@
                 ]
             }
         });
+    });
+    $('.leave-btn').on('click', function() {
+        $('input[name="trip_id"]').val($(this).attr("trip_id"));
+        $('#exclude_form').submit();
+    });
+    $('.join-btn').on('click', function() {
+        $('input[name="trip_id"]').val($(this).attr("trip_id"));
+        $('#include_form').submit();
     });
 </script>
 @endsection
