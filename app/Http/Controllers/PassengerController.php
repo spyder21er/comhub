@@ -29,6 +29,13 @@ class PassengerController extends Controller
 
     public function createTrip()
     {
+        // TODO
+        // 1. Check if user has existing trip today
+        // if (Auth::user()->hasTripToday())
+        // prevent trip creation
+        // flash error message
+        // redirect back
+
         $validated = request()->validate([
             'origin_id' => 'required',
             'destination_id' => 'required',
