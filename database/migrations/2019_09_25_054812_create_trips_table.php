@@ -18,12 +18,13 @@ class CreateTripsTable extends Migration
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->unsignedBigInteger('origin_id');
             $table->unsignedBigInteger('destination_id');
-            $table->string('trip_code');
-            $table->string('driver_compliance_code');
-            $table->string('passenger_compliance_code');
-            $table->dateTime('departure_time');
-            $table->dateTime('estimated_arrival_time');
+            $table->string('trip_code')->unique();
+            $table->string('driver_compliance_code')->unique();
+            $table->string('passenger_compliance_code')->unique();
+            $table->time('departure_time');
+            $table->time('estimated_arrival_time')->nullable();
             $table->boolean('exclusive');
+            $table->integer('guest_count');
             $table->timestamps();
         });
     }

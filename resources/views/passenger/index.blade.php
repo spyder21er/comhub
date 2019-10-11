@@ -118,29 +118,21 @@
         @csrf
         <div class="row">
             <div class="col-6">
-                <div class="form-group">
-                    <select name="origin" class="form-control" id="selectOrigin">
+                <select-menu name="origin" id="selectOrigin">
+                    @slot('options')
                         <option selected value="">Origin</option>
-                        <option>Naga</option>
-                        <option>Pasacao</option>
-                        <option>Milaor</option>
-                        <option>San Fernando</option>
-                        <option>Calabanga</option>
-                        <option>San Fernando</option>
-                    </select>
-                </div>
+                        @include('passenger.town-options')
+                    @endslot
+                </select-menu>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="destination" class="form-control" id="selectDestination">
-                        <option selected value="">Destination</option>
-                        <option>Naga</option>
-                        <option>Pasacao</option>
-                        <option>Milaor</option>
-                        <option>San Fernando</option>
-                        <option>Calabanga</option>
-                        <option>San Fernando</option>
-                    </select>
+                    <select-menu name="destination" id="selectDestination">
+                        @slot('options')
+                            <option selected value="">Destination</option>
+                            @include('passenger.town-options')
+                        @endslot
+                    </select-menu>
                 </div>
             </div>
         </div>
@@ -148,7 +140,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <div class="input-group date" id="tripTime" data-target-input="nearest">
-                        <input name="time" type="text" placeholder="Select Time" class="form-control datetimepicker-input" data-target="#tripTime" />
+                        <input name="departure_time" type="text" placeholder="Select Time" class="form-control datetimepicker-input" data-target="#tripTime" />
                         <div class="input-group-append" data-target="#tripTime" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
                         </div>
@@ -157,10 +149,10 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="count" class="form-control" id="selectCount">
+                    <select name="passenger_count" class="form-control" id="selectCount">
                         <option selected value="">With how many?</option>
-                        <option value="1">Only me</option>
-                        @for ($i = 2; $i <= 15; $i++) 
+                        <option value="0">Only me</option>
+                        @for ($i = 1; $i < 15; $i++) 
                             <option value="{{ $i }}">{{ $i }}</option>
                         @endfor
                     </select>

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserRolesTableSeeder::class,
             UsersTableSeeder::class,
+            TripsTableSeeder::class,
         ]);
 
         factory(User::class, 30)->create();

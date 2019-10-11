@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Town;
+use App\Models\Trip;
+use Carbon\Carbon;
 
 class PassengerController extends Controller
 {
@@ -18,12 +20,20 @@ class PassengerController extends Controller
      */
     public function index()
     {
-        return view('passenger.index');
+        $trips = Trip::whereDate('created_at', Carbon::today())->get();
+        $towns = Town::all()->pluck('name', 'id');
+        return view('passenger.index', compact('towns', 'trips'));
     }
 
-    public function createTrip(Request $request)
+    public function createTrip()
     {
-        dump($request->has('exclusive'));
-        dd($request->all());
+        $validated = request()->validate([
+            'origin' => 'required',
+            'destination' => 'required',
+            'departure_time' => ['required', 'regex:/[0-1]?[0-9]:[0-5][0-9] (A|P)M/i'],
+            'passenger_count' => 'required',
+        ]);
+
+        dd($validated);
     }
 }
