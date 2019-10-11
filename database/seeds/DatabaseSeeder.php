@@ -14,14 +14,13 @@ class DatabaseSeeder extends Seeder
     {
         // Required for production
         $this->call(TownsTableSeeder::class);
-
+        
         // For development only:
         $this->call([
-            UserRolesTableSeeder::class,
+            RolesTableSeeder::class,
             UsersTableSeeder::class,
-            TripsTableSeeder::class,
         ]);
-
-        factory(User::class, 30)->create();
+        factory(User::class, 250)->create();
+        $this->call(TripsTableSeeder::class);
     }
 }

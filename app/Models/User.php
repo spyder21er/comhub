@@ -39,6 +39,26 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(UserRole::class, 'user_role_id');
+        return $this->belongsTo(Role::class);
+    }
+
+    public function trips()
+    {
+        return $this->belongsToMany(Trip::class);
+    }
+
+    public function hasTripToday()
+    {
+        return $this->trips()->today()->get()->isNotEmpty();
+    }
+
+    public function isPassenger()
+    {
+        return $this->role == Role::where('name', '=', 'passenger')->first();
+    }
+
+    public function isDriver()
+    {
+        return $this->role == Role::where('name', '=', 'driver')->first();
     }
 }

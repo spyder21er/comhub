@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/passenger_dashboard', 'PassengerController@createTrip')->name('createTrip');
     Route::get('/driver_dashboard', 'DriverController@index')->name('driver.index');
     Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
+    Route::get('/trip/{trip}', 'TripController@includeUser')->name('trip.includeUser');
 });
 
 Route::get('/home', function() {

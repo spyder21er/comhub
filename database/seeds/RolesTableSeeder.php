@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\UserRole;
+use App\Models\Role;
 
-class UserRolesTableSeeder extends Seeder
+class RolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +12,9 @@ class UserRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        $userRoles = ['SuperAdmin', 'Admin', 'Driver', 'Passenger'];
+        $userRoles = ['super_admin', 'admin', 'driver', 'passenger'];
         foreach($userRoles as $userRole) {
-            $newRole = new UserRole;
+            $newRole = new Role;
             $newRole->name = $userRole;
             $newRole->save();
         }

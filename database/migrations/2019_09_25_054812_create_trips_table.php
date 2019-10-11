@@ -18,7 +18,7 @@ class CreateTripsTable extends Migration
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->unsignedBigInteger('origin_id');
             $table->unsignedBigInteger('destination_id');
-            $table->string('trip_code')->unique();
+            $table->string('code')->unique();
             $table->string('driver_compliance_code')->unique();
             $table->string('passenger_compliance_code')->unique();
             $table->time('departure_time');

@@ -1,3 +1,3 @@
 @foreach ($towns as $id => $town)
-    <option value="{{ $id }}">{{ $town }}</option>
+    <option {{ (old($name) == $id ? "selected":"") }} value="{{ $id }}">{{ $town }}</option>
 @endforeach

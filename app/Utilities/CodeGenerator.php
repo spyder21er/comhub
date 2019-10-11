@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Utilities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserRole extends Model
+class CodeGenerator extends Model
 {
     //
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Passenger;
 use App\Models\Town;
 use App\Models\Trip;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PassengerController extends Controller
 {
@@ -20,20 +21,32 @@ class PassengerController extends Controller
      */
     public function index()
     {
-        $trips = Trip::whereDate('created_at', Carbon::today())->get();
+        $my_trips = Auth::user()->trips()->today()->get();
+        $trips = Trip::today()->get();
         $towns = Town::all()->pluck('name', 'id');
-        return view('passenger.index', compact('towns', 'trips'));
+        return view('passenger.index', compact('towns', 'trips', 'my_trips'));
     }
 
     public function createTrip()
     {
         $validated = request()->validate([
-            'origin' => 'required',
-            'destination' => 'required',
+            'origin_id' => 'required',
+            'destination_id' => 'required',
             'departure_time' => ['required', 'regex:/[0-1]?[0-9]:[0-5][0-9] (A|P)M/i'],
-            'passenger_count' => 'required',
+            'guest_count' => 'required',
         ]);
 
-        dd($validated);
+        $same_trip = Trip::today()->where([
+            ['origin_id',       '=', $validated['origin_id']],
+            ['destination_id',  '=', $validated['destination_id']],
+        ])->get();
+        
+        if ($same_trip->isEmpty())
+        {
+            Trip::create($validated)->passengers()->attach(Auth::user());
+            return redirect()->route('passenger.index');
+        }
+        
+        return redirect()->route('trip.includeUser', ['trip' => $same_trip->first()->id]);
     }
 }

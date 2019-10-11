@@ -1,6 +1,9 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Models\Passenger;
+use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -19,11 +22,11 @@ use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'user_role_id' => $faker->numberBetween(1, 4),
+        'name'              => $faker->name,
+        'email'             => $faker->unique()->safeEmail,
+        'role_id'           => $faker->numberBetween(1, 4),
         'email_verified_at' => now(),
-        'password' => Hash::make('asdfasdf'),
-        'remember_token' => Str::random(10),
+        'password'          => Hash::make('asdfasdf'),
+        'remember_token'    => Str::random(10),
     ];
 });
