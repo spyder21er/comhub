@@ -17,7 +17,9 @@ class CreateTripUserTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('trip_id');
             $table->unsignedBigInteger('user_id');
-            $table->timestamps();
+            $table->text('passenger_comment')->nullable();
+            $table->integer('passenger_rate')->nullable();
+            $table->boolean('complied')->nullable();
         });
     }
 

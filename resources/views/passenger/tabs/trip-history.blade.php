@@ -12,30 +12,16 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($my_trips as $trip)
                 <tr>
-                    <td>09-02-19</td>
-                    <td>10:00 PM</td>
-                    <td>NP19-0354</td>
-                    <td>Naga</td>
-                    <td>Pasacao</td>
-                    <td>Complied</td>
+                    <td>{{ $trip->created_at }} </td>
+                    <td>{{ $trip->departure_time }}</td>
+                    <td>{{ $trip->code }}</td>
+                    <td>{{ $trip->origin->name }}</td>
+                    <td>{{ $trip->destination->name }}</td>
+                    <td></td>
                 </tr>
-                <tr>
-                    <td>09-03-19</td>
-                    <td>10:00 PM</td>
-                    <td>NP19-0427</td>
-                    <td>Naga</td>
-                    <td>Pasacao</td>
-                    <td>Missed/Unconfirmed compliance code</td>
-                </tr>
-                <tr>
-                    <td>09-04-19</td>
-                    <td>10:00 PM</td>
-                    <td>NP19-0723</td>
-                    <td>Naga</td>
-                    <td>Pasacao</td>
-                    <td>Cancelled</td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

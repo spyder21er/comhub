@@ -44,7 +44,13 @@ class User extends Authenticatable
 
     public function trips()
     {
-        return $this->belongsToMany(Trip::class);
+        return $this
+            ->belongsToMany(Trip::class)
+            ->withPivot([
+                'passenger_comment',
+                'passenger_rate',
+                'complied',
+            ]);
     }
 
     public function hasTripToday()

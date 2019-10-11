@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             UsersTableSeeder::class,
         ]);
-        factory(User::class, 250)->create();
+        factory(User::class, 70)->create();
         $this->call(TripsTableSeeder::class);
     }
 }

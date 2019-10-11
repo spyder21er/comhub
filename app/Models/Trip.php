@@ -29,6 +29,11 @@ class Trip extends Model
         return $value->format('h:i A');
     }
 
+    public function getCreatedAtAttribute($value)
+    {
+        return (new Carbon($value))->format('m-d-y');
+    }
+
     /**
      * Which town this trip is leaving from.
      */
@@ -50,7 +55,21 @@ class Trip extends Model
      */
     public function passengers()
     {
-        return $this->belongsToMany(Passenger::class, 'trip_user', 'trip_id', 'user_id');
+        return $this
+            ->belongsToMany(Passenger::class, 'trip_user', 'trip_id', 'user_id')
+            ->withPivot([
+                'passenger_comment',
+                'passenger_rate',
+                'complied',
+            ]);
+    }
+
+    /**
+     * Get the status of the currently authenticatied user for this trip
+     */
+    public function status()
+    {
+        // Todo
     }
 
     /**
