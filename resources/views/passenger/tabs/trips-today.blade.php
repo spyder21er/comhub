@@ -43,9 +43,11 @@
             <tfoot>
                 <tr>
                     <td colspan="6">
-                        <button type="button" class="btn btn-info text-white" data-toggle="modal" data-target="#newTripModal">
-                            Create New Trip
-                        </button>
+                        @if(Auth::user()->isPassenger() && !Auth::user()->hasTripToday())
+                            <button type="button" class="btn btn-info mb-3 text-white" data-toggle="modal" data-target="#newTripModal">
+                                Create New Trip
+                            </button>
+                        @endif
                     </td>
                 </tr>
             </tfoot>

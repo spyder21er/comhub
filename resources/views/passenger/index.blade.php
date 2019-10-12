@@ -14,7 +14,7 @@
                     Dashboard
                 </div>
                 <div class="card-body">
-                    @if(Auth::user()->isPassenger())
+                    @if(Auth::user()->isPassenger() && !Auth::user()->hasTripToday())
                         <button type="button" class="btn btn-info mb-3 text-white" data-toggle="modal" data-target="#newTripModal">
                             Create New Trip
                         </button>
@@ -36,7 +36,9 @@
         </div>
     </div>
 </div>
-@include('passenger.create-modal')
+@if(Auth::user()->isPassenger() && !Auth::user()->hasTripToday())
+    @include('passenger.create-modal')
+@endif
 @include('passenger.exclude-form')
 @include('passenger.include-form')
 @endsection
