@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Trip;
 class DriverController extends Controller
 {
     public function __construct()
@@ -11,6 +12,7 @@ class DriverController extends Controller
 
     public function index()
     {
-        return view('driver.index');
+        $trips = Trip::today()->get();
+        return view('driver.index', compact('trips'));
     }
 }
