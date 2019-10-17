@@ -118,6 +118,17 @@ class Trip extends Model
     {
         return min($this->origin->max_passengers, $this->destination->max_passengers);
     }
+    
+    /**
+     * Set the departure time.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setDepartureTimeAttribute($value)
+    {
+        $this->attributes['departure_time'] = new Carbon($value);
+    }
 
     /**
      * Create a new trip instance with the specified data.
@@ -126,15 +137,19 @@ class Trip extends Model
      */
     public static function create($data)
     {
-        $data['departure_time']             = new Carbon($data['departure_time']);
-        // We need to exclude the creator from the guest count
+        // First we need to exclude the creator from the guest count
         $data['guest_count']--;
+        
+        // We are going to use faker to generate codes necessary for this trip
         $faker = Faker\Factory::create();
+        
+        // Generate codes
         $codes = [
             'code'                          => $faker->regexify('[A-Z]{3}[0-9]{6}'),
             'driver_compliance_code'        => $faker->regexify('[a-z0-9]{8}'),
             'passenger_compliance_code'     => $faker->regexify('[a-z0-9]{8}'),
         ];
+        
         $model = static::query()->create(array_merge($data, $codes));
 
         return $model;
