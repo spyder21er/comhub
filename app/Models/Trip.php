@@ -9,19 +9,29 @@ use Faker;
 
 class Trip extends Model
 {
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
         'driver_compliance_code',
         'passenger_compliance_code',
     ];
-
+    
     protected $attributes = [
         'exclusive' => false,
     ];
 
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [];
 
     /**
-     * Format departure time when printing HH:MM AM/PM.
+     * Format departure time when printing. (HH:MM AM/PM)
      */
     public function getDepartureTimeAttribute($value)
     {
@@ -29,13 +39,16 @@ class Trip extends Model
         return $value->format('h:i A');
     }
 
+    /**
+     * Format created at attribute. (mm-dd-yy)
+     */
     public function getCreatedAtAttribute($value)
     {
         return (new Carbon($value))->format('m-d-y');
     }
 
     /**
-     * Which town this trip is leaving from.
+     * The town which this trip is leaving from.
      */
     public function origin()
     {
@@ -43,7 +56,7 @@ class Trip extends Model
     }
 
     /**
-     * Which town this trip is going to.
+     * The town which this trip is going to.
      */
     public function destination()
     {
@@ -51,7 +64,7 @@ class Trip extends Model
     }
 
     /**
-     * The passengers that join this trip.
+     * The passengers that joined this trip.
      */
     public function passengers()
     {
@@ -63,15 +76,7 @@ class Trip extends Model
                 'complied',
             ]);
     }
-
-    /**
-     * Get the status of the currently authenticatied user for this trip
-     */
-    public function status()
-    {
-        // Todo
-    }
-
+    
     /**
      * Scope a query to only include trips today.
      *
@@ -94,16 +99,31 @@ class Trip extends Model
         return $query->with('passengers');
     }
 
+    /**
+     * The total passengers included in this trip.
+     *
+     * @return int
+     */
     public function passengerCount()
     {
         return $this->passengers()->count() + $this->guest_count;
     }
 
+    /**
+     * The maximum number of passengers allowed to join this trip.
+     * 
+     * @return int
+     */
     public function max_passenger()
     {
         return min($this->origin->max_passengers, $this->destination->max_passengers);
     }
 
+    /**
+     * Create a new trip instance with the specified data.
+     *
+     * @return App\Models\Trip
+     */
     public static function create($data)
     {
         $data['departure_time']             = new Carbon($data['departure_time']);
