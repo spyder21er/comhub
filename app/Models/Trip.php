@@ -76,6 +76,14 @@ class Trip extends Model
                 'complied',
             ]);
     }
+
+    /**
+     * The driver of this trip.
+     */
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
     
     /**
      * Scope a query to only include trips today.

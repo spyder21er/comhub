@@ -50,7 +50,7 @@ class User extends Authenticatable
      */
     public function trips()
     {
-        $relation = $this->belongsToMany(Trip::class);
+        $relation = $this->belongsToMany(Trip::class, 'trip_user', 'user_id', 'trip_id');
         if ($this->isPassenger())
             return $relation->withPivot([
                     'passenger_comment',
