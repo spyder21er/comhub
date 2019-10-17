@@ -36,12 +36,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    
+    /**
+     * Get the role of this user.
+     */
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
-
+    
+    /**
+     * Get the trips of this user.
+     */
     public function trips()
     {
         $relation = $this->belongsToMany(Trip::class);
@@ -58,27 +64,45 @@ class User extends Authenticatable
         // 
         return null;
     }
-
+    
+    /**
+     * Determine if user has trip today.
+     */
     public function hasTripToday()
     {
         return $this->trips()->today()->get()->isNotEmpty();
     }
 
+    /**
+     * Determine if user is passenger.
+     */
     public function isPassenger()
     {
         return $this->isRole('passenger');
     }
 
+    /**
+     * Determine if user is driver.
+     */
     public function isDriver()
     {
         return $this->isRole('driver');
     }
 
+    /**
+     * Determine if user has the role specified.
+     * 
+     * @param string $name
+     * @return bool
+     */
     public function isRole($name)
     {
         return $this->role == Role::where('name', '=', $name)->first();
     }
 
+    /**
+     * Returns the text of leave button used in view.
+     */
     public function leaveButtonName()
     {
         if ($this->isPassenger())
@@ -90,6 +114,9 @@ class User extends Authenticatable
         return null;
     }
 
+    /**
+     * Returns the text of join button used in view.
+     */
     public function joinButtonName()
     {
         if ($this->isPassenger())
@@ -99,5 +126,16 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+    
+    /**
+     * Determine if this user has trip on specified date.
+     * 
+     * @param Carbon $date
+     * @return bool
+     */
+    public function hasTripOn(Carbon $date)
+    {
+        return $this->trips()->where('created_at', '=', $date)->get()->isNotEmpty();
     }
 }
