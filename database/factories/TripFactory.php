@@ -18,8 +18,10 @@ $factory->define(Trip::class, function (Faker $faker) {
         'estimated_arrival_time'    => null,
         'exclusive'                 => false,
         'guest_count'               => $faker->numberBetween(1,10),
-        'created_at'                => $faker->dateTimeBetween('-2 days'),
+        'created_at'                => $faker->dateTimeBetween('-12 days', '12 days'),
     ];
 })->afterCreating(Trip::class, function ($trip) {
-    $trip->passengers()->attach(Passenger::all()->random(rand(1, (15 - $trip->guest_count))));
+    $trip->passengers()->attach(Passenger::all()->filter(function ($passenger) {
+        return !$passenger->hasTripToday();
+    })->random(rand(1, (15 - $trip->guest_count))));
 });
