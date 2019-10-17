@@ -76,11 +76,11 @@
         });
     });
     $('.leave-btn').on('click', function() {
-        $('input[name="trip_id"]').val($(this).attr("trip_id"));
+        $('input[name="trip_id"]').val($(this).attr("tripId"));
         $('#exclude_form').submit();
     });
     $('.join-btn').on('click', function() {
-        $('input[name="trip_id"]').val($(this).attr("trip_id"));
+        $('input[name="trip_id"]').val($(this).attr("tripId"));
         $('#include_form').submit();
     });
 </script>

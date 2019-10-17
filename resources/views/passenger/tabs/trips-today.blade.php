@@ -5,6 +5,8 @@
                 <tr>
                     @if (Auth::user()->isPassenger())
                         <th class="sorter-false filter-false">Command</th>
+                    @elseif(Auth::user()->isDriver())
+                        <th class="sorter-false filter-false">Command</th>
                     @endif
                     <th scope="col">Trip Code</th>
                     <th class="filter-select filter-exact" scope="col">Origin</th>
@@ -16,17 +18,17 @@
             <tbody>
                 @foreach ($trips as $trip)
                     <tr>
-                        @if (Auth::user()->isPassenger())
+                        @if (Auth::user()->isPassenger() || Auth::user()->isDriver())
                             <td>
                                 @if (Auth::user()->hasTripToday())
                                     @if ($my_trips->contains($trip))
-                                        <button trip_id="{{ $trip->id }}" class="btn btn-sm btn-danger leave-btn" type="button">
-                                            Leave
+                                        <button tripId="{{ $trip->id }}" class="btn btn-sm btn-danger leave-btn" type="button">
+                                            {{ Auth::user()->leaveButtonName() }}
                                         </button>
                                     @endif
                                 @else
-                                    <button trip_id="{{ $trip->id }}" class="btn btn-sm btn-success join-btn" type="button">
-                                        Join
+                                    <button tripId="{{ $trip->id }}" class="btn btn-sm btn-success join-btn" type="button">
+                                        {{ Auth::user()->joinButtonName() }}
                                     </button>
                                 @endif
                             </td>

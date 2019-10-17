@@ -44,13 +44,19 @@ class User extends Authenticatable
 
     public function trips()
     {
-        return $this
-            ->belongsToMany(Trip::class)
-            ->withPivot([
-                'passenger_comment',
-                'passenger_rate',
-                'complied',
-            ]);
+        $relation = $this->belongsToMany(Trip::class);
+        if ($this->isPassenger())
+            return $relation->withPivot([
+                    'passenger_comment',
+                    'passenger_rate',
+                    'complied',
+                ]);
+        elseif ($this->isDriver()) {
+            return $relation;
+        }
+
+        // 
+        return null;
     }
 
     public function hasTripToday()
@@ -60,11 +66,38 @@ class User extends Authenticatable
 
     public function isPassenger()
     {
-        return $this->role == Role::where('name', '=', 'passenger')->first();
+        return $this->isRole('passenger');
     }
 
     public function isDriver()
     {
-        return $this->role == Role::where('name', '=', 'driver')->first();
+        return $this->isRole('driver');
+    }
+
+    public function isRole($name)
+    {
+        return $this->role == Role::where('name', '=', $name)->first();
+    }
+
+    public function leaveButtonName()
+    {
+        if ($this->isPassenger())
+            return 'Leave';
+        elseif ($this->isDriver()) {
+            return 'Cancel Fetch';
+        }
+
+        return null;
+    }
+
+    public function joinButtonName()
+    {
+        if ($this->isPassenger())
+            return 'Join';
+        elseif ($this->isDriver()) {
+            return 'Fetch';
+        }
+
+        return null;
     }
 }
