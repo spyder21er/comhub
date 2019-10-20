@@ -22,4 +22,9 @@ class Driver extends User
 
         static::addGlobalScope(new DriverScope);
     }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
 }

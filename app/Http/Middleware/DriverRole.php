@@ -19,7 +19,7 @@ class DriverRole
         $userRole = Auth::user()->role->id;
 
         // if the user is not driver or super admin redirect to home
-        if($userRole !== 1 && $userRole !== 3)
+        if($userRole !== 3)
             return redirect('/');
 
         return $next($request);

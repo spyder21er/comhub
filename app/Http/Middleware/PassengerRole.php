@@ -17,9 +17,9 @@ class PassengerRole
     public function handle($request, Closure $next)
     {
         $userRole = Auth::user()->role->id;
-        
+
         // if the user is not passenger or super admin redirect to home
-        if($userRole !== 1 && $userRole !== 4)
+        if($userRole !== 4)
             return redirect('/');
 
         return $next($request);
