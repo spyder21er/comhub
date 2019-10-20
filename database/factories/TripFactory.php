@@ -4,6 +4,8 @@
 
 use App\Models\Passenger;
 use App\Models\Trip;
+use App\Models\Driver;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Trip::class, function (Faker $faker) {
@@ -28,4 +30,10 @@ $factory->define(Trip::class, function (Faker $faker) {
             return !$passenger->hasTripToday();
         })
         ->random(rand(1, (15 - $trip->guest_count))));
+    $today = Carbon::now();
+    if ($trip->created_at->lessThan($today))
+    {
+        $trip->driver()->associate(Driver::all()->random());
+        $trip->save();
+    }
 });

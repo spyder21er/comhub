@@ -18,7 +18,7 @@ class Trip extends Model
         'driver_compliance_code',
         'passenger_compliance_code',
     ];
-    
+
     protected $attributes = [
         'exclusive' => false,
     ];
@@ -37,14 +37,6 @@ class Trip extends Model
     {
         $value = new Carbon($value);
         return $value->format('h:i A');
-    }
-
-    /**
-     * Format created at attribute. (mm-dd-yy)
-     */
-    public function getCreatedAtAttribute($value)
-    {
-        return (new Carbon($value))->format('m-d-y');
     }
 
     /**
@@ -84,7 +76,7 @@ class Trip extends Model
     {
         return $this->belongsTo(Driver::class);
     }
-    
+
     /**
      * Scope a query to only include trips today.
      *
@@ -119,14 +111,14 @@ class Trip extends Model
 
     /**
      * The maximum number of passengers allowed to join this trip.
-     * 
+     *
      * @return int
      */
     public function max_passenger()
     {
         return min($this->origin->max_passengers, $this->destination->max_passengers);
     }
-    
+
     /**
      * Set the departure time.
      *
@@ -147,17 +139,17 @@ class Trip extends Model
     {
         // First we need to exclude the creator from the guest count
         $data['guest_count']--;
-        
+
         // We are going to use faker to generate codes necessary for this trip
         $faker = Faker\Factory::create();
-        
+
         // Generate codes
         $codes = [
             'code'                          => $faker->regexify('[A-Z]{3}[0-9]{6}'),
             'driver_compliance_code'        => $faker->regexify('[a-z0-9]{8}'),
             'passenger_compliance_code'     => $faker->regexify('[a-z0-9]{8}'),
         ];
-        
+
         $model = static::query()->create(array_merge($data, $codes));
 
         return $model;

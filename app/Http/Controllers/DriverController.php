@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Trip;
 use App\Models\Town;
+use App\Models\Driver;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class DriverController extends Controller
 {
@@ -16,8 +18,6 @@ class DriverController extends Controller
     {
         $my_trips = Auth::user()->trips()->get();
         $trips = Trip::today()->get();
-        $test = Trip::first();
-        dd($test->driver);
         $towns = Town::all()->pluck('name', 'id');
         return view('passenger.index', compact('towns', 'trips', 'my_trips'));
     }
