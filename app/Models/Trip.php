@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\MOdels\Passenger;
+use App\Models\Passenger;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Faker;
