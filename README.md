@@ -9,7 +9,9 @@ $ sudo apt install php7.2
 ```
 Composer
 
+```
 $ sudo apt install composer
+```
 
 # Installing and setting up.
 
