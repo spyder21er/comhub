@@ -44,21 +44,27 @@
 @endsection
 
 @section('page-scripts')
-<script src="{{ asset('js/moment.js') }}"></script>
-<script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap-tablesorter.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap-tablesorter.widgets.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-tablesorter.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-tablesorter.widgets.js') }}"></script>
+    @if (Auth::user()->isPassenger())
+        <script src="{{ asset('js/moment.js') }}"></script>
+        <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+        <script type="text/javascript">
+            $(function() {
+                @if ($errors->any())
+                $('#newTripModal').modal('show');
+                @endif
+                $('#tripdate').datetimepicker({
+                    format: 'L'
+                });
+                $('#tripTime').datetimepicker({
+                    format: 'LT'
+                });
+            });
+        </script>
+    @endif
 <script type="text/javascript">
     $(function() {
-        @if ($errors->any())
-            $('#newTripModal').modal('show');
-        @endif
-        $('#tripdate').datetimepicker({
-            format: 'L'
-        });
-        $('#tripTime').datetimepicker({
-            format: 'LT'
-        });
         $('table').tablesorter({
             theme : "bootstrap",
             widgets : [ "filter" ],

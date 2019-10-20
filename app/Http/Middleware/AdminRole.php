@@ -19,7 +19,7 @@ class AdminRole
         $userRole = Auth::user()->role->id;
 
         // if the user is not admin or super admin redirect to home
-        if($userRole !== 2)
+        if($userRole !== 2 && $userRole !== 1)
             return redirect('/');
 
         return $next($request);

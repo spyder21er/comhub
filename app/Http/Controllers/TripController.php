@@ -9,14 +9,28 @@ class TripController extends Controller
 {
     public function includeUser(Trip $trip)
     {
-        $this->getTrip()->passengers()->attach(Auth::user());
+        if (Auth::user()->isDriver()) {
+            $trip = $this->getTrip();
+            $trip->driver()->associate(Auth::user());
+            $trip->save();
+        }
+        elseif(Auth::user()->isPassenger())
+        {
+            $this->getTrip()->passengers()->attach(Auth::user());
+        }
 
         return redirect()->route('passenger.index');
     }
-    
+
     public function excludeUser()
     {
-        $this->getTrip()->passengers()->detach(Auth::user());
+        if (Auth::user()->isDriver()) {
+            $trip = $this->getTrip();
+            $trip->driver()->dissociate();
+            $trip->save();
+        } elseif (Auth::user()->isPassenger()) {
+            $this->getTrip()->passengers()->detach(Auth::user());
+        }
 
         return redirect()->route('passenger.index');
     }

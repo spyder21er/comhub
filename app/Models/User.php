@@ -36,7 +36,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     /**
      * Get the role of this user.
      */
@@ -44,27 +44,27 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
-    
+
     /**
      * Get the trips of this user.
      */
     public function trips()
     {
-        $relation = $this->belongsToMany(Trip::class, 'trip_user', 'user_id', 'trip_id');
         if ($this->isPassenger())
-            return $relation->withPivot([
+            return $this
+                ->belongsToMany(Trip::class, 'trip_user', 'user_id', 'trip_id')
+                ->withPivot([
                     'passenger_comment',
                     'passenger_rate',
                     'complied',
                 ]);
         elseif ($this->isDriver()) {
-            return $relation;
+            return $this->hasMany(Trip::class, 'driver_id');
         }
 
-        // 
         return null;
     }
-    
+
     /**
      * Determine if user has trip today.
      */
@@ -91,7 +91,7 @@ class User extends Authenticatable
 
     /**
      * Determine if user has the role specified.
-     * 
+     *
      * @param string $name
      * @return bool
      */
@@ -127,10 +127,10 @@ class User extends Authenticatable
 
         return null;
     }
-    
+
     /**
      * Determine if this user has trip on specified date.
-     * 
+     *
      * @param Carbon $date
      * @return bool
      */
