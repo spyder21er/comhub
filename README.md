@@ -5,7 +5,7 @@ A web-based communication platform for late night passengers and drivers.
 
 PHP v7.2 or above
 ```
-$ sudo apt install php-common php-mysql php-cli php-mbstring php-xml
+$ sudo apt install php-common php-mysql php-cli php-mbstring php-xml php-zip
 ```
 Composer
 
