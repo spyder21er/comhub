@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Scopes\AdminScope;
 
 class Admin extends User
@@ -22,5 +21,13 @@ class Admin extends User
         parent::boot();
 
         static::addGlobalScope(new AdminScope);
+    }
+
+    /**
+     * Drivers under this administrator.
+     */
+    public function drivers()
+    {
+        return $this->hasMany(Driver::class);
     }
 }

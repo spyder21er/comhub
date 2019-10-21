@@ -27,4 +27,12 @@ class Driver extends User
     {
         return $this->hasMany(Trip::class);
     }
+
+    /**
+     * Administrator of this driver.
+     */
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 }

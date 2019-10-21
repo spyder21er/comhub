@@ -1,8 +1,10 @@
 <?php
 
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Admin;
+use App\Models\Driver;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Faker\Generator as Faker;
@@ -18,13 +20,18 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Admin::class, function (Faker $faker) {
+$factory->define(Driver::class, function (Faker $faker) {
     return [
         'name'              => $faker->name,
         'email'             => $faker->unique()->safeEmail,
-        'role_id'           => 2,
+        'role_id'           => 3,
         'email_verified_at' => now(),
         'password'          => Hash::make('asdfasdf'),
         'remember_token'    => Str::random(10),
     ];
+})->afterCreating(Driver::class, function ($driver) {
+    $driver
+        ->admin()
+        ->associate(Admin::all()->random());
+    $driver->save();
 });

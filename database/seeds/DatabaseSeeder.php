@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Driver;
+use App\Models\Passenger;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +24,8 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
         ]);
         factory(Admin::class, 25)->create();
-        factory(User::class, 350)->create();
+        factory(Driver::class, 175)->create();
+        factory(Passenger::class, 200)->create();
         $this->call(TripsTableSeeder::class);
     }
 }
