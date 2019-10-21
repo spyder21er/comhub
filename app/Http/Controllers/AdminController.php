@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Admin;
+use App\Models\Trip;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -13,6 +16,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.index');
+        $drivers = Admin::find(Auth::user()->id)->drivers;
+        return view('admin.index', compact('drivers'));
     }
 }

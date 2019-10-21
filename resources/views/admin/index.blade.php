@@ -26,20 +26,14 @@
                         <div class="col-12">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-controls="passengers-tab" aria-selected="true" role="tab" data-toggle="tab" href="#passengers-tab">Passengers Activity</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" aria-controls="drivers-tab" aria-selected="false" role="tab" data-toggle="tab" href="#drivers-tab">Drivers Activity</a>
+                                    <a class="nav-link active" aria-controls="drivers-tab" aria-selected="false" role="tab" data-toggle="tab" href="#drivers-tab">Drivers Activity</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" aria-controls="accounts-tab" aria-selected="false" role="tab" data-toggle="tab" href="#accounts-tab">Add Driver Account</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="passengers-tab" role="tabpanel">
-                                    @include('admin.pass-table')
-                                </div>
-                                <div class="tab-pane fade" id="drivers-tab" role="tabpanel">
+                                <div class="tab-pane fade show active" id="drivers-tab" role="tabpanel">
                                     @include('admin.driver-table')
                                 </div>
                                 <div class="tab-pane fade" id="accounts-tab" role="tabpanel">

@@ -28,6 +28,6 @@ class Admin extends User
      */
     public function drivers()
     {
-        return $this->hasMany(Driver::class);
+        return $this->hasMany(Driver::class, 'admin_id');
     }
 }

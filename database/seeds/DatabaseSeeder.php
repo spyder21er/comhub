@@ -17,15 +17,15 @@ class DatabaseSeeder extends Seeder
     {
         // Required for production
         $this->call(TownsTableSeeder::class);
-        
+
         // For development only:
         $this->call([
             RolesTableSeeder::class,
             UsersTableSeeder::class,
         ]);
-        factory(Admin::class, 25)->create();
-        factory(Driver::class, 175)->create();
-        factory(Passenger::class, 200)->create();
+        factory(Admin::class, 12)->create();
+        factory(Driver::class, 120)->create();
+        factory(Passenger::class, 300)->create();
         $this->call(TripsTableSeeder::class);
     }
 }

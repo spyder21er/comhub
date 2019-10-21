@@ -35,4 +35,41 @@ class Driver extends User
     {
         return $this->belongsTo(Admin::class);
     }
+
+    /**
+     * Total number of trips hailed by this driver.
+     */
+    public function hailedTrips()
+    {
+        return $this->trips->count();
+    }
+
+    /**
+     * Total number of confirmed trips
+     */
+    public function confirmedTrips()
+    {
+        // TODO: This should be fixed
+        return $this->trips->count();
+    }
+
+    /**
+     * Total number of unconfirmed trips
+     */
+    public function unconfirmedTrips()
+    {
+        // TODO: This should be fixed
+        return $this->trips->count();
+    }
+
+    /**
+     * Ratio of confirmed trips to total trips hailed.
+     */
+    public function credibilityPoints()
+    {
+        if ($this->hailedTrips() == 0)
+            return "None";
+
+        return $this->confirmedTrips() / $this->hailedTrips() * 100;
+    }
 }

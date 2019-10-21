@@ -24,12 +24,18 @@ class TripController extends Controller
 
     public function excludeUser()
     {
-        if (Auth::user()->isDriver()) {
-            $trip = $this->getTrip();
-            $trip->driver()->dissociate();
-            $trip->save();
-        } elseif (Auth::user()->isPassenger()) {
-            $this->getTrip()->passengers()->detach(Auth::user());
+        $trip = $this->getTrip();
+        // Trips can only be cancelled if it is today
+        if ($trip->created_at->isSameDay(Carbon::today())) {
+            if (Auth::user()->isDriver())
+            {
+                $trip->driver()->dissociate();
+                $trip->save();
+            }
+            elseif (Auth::user()->isPassenger())
+            {
+                $trip->passengers()->detach(Auth::user());
+            }
         }
 
         return redirect()->route('passenger.index');
