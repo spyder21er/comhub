@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <div class="alert alert-success" role="alert">
                         <h4 class="alert-heading">Note:</h4>
-                        <p>If you are want to register as a driver, please contact the president of your drivers and operators association or organization. This registration is for passengers only.</p>
+                        <p>If you want to register as a driver, please contact the president of your drivers and operators association or organization. This registration is for passengers only.</p>
                     </div>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
