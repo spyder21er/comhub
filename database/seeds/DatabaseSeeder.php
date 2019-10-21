@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Admin;
 
 class DatabaseSeeder extends Seeder
 {
