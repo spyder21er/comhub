@@ -37,7 +37,7 @@
                                     @include('admin.driver-table')
                                 </div>
                                 <div class="tab-pane fade" id="accounts-tab" role="tabpanel">
-                                    Accounts content
+                                    @include('admin.driver-register')
                                 </div>
                             </div>
                         </div>

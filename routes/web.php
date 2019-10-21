@@ -11,7 +11,7 @@
 |
 */
 
-
+use App\Http\Controllers\AdminController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/trip/exclude_user', 'TripController@excludeUser')->name('trip.excludeUser');
     Route::post('/trip/include_user', 'TripController@includeUser')->name('trip.includeUser');
     Route::get('/trip/{trip}', 'TripController@show')->name('trip.show');
+    Route::post('/admin/register_driver', 'AdminController@register_driver')
+        ->name('register.driver')
+        ->middleware('admin');
 });
 
 Route::get('/home', function() {
