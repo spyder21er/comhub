@@ -20,7 +20,7 @@
             <div class="form-group row">
                 <label for="middle_name" class="col-md-4 col-form-label text-md-right">Driver Middle Name</label>
                 <div class="col-md-6">
-                    <input id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{ old('middle_name') }}" required autocomplete="middle_name" autofocus>
+                    <input id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{ old('middle_name') }}" autocomplete="middle_name">
                     @error('middle_name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -32,7 +32,7 @@
             <div class="form-group row">
                 <label for="last_name" class="col-md-4 col-form-label text-md-right">Driver Last Name</label>
                 <div class="col-md-6">
-                    <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>
+                    <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" autocomplete="last_name">
                     @error('last_name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
