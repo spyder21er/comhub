@@ -3,8 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Passenger;
-use App\Models\Trip;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Faker\Generator as Faker;
@@ -20,11 +19,11 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Admin::class, function (Faker $faker) {
     return [
         'name'              => $faker->name,
         'email'             => $faker->unique()->safeEmail,
-        'role_id'           => $faker->numberBetween(3, 4),
+        'role_id'           => 2,
         'email_verified_at' => now(),
         'password'          => Hash::make('asdfasdf'),
         'remember_token'    => Str::random(10),
