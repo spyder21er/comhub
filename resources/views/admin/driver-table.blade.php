@@ -12,7 +12,11 @@
         <tbody>
             @foreach ($drivers as $driver)
                 <tr>
-                    <td>{{ $driver->name }}</td>
+                    <td>
+                        <a href="{{ route('admin.showDriver', $driver->id) }}">
+                            {{ $driver->name }}
+                        </a>
+                    </td>
                     <td>{{ $driver->hailedTrips() }}</td>
                     <td>{{ $driver->confirmedTrips() }}</td>
                     <td>{{ $driver->unconfirmedTrips() }}</td>

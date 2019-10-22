@@ -34,14 +34,17 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/passenger_dashboard', 'PassengerController@index')->name('passenger.index');
-    Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
     Route::post('/passenger_dashboard', 'PassengerController@createTrip')->name('createTrip');
     Route::get('/driver_dashboard', 'DriverController@index')->name('driver.index');
-    Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
     Route::post('/trip/exclude_user', 'TripController@excludeUser')->name('trip.excludeUser');
     Route::post('/trip/include_user', 'TripController@includeUser')->name('trip.includeUser');
     Route::get('/trip/{trip}', 'TripController@show')->name('trip.show');
-    Route::post('/admin/register_driver', 'AdminController@register_driver')->name('register.driver');
+    Route::middleware('admin')->group(function() {
+        Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
+        Route::post('/admin/register_driver', 'AdminController@register_driver')->name('register.driver');
+        Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
+        Route::get('/admin/drivers/{driver}', 'AdminController@showDriver')->name('admin.showDriver');
+    });
 });
 
 Route::get('/home', function() {
