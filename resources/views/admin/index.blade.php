@@ -10,14 +10,6 @@
                         <div class="col-9">
                             <h3>Admin Dashboard</h3>
                         </div>
-                        <div class="col-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

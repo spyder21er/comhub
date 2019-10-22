@@ -19,19 +19,22 @@ Route::middleware('auth')->group(function () {
         switch ($roleId)
         {
             case 1:
+                return redirect()->route('admin.super');
+                break;
             case 2:
-                return redirect('/admin_dashboard');
+                return redirect()->route('admin.index');
                 break;
             case 3:
-                return redirect('/driver_dashboard');
+                return redirect()->route('driver.index');
                 break;
             case 4:
-                return redirect('/passenger_dashboard');
+                return redirect()->route('passenger.index');
                 break;
         }
     });
 
     Route::get('/passenger_dashboard', 'PassengerController@index')->name('passenger.index');
+    Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
     Route::post('/passenger_dashboard', 'PassengerController@createTrip')->name('createTrip');
     Route::get('/driver_dashboard', 'DriverController@index')->name('driver.index');
     Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
