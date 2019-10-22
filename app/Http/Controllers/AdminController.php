@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Driver;
+use App\Models\Role;
 use App\Models\Trip;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +25,7 @@ class AdminController extends Controller
 
     public function register_driver()
     {
-        $driver = $this->createDriver();
-        dd($driver);
+        $this->createDriver();
         return redirect()->route('admin.index');
     }
 
@@ -39,10 +39,11 @@ class AdminController extends Controller
             'email' => 'required|email',
         ]);
 
-        // Let us setup the name, admin id, and password.
+        // Let us setup other details.
         $newDriver['name'] = $validated['first_name'] . " " . $validated['last_name'];
-        $newDriver['admin_id'] = Auth::user()->id;
+        $newDriver['admin_id'] = Admin::find(Auth::user()->id)->id;
         $newDriver['password'] = Hash::make($validated['email']);
+        $newDriver['role_id'] = Role::where('name', '=', 'driver')->first()->id;
 
         $driver = Driver::create(array_merge($validated, $newDriver));
 
