@@ -22,7 +22,6 @@ class CreateTripsTable extends Migration
             $table->string('driver_compliance_code')->unique();
             $table->string('passenger_compliance_code')->unique();
             $table->time('departure_time');
-            $table->time('estimated_arrival_time')->nullable();
             $table->boolean('exclusive');
             $table->integer('guest_count');
             $table->timestamps();

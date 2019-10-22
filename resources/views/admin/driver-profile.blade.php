@@ -32,7 +32,7 @@
 @section('page-scripts')
     <script>
         $('#back-button').on('click', function() {
-            history.go(-1);
+            history.back();
         });
     </script>
 @endsection

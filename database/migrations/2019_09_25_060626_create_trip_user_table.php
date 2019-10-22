@@ -18,8 +18,8 @@ class CreateTripUserTable extends Migration
             $table->unsignedBigInteger('trip_id');
             $table->unsignedBigInteger('user_id');
             $table->text('passenger_comment')->nullable();
-            $table->integer('passenger_rate')->nullable();
-            $table->boolean('complied')->nullable();
+            $table->integer('passenger_rating')->nullable();
+            $table->boolean('Passenger_Complied')->nullable();
         });
     }
 
