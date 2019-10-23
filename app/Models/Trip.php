@@ -64,8 +64,8 @@ class Trip extends Model
             ->belongsToMany(Passenger::class, 'trip_user', 'trip_id', 'user_id')
             ->withPivot([
                 'passenger_comment',
-                'passenger_rate',
-                'complied',
+                'passenger_rating',
+                'passenger_complied',
             ]);
     }
 

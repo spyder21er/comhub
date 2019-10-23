@@ -55,8 +55,8 @@ class User extends Authenticatable
                 ->belongsToMany(Trip::class, 'trip_user', 'user_id', 'trip_id')
                 ->withPivot([
                     'passenger_comment',
-                    'passenger_rate',
-                    'complied',
+                    'passenger_rating',
+                    'passenger_complied',
                 ]);
         elseif ($this->isDriver()) {
             return $this->hasMany(Trip::class, 'driver_id');
