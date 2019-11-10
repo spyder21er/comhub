@@ -100,6 +100,11 @@ class Trip extends Model
         return $query->with('passengers');
     }
 
+    public function scopeForMe(Builder $query, $driver)
+    {
+        return $query->where('destination_id', $driver->town_id)->orWhere('origin_id', $driver->town_id);
+    }
+
     /**
      * The total passengers included in this trip.
      *

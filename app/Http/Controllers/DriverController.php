@@ -17,7 +17,7 @@ class DriverController extends Controller
     public function index()
     {
         $my_trips = Driver::find(Auth::user()->id)->trips()->orderBy('created_at', 'desc')->get();
-        $trips = Trip::today()->get();
+        $trips = Trip::today()->forMe(Auth::user())->get();
         $towns = Town::all()->pluck('name', 'id');
         return view('passenger.index', compact('towns', 'trips', 'my_trips'));
     }
