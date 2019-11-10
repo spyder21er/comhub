@@ -90,6 +90,18 @@ class Trip extends Model
     }
 
     /**
+     * Scope sort by origin name
+     */
+    public function scopeByOrigin(Builder $query)
+    {
+        return $query->with([
+            'origin' => function ($q) {
+                $q->orderBy('name');
+            }
+        ]);
+    }
+
+    /**
      * Scope a query to include passengers joined in this trip.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

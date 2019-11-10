@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-md btn-primary" id="back-button"><< Go Back</button>
-                    <button class="btn btn-md btn-warning">Suspend this driver</button>
-                    <button class="btn btn-md btn-danger">Ban this driver</button>
+                    <button class="btn btn-md btn-primary mr-2" id="back-button"><< Go Back</button>
+                    <button class="btn btn-md btn-warning mr-2" id="suspend-button">Suspend this driver</button>
+                    <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban this driver</button>
                 </div>
             </div>
         </div>
@@ -33,6 +33,12 @@
     <script>
         $('#back-button').on('click', function() {
             history.back();
+        });
+        $('#suspend-button').on('click', function() {
+            alert('suspend');
+        });
+        $('#ban-button').on('click', function() {
+            alert('ban');
         });
     </script>
 @endsection

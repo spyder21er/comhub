@@ -39,11 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/trip/exclude_user', 'TripController@excludeUser')->name('trip.excludeUser');
     Route::post('/trip/include_user', 'TripController@includeUser')->name('trip.includeUser');
     Route::get('/trip/{trip}', 'TripController@show')->name('trip.show');
+    Route::get('/drivers/{driver}', 'AdminController@showDriver')->name('driver_profile');
     Route::middleware('admin')->group(function() {
         Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
         Route::post('/admin/register_driver', 'AdminController@register_driver')->name('register.driver');
         Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
-        Route::get('/admin/drivers/{driver}', 'AdminController@showDriver')->name('admin.showDriver');
     });
 });
 

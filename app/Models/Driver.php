@@ -92,4 +92,28 @@ class Driver extends Model
             $q->where('town_id', $town_id);
         });
     }
+
+    /**
+     * Get name of this driver
+     */
+    public function getNameAttribute()
+    {
+        return $this->user->name;
+    }
+
+    /**
+     * Get email of this driver
+     */
+    public function getEmailAttribute()
+    {
+        return $this->user->email;
+    }
+
+    /**
+     * Get phone of this driver
+     */
+    public function getPhoneAttribute()
+    {
+        return $this->user->phone;
+    }
 }

@@ -13,7 +13,7 @@
             @foreach ($drivers as $driver)
                 <tr>
                     <td>
-                        <a href="{{ route('admin.showDriver', $driver->id) }}">
+                        <a href="{{ route('driver_profile', $driver->id) }}">
                             {{ $driver->name }}
                         </a>
                     </td>

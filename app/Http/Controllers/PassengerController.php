@@ -22,7 +22,7 @@ class PassengerController extends Controller
     public function index()
     {
         $my_trips = Auth::user()->trips()->orderBy('created_at', 'desc')->get();
-        $trips = Trip::today()->get();
+        $trips = Trip::today()->join('towns', 'origin_id', '=', 'towns.id')->orderBy('towns.name')->get();
         $towns = Town::all()->pluck('name', 'id');
         return view('passenger.index', compact('towns', 'trips', 'my_trips'));
     }
