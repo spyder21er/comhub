@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Town;
 use App\Models\Trip;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class PassengerController extends Controller
@@ -55,14 +56,24 @@ class PassengerController extends Controller
         $same_trip = Trip::today()->where([
             ['origin_id',       '=', $validated['origin_id']],
             ['destination_id',  '=', $validated['destination_id']],
+            ['departure_time',  '=', (new Carbon($validated['departure_time']))->format('H:i:s')],
         ])->get();
 
-        if ($same_trip->isEmpty())
+        // if there is same trip existing
+        if (!$same_trip->isEmpty())
         {
-            Trip::create($validated)->passengers()->attach(Auth::user());
-            return redirect()->route('passenger.index');
+            foreach ($same_trip as $trip)
+            {
+                // if the same trip is not full
+                if (!$trip->isFull())
+                {
+                    $trip->passengers()->attach(Auth::user());
+                    return redirect()->route('passenger.index');
+                }
+            }
         }
+        Trip::create($validated)->passengers()->attach(Auth::user());
 
-        return redirect()->route('trip.includeUser', ['trip' => $same_trip->first()->id]);
+        return redirect()->route('passenger.index');
     }
 }

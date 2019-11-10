@@ -164,4 +164,12 @@ class Trip extends Model
         return $model;
     }
 
+    /**
+     * Determines if this trip is full
+     */
+    public function isFull()
+    {
+        return $this->passengerCount() == $this->max_passenger();
+    }
+
 }
