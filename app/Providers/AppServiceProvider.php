@@ -3,9 +3,8 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
-use Spatie\BladeX\Facades\BladeX;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,7 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        BladeX::components('components.*');
+        // BladeX::components('components.*');
+        Blade::component('components.modal', 'modal');
+        Blade::component('components.select-menu', 'selectMenu');
         Carbon::setToStringFormat('m-d-y');
     }
 }

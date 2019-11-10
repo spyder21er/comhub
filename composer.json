@@ -12,8 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "6.0.*",
         "laravel/tinker": "^1.0",
-        "laravel/ui": "^1.0",
-        "spatie/laravel-blade-x": "^2.3"
+        "laravel/ui": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

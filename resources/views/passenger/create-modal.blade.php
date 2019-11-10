@@ -1,4 +1,4 @@
-<modal id="newTripModal" label="newTripModalLabel" title="Hail new trip">
+@modal(['id' => "newTripModal", 'label' => "newTripModalLabel", 'title' => "Hail new trip"])
     <form class="needs-validation" action="{{ route('createTrip') }}" method="POST" id="createNewTripForm" novalidate>
         @csrf
         @error('route')
@@ -13,22 +13,22 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <select-menu name="origin_id" id="selectOrigin">
+                    @selectMenu(['name' => "origin_id", 'id' => "selectOrigin"])
                         @slot('options')
                             <option {{ (old("origin_id") == 0 ? "selected":"") }} value="">Origin</option>
                             @include('passenger.town-options', ['name' => 'origin_id'])
                         @endslot
-                    </select-menu>
+                    @endselectMenu
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select-menu name="destination_id" id="selectDestination">
+                    @selectMenu(['name' => "destination_id", 'id' => "selectDestination"])
                         @slot('options')
                             <option {{ (old("destination_id") == 0 ? "selected":"") }} value="">Destination</option>
                             @include('passenger.town-options', ['name' => 'destination_id'])
                         @endslot
-                    </select-menu>
+                    @endselectMenu
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select-menu name="guest_count" id="selectCount">
+                    @selectMenu(['name' => "guest_count", 'id' => "selectCount"])
                         @slot('options')
                             <option {{ (old("guest_count") == 0 ? "selected":"") }} value="">With how many?</option>
                             <option {{ (old("guest_count") == 1 ? "selected":"") }} value="1">Only me</option>
@@ -62,7 +62,7 @@
                                 <option {{ (old("guest_count") == $i ? "selected":"") }} value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         @endslot
-                    </select-menu>
+                    @endselectMenu
                 </div>
             </div>
         </div>
@@ -77,8 +77,8 @@
             </div>
         </div>
     </form>
-    <slot name="submitButton">
+    @slot("submitButton")
         <button type="button" class="btn btn-primary" onclick="event.preventDefault();
         document.getElementById('createNewTripForm').submit();">Submit</button>
-    </slot>
-</modal>
+    @endslot
+@endmodal

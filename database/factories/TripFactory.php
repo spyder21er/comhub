@@ -39,6 +39,7 @@ $factory->define(Trip::class, function (Faker $faker) {
     {
         $hometown = ($trip->origin_id == 11) ? $trip->destination_id : $trip->origin_id;
         $trip->driver()->associate(Driver::whereTown($hometown)->get()->random());
+        $trip->driver_complied = true;
         $trip->save();
     }
 });
