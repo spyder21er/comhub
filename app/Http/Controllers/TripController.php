@@ -17,6 +17,12 @@ class TripController extends Controller
         }
         elseif(Auth::user()->isPassenger())
         {
+            if ($this->getTrip()->isFull())
+            {
+                return redirect()->back()->withErrors([
+                    'default' => 'Cannot join. Trip is already full.',
+                ]);
+            }
             $this->getTrip()->passengers()->attach(Auth::user());
         }
 

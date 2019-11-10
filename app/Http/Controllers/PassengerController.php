@@ -22,7 +22,10 @@ class PassengerController extends Controller
     public function index()
     {
         $my_trips = Auth::user()->trips()->orderBy('created_at', 'desc')->get();
-        $trips = Trip::today()->get();
+        $trips = Trip::today()->get()->filter(function ($trip) {
+            // exclude full trips
+            return !$trip->isFull();
+        });
         $towns = Town::all()->pluck('name', 'id');
         return view('passenger.index', compact('towns', 'trips', 'my_trips'));
     }
@@ -31,7 +34,7 @@ class PassengerController extends Controller
     {
         if (Auth::user()->hasTripToday())
             return redirect()->back()->withErrors([
-                'existing_trip' => "Can't create new trip if you have existing trip for the day."
+                'default' => "Can't create new trip if you have existing trip for the day."
             ]);
 
         $validated = request()->validate([

@@ -19,7 +19,7 @@
                             Create New Trip
                         </button>
                     @endif
-                    @error('existing_trip')
+                    @error('default')
                         <div class="alert alert-danger" role="alert">
                             {{ $message }}
                         </div>
@@ -57,7 +57,7 @@
         <script type="text/javascript">
             $(function() {
                 @if ($errors->any())
-                    @if (!$errors->has('existing_trip'))
+                    @if (!$errors->has('default'))
                         $('#newTripModal').modal('show');
                     @endif
                 @endif
