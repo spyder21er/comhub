@@ -15,9 +15,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password', 'role_id', 'admin_id',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -160,6 +158,9 @@ class User extends Authenticatable
         return '';
     }
 
+    /**
+     * Get organization of this user if admin or driver
+     */
     public function getOrganizationAttribute()
     {
         if ($this->isAdmin() || $this->isDriver()) {
@@ -170,5 +171,13 @@ class User extends Authenticatable
         }
 
         return '';
+    }
+
+    /**
+     * Get name of this user
+     */
+    public function getNameAttribute()
+    {
+        return $this->first_name . " " . $this->last_name;
     }
 }

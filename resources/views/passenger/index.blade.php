@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    Dashboard
+                    <h4>Dashboard</h4>
                 </div>
                 <div class="card-body">
                     @if(Auth::user()->isPassenger() && !Auth::user()->hasTripToday())
