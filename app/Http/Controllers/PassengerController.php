@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Passenger;
 use App\Models\Town;
 use App\Models\Trip;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +39,18 @@ class PassengerController extends Controller
             'departure_time' => ['required', 'regex:/[0-1]?[0-9]:[0-5][0-9] (A|P)M/i'],
             'guest_count' => 'required',
         ]);
+
+        // Naga (id=11) should be in origin only or destination only
+        if (($validated['origin_id'] == 11) == ($validated['destination_id'] == 11))
+        {
+            return redirect()->back()->withErrors([
+                'route' => "Sorry, there is no available trip from "
+                    . Town::find((int) $validated['origin_id'])->name
+                    . " to "
+                    . Town::find((int) $validated['destination_id'])->name
+                    . ".",
+            ]);
+        }
 
         $same_trip = Trip::today()->where([
             ['origin_id',       '=', $validated['origin_id']],

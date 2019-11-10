@@ -1,6 +1,15 @@
 <modal id="newTripModal" label="newTripModalLabel" title="Hail new trip">
-    <form action="{{ route('createTrip') }}" method="POST" id="createNewTripForm">
+    <form class="needs-validation" action="{{ route('createTrip') }}" method="POST" id="createNewTripForm" novalidate>
         @csrf
+        @error('route')
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-info" role="alert">
+                        {{ $message }}
+                    </div>
+                </div>
+            </div>
+        @enderror
         <div class="row">
             <div class="col-6">
                 <div class="form-group">

@@ -23,7 +23,6 @@ $factory->define(Trip::class, function (Faker $faker) {
         'passenger_compliance_code' => $faker->regexify('[a-z0-9]{8}'),
         'departure_time'            => '22:00:00',
         'exclusive'                 => false,
-        'driver_complied'           => false,
         'guest_count'               => $faker->numberBetween(1,10),
         'created_at'                => $faker->dateTimeBetween('-12 days', '12 days'),
     ];

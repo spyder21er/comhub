@@ -23,7 +23,7 @@ class CreateTripsTable extends Migration
             $table->string('passenger_compliance_code')->unique();
             $table->time('departure_time');
             $table->boolean('exclusive');
-            $table->boolean('driver_complied');
+            $table->boolean('driver_complied')->nullable();
             $table->integer('guest_count');
             $table->timestamps();
         });
