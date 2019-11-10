@@ -20,7 +20,7 @@
                         </button>
                     @endif
                     @error('default')
-                        <div class="alert alert-danger" role="alert">
+                        <div id="defaultAlert" class="alert alert-danger" role="alert">
                             {{ $message }}
                         </div>
                     @enderror
@@ -67,6 +67,7 @@
                 $('#tripTime').datetimepicker({
                     format: 'LT'
                 });
+                $('#defaultAlert').delay(3000).fadeOut(1000);
             });
         </script>
     @endif

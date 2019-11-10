@@ -22,10 +22,7 @@ class PassengerController extends Controller
     public function index()
     {
         $my_trips = Auth::user()->trips()->orderBy('created_at', 'desc')->get();
-        $trips = Trip::today()->get()->filter(function ($trip) {
-            // exclude full trips
-            return !$trip->isFull();
-        });
+        $trips = Trip::today()->get();
         $towns = Town::all()->pluck('name', 'id');
         return view('passenger.index', compact('towns', 'trips', 'my_trips'));
     }

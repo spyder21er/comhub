@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TripController extends Controller
 {
-    public function includeUser(Trip $trip)
+    public function includeUser()
     {
         if (Auth::user()->isDriver()) {
             $trip = $this->getTrip();
