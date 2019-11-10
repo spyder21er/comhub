@@ -4,8 +4,9 @@ namespace App\Models;
 
 use App\Models\Passenger;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Faker;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
 {
@@ -83,7 +84,7 @@ class Trip extends Model
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeToday($query)
+    public function scopeToday(Builder $query)
     {
         return $query->whereDate($this->getTable() . '.created_at', Carbon::today());
     }
@@ -94,7 +95,7 @@ class Trip extends Model
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithPassengers($query)
+    public function scopeWithPassengers(Builder $query)
     {
         return $query->with('passengers');
     }

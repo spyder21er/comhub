@@ -19,11 +19,11 @@ class PassengerScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
         $builder->where(
-            'role_id', 
-            '=', 
+            'role_id',
+            '=',
             Role::where(
-                'name', 
-                '=', 
+                'name',
+                '=',
                 'passenger'
             )->first()->id
         );

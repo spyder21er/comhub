@@ -23,9 +23,6 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             UsersTableSeeder::class,
         ]);
-        factory(Admin::class, 12)->create();
-        factory(Driver::class, 120)->create();
-        factory(Passenger::class, 300)->create();
         $this->call(TripsTableSeeder::class);
     }
 }

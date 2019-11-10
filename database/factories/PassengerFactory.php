@@ -21,7 +21,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Passenger::class, function (Faker $faker) {
     return [
-        'name'              => $faker->name,
+        'first_name'        => $faker->firstName,
+        'middle_name'       => $faker->lastName,
+        'last_name'         => $faker->lastName,
         'email'             => $faker->unique()->safeEmail,
         'role_id'           => 4,
         'email_verified_at' => now(),

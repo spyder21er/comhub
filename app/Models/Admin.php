@@ -2,32 +2,31 @@
 
 namespace App\Models;
 
-use App\Scopes\AdminScope;
+use Illuminate\Database\Eloquent\Model;
 
-class Admin extends User
+class Admin extends Model
 {
-    /**
-     * Table associated with this model.
-     *
-     * @var string
-     */
-    protected $table = 'users';
-
-    /**
-     * Booting method and add global scope for this model.
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new AdminScope);
-    }
-
     /**
      * Drivers under this administrator.
      */
     public function drivers()
     {
-        return $this->hasMany(Driver::class, 'admin_id');
+        return $this->hasMany(Driver::class);
+    }
+
+    /**
+     * Home town of this admin
+     */
+    public function town()
+    {
+        return $this->hasOneThrough(Town::class, User::class, 'id', 'id', 'user_id', 'town_id');
+    }
+
+    /**
+     * Associated user account of this driver
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

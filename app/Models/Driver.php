@@ -2,27 +2,13 @@
 
 namespace App\Models;
 
-use App\Scopes\DriverScope;
+use Illuminate\Database\Eloquent\Model;
 
-class Driver extends User
+class Driver extends Model
 {
     /**
-     * Table associated with this model.
-     *
-     * @var string
+     * Trips fetched by this driver
      */
-    protected $table = 'users';
-
-    /**
-     * Booting method and add global scope for this model.
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new DriverScope);
-    }
-
     public function trips()
     {
         return $this->hasMany(Trip::class);
@@ -71,5 +57,39 @@ class Driver extends User
             return "None";
 
         return $this->confirmedTrips() / $this->hailedTrips() * 100;
+    }
+
+    /**
+     * Town of this driver
+     */
+    public function town()
+    {
+        return $this->hasOneThrough(Town::class, User::class, 'id', 'id', 'user_id', 'town_id');
+    }
+
+    /**
+     * Associated user account of this driver
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Organization of this driver
+     */
+    public function getOrganizationAttribute()
+    {
+        return $this->admin->org_acronym;
+    }
+
+    /**
+     * Scope to filter drivers that belongs to a particular town
+     */
+    public function scopeWhereTown($query, $town_id)
+    {
+        return $query->whereHas('user', function($q) use ($town_id) {
+            $q->where('town_id', $town_id);
+        });
     }
 }

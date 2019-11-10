@@ -22,11 +22,16 @@ use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name'              => $faker->name,
+        'role_id'           => 4,
+        'town_id'           => $faker->numberBetween(1, 20),
+        'first_name'        => $faker->firstName,
+        'middle_name'       => $faker->lastName,
+        'last_name'         => $faker->lastName,
         'email'             => $faker->unique()->safeEmail,
-        'role_id'           => $faker->numberBetween(3, 4),
-        'email_verified_at' => now(),
         'password'          => Hash::make('asdfasdf'),
+        'phone'             => $faker->regexify('\+639[0-9]{9}'),
+        'birthday'          => $faker->dateTimeBetween('-45 years', '-18 years'),
+        'email_verified_at' => now(),
         'remember_token'    => Str::random(10),
     ];
 });
