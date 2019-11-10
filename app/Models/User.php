@@ -82,6 +82,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Determine if user is admin.
+     */
+    public function isAdmin()
+    {
+        return $this->isRole('admin');
+    }
+
+    /**
      * Determine if user is driver.
      */
     public function isDriver()
@@ -137,5 +145,30 @@ class User extends Authenticatable
     public function hasTripOn(Carbon $date)
     {
         return $this->trips()->where('created_at', '=', $date)->get()->isNotEmpty();
+    }
+
+    /**
+     * To append on brand name
+     */
+    public function brandAppend()
+    {
+        if ($this->isAdmin() || $this->isDriver())
+        {
+            return " - " . $this->organization;
+        }
+
+        return '';
+    }
+
+    public function getOrganizationAttribute()
+    {
+        if ($this->isAdmin() || $this->isDriver()) {
+            if ($this->isDriver()) {
+                return Driver::where('user_id', $this->id)->first()->organization;
+            }
+            return Admin::where('user_id', $this->id)->first()->org_acronym;
+        }
+
+        return '';
     }
 }
