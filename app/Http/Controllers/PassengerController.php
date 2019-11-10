@@ -16,7 +16,7 @@ class PassengerController extends Controller
 
     /**
      * Handle index request
-     * 
+     *
      * @return View
      */
     public function index()
@@ -29,12 +29,10 @@ class PassengerController extends Controller
 
     public function createTrip()
     {
-        // TODO
-        // 1. Check if user has existing trip today
-        // if (Auth::user()->hasTripToday())
-        // prevent trip creation
-        // flash error message
-        // redirect back
+        if (Auth::user()->hasTripToday())
+            return redirect()->back()->withErrors([
+                'existing_trip' => "Can't create new trip if you have existing trip for the day."
+            ]);
 
         $validated = request()->validate([
             'origin_id' => 'required',
@@ -47,13 +45,13 @@ class PassengerController extends Controller
             ['origin_id',       '=', $validated['origin_id']],
             ['destination_id',  '=', $validated['destination_id']],
         ])->get();
-        
+
         if ($same_trip->isEmpty())
         {
             Trip::create($validated)->passengers()->attach(Auth::user());
             return redirect()->route('passenger.index');
         }
-        
+
         return redirect()->route('trip.includeUser', ['trip' => $same_trip->first()->id]);
     }
 }

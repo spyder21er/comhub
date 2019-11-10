@@ -3,12 +3,14 @@
         @csrf
         <div class="row">
             <div class="col-6">
-                <select-menu name="origin_id" id="selectOrigin">
-                    @slot('options')
-                        <option {{ (old("origin_id") == 0 ? "selected":"") }} value="">Origin</option>
-                        @include('passenger.town-options', ['name' => 'origin_id'])
-                    @endslot
-                </select-menu>
+                <div class="form-group">
+                    <select-menu name="origin_id" id="selectOrigin">
+                        @slot('options')
+                            <option {{ (old("origin_id") == 0 ? "selected":"") }} value="">Origin</option>
+                            @include('passenger.town-options', ['name' => 'origin_id'])
+                        @endslot
+                    </select-menu>
+                </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
@@ -25,12 +27,12 @@
             <div class="col-6">
                 <div class="form-group">
                     <div class="input-group date" id="tripTime" data-target-input="nearest">
-                        <input 
-                            name="departure_time" 
-                            type="text" 
+                        <input
+                            name="departure_time"
+                            type="text"
                             value="{{ old('departure_time') }}"
-                            placeholder="Select Time" 
-                            class="form-control datetimepicker-input @error('departure_time')is-invalid @enderror" 
+                            placeholder="Select Time"
+                            class="form-control datetimepicker-input @error('departure_time')is-invalid @enderror"
                             data-target="#tripTime" />
                         <div class="input-group-append" data-target="#tripTime" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-clock-o"></i></div>

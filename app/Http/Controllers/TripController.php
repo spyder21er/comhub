@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TripController extends Controller

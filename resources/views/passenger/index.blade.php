@@ -19,6 +19,11 @@
                             Create New Trip
                         </button>
                     @endif
+                    @error('existing_trip')
+                        <div class="alert alert-danger" role="alert">
+                            {{ $message }}
+                        </div>
+                    @enderror
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#trips">Trips Today</a>
@@ -52,7 +57,9 @@
         <script type="text/javascript">
             $(function() {
                 @if ($errors->any())
-                $('#newTripModal').modal('show');
+                    @if (!$errors->has('existing_trip'))
+                        $('#newTripModal').modal('show');
+                    @endif
                 @endif
                 $('#tripdate').datetimepicker({
                     format: 'L'

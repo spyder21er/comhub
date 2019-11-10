@@ -100,9 +100,12 @@ class Trip extends Model
         return $query->with('passengers');
     }
 
-    public function scopeForMe(Builder $query, $driver)
+    /**
+     * Available trips for the logged in user
+     */
+    public function scopeForMe(Builder $query, $user)
     {
-        return $query->where('destination_id', $driver->town_id)->orWhere('origin_id', $driver->town_id);
+        return $query->where('destination_id', $user->town_id)->orWhere('origin_id', $user->town_id);
     }
 
     /**
