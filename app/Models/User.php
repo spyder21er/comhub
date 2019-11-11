@@ -69,7 +69,10 @@ class User extends Authenticatable
      */
     public function hasTripToday()
     {
-        return $this->trips()->today()->get()->isNotEmpty();
+        if ($this->isDriver())
+            return $this->driverHasTripToday();
+        elseif ($this->isPassenger())
+            return $this->passengerHasTripToday();
     }
 
     /**
@@ -192,5 +195,23 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    /**
+     * Determine if this user is a driver and has trip today
+     */
+    public function driverHasTripToday()
+    {
+        if ($this->isDriver())
+            return $this->driver->trips()->today()->get()->isNotEmpty();
+    }
+    
+    /**
+     * Determine if this user is a passenger and has trip today
+     */
+    public function passengerHasTripToday()
+    {
+        if ($this->isPassenger())
+            return $this->trips()->today()->get()->isNotEmpty();
     }
 }
