@@ -30,10 +30,9 @@ class AdminController extends Controller
         return redirect()->route('admin.index');
     }
 
-    protected function createDriver()
+    protected function validateDriverDetails()
     {
-        // Before we create we need to validate input first
-        $validated_user = request()->validate([
+        $user = request()->validate([
             'first_name' => 'required',
             'middle_name' => '',
             'last_name' => 'required',
@@ -42,26 +41,35 @@ class AdminController extends Controller
             "password" => 'required|confirmed|min:8',
             "birthday" => '',
         ]);
+        $user['birthday'] = (new Carbon($user['birthday']));
+        $user['role_id'] = 3;
 
-        $validated_user['birthday'] = (new Carbon($validated_user['birthday']));
-        $validated_user['role_id'] = 3;
-        $user = User::create($validated_user);
-        $user->town()->associate(Auth::user()->town);
-        $user->save();
-
-        $validated_driver = request()->validate([
+        $driver = request()->validate([
             'plate_number' => 'required',
             'license_number' => 'required',
         ]);
 
-        $driver = Driver::create($validated_driver);
+        return compact('user', 'driver');
+    }
 
+    protected function createUser($validated_user)
+    {
+        $user = User::create($validated_user);
+        $user->town()->associate(Auth::user()->town);
+        $user->save();
+
+        return $user;
+    }
+
+    protected function createDriver()
+    {
+        // Before we create we need to validate input first
+        $validated = $this->validateDriverDetails();
+        $user = $this->createUser($validated['user']);
+        $driver = Driver::create($validated['driver']);
         $driver->user()->associate($user);
-        $driver->admin()->associate(Admin::where('user_id', $user->id)->first());
+        $driver->admin()->associate(Auth::user()->admin);
         $driver->save();
-
-        // dump($driver);
-        // dd($user);
 
         return $driver;
     }
