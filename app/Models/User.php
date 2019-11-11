@@ -193,8 +193,6 @@ class User extends Authenticatable
         if ($this->isDriver()) {
             return $this->hasOne(Driver::class);
         }
-
-        return null;
     }
 
     /**
@@ -205,7 +203,7 @@ class User extends Authenticatable
         if ($this->isDriver())
             return $this->driver->trips()->today()->get()->isNotEmpty();
     }
-    
+
     /**
      * Determine if this user is a passenger and has trip today
      */

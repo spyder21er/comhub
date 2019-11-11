@@ -14,7 +14,7 @@ class TripController extends Controller
         if (Auth::user()->isDriver()) {
             $this->assignDriver();
         }
-        elseif(Auth::user()->isPassenger())
+        elseif (Auth::user()->isPassenger())
         {
             $this->includePassenger();
         }

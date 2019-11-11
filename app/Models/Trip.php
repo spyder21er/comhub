@@ -94,7 +94,7 @@ class Trip extends Model
      */
     public function scopeByOrigin(Builder $query)
     {
-        return $query->join('towns', 'origin_id', '=', 'towns.id')->orderBy('towns.name');
+        return $query->rightJoin('towns', 'towns.id', '=', 'trips.origin_id')->orderBy('towns.name');
     }
 
     /**
