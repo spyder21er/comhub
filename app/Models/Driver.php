@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Driver extends Model
 {
+    protected $guarded = [];
+
     /**
      * Trips fetched by this driver
      */

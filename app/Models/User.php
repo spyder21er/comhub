@@ -44,6 +44,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the town of this user.
+     */
+    public function town()
+    {
+        return $this->belongsTo(Town::class);
+    }
+
+    /**
      * Get the trips of this user.
      */
     public function trips()
@@ -192,6 +200,16 @@ class User extends Authenticatable
     {
         if ($this->isDriver()) {
             return $this->hasOne(Driver::class);
+        }
+    }
+
+    /**
+     * Get admin model for this user if this is a admin
+     */
+    public function admin()
+    {
+        if ($this->isAdmin()) {
+            return $this->hasOne(Admin::class);
         }
     }
 

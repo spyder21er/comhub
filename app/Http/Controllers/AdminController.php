@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Driver;
 use App\Models\Role;
 use App\Models\Trip;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $drivers = Admin::find(Auth::user()->id)->drivers;
+        $drivers = Auth::user()->admin->drivers;
         return view('admin.index', compact('drivers'));
     }
 
@@ -32,20 +33,35 @@ class AdminController extends Controller
     protected function createDriver()
     {
         // Before we create we need to validate input first
-        $validated = request()->validate([
+        $validated_user = request()->validate([
             'first_name' => 'required',
             'middle_name' => '',
             'last_name' => 'required',
             'email' => 'required|email',
+            "phone" => 'required',
+            "password" => 'required|confirmed|min:8',
+            "birthday" => '',
         ]);
 
-        // Let us setup other details.
-        $newDriver['name'] = $validated['first_name'] . " " . $validated['last_name'];
-        $newDriver['admin_id'] = Admin::find(Auth::user()->id)->id;
-        $newDriver['password'] = Hash::make($validated['email']);
-        $newDriver['role_id'] = Role::where('name', '=', 'driver')->first()->id;
+        $validated_user['birthday'] = (new Carbon($validated_user['birthday']));
+        $validated_user['role_id'] = 3;
+        $user = User::create($validated_user);
+        $user->town()->associate(Auth::user()->town);
+        $user->save();
 
-        $driver = Driver::create(array_merge($validated, $newDriver));
+        $validated_driver = request()->validate([
+            'plate_number' => 'required',
+            'license_number' => 'required',
+        ]);
+
+        $driver = Driver::create($validated_driver);
+
+        $driver->user()->associate($user);
+        $driver->admin()->associate(Admin::where('user_id', $user->id)->first());
+        $driver->save();
+
+        // dump($driver);
+        // dd($user);
 
         return $driver;
     }
@@ -58,7 +74,7 @@ class AdminController extends Controller
     public function showDriver(Driver $driver)
     {
         // If driver is under admin, show driver profile
-        if (Admin::find(Auth::user()->id)->drivers->contains($driver))
+        if (Auth::user()->admin->drivers->contains($driver))
             return view('admin.driver-profile', compact('driver'));
 
         // Redirect to admin index otherwise
