@@ -3,11 +3,7 @@
         <table class="table table-bordered table-striped tablesorter">
             <thead>
                 <tr>
-                    @if (Auth::user()->isPassenger())
-                        <th class="sorter-false filter-false">Command</th>
-                    @elseif(Auth::user()->isDriver())
-                        <th class="sorter-false filter-false">Command</th>
-                    @endif
+                    <th class="sorter-false filter-false">Command</th>
                     <th scope="col">Trip Code</th>
                     <th class="filter-select filter-exact" scope="col">Origin</th>
                     <th class="filter-select filter-exact" scope="col">Destination</th>

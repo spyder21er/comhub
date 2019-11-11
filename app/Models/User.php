@@ -56,8 +56,9 @@ class User extends Authenticatable
                     'passenger_rating',
                     'passenger_complied',
                 ]);
-        elseif ($this->isDriver()) {
-            return $this->hasMany(Trip::class, 'driver_id');
+        elseif ($this->isDriver())
+        {
+            return $this->hasManyThrough(Trip::class, Driver::class);
         }
 
         return null;
@@ -179,5 +180,17 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return $this->first_name . " " . $this->last_name;
+    }
+
+    /**
+     * Get driver model for this user if this is a driver
+     */
+    public function driver()
+    {
+        if ($this->isDriver()) {
+            return $this->hasOne(Driver::class);
+        }
+
+        return null;
     }
 }

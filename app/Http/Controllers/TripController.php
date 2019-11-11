@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
+use App\Models\Driver;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,22 +12,32 @@ class TripController extends Controller
     public function includeUser()
     {
         if (Auth::user()->isDriver()) {
-            $trip = $this->getTrip();
-            $trip->driver()->associate(Auth::user());
-            $trip->save();
+            $this->assignDriver();
         }
         elseif(Auth::user()->isPassenger())
         {
-            if ($this->getTrip()->isFull())
-            {
-                return redirect()->back()->withErrors([
-                    'default' => 'Cannot join. Trip is already full.',
-                ]);
-            }
-            $this->getTrip()->passengers()->attach(Auth::user());
+            $this->includePassenger();
         }
 
         return redirect()->route('passenger.index');
+    }
+
+    protected function assignDriver()
+    {
+        $trip = $this->getTrip();
+        $trip->driver()->associate(Auth::user()->driver);
+        $trip->save();
+    }
+
+    protected function includePassenger()
+    {
+        if ($this->getTrip()->isFull())
+        {
+            return redirect()->back()->withErrors([
+                'default' => 'Cannot join. Trip is already full.',
+            ]);
+        }
+        $this->getTrip()->passengers()->attach(Auth::user());
     }
 
     public function excludeUser()
