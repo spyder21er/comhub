@@ -126,7 +126,7 @@ class User extends Authenticatable
         if ($this->isPassenger())
             return 'Leave';
         elseif ($this->isDriver()) {
-            return 'Cancel Fetch';
+            return 'Cancel Pick up';
         }
 
         return null;
@@ -140,7 +140,7 @@ class User extends Authenticatable
         if ($this->isPassenger())
             return 'Join';
         elseif ($this->isDriver()) {
-            return 'Fetch';
+            return 'Pick up';
         }
 
         return null;

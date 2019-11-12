@@ -12,11 +12,18 @@ class TripController extends Controller
     public function includeUser()
     {
         if (Auth::user()->isDriver()) {
-            $this->assignDriver();
+            $assigment = $this->assignDriver();
         }
         elseif (Auth::user()->isPassenger())
         {
             $this->includePassenger();
+        }
+
+        if ($assigment['status'] == 'fail')
+        {
+            return redirect()->back()->withErrors([
+                'default' => $assigment['message'],
+            ]);
         }
 
         return redirect()->route('passenger.index');
@@ -25,6 +32,12 @@ class TripController extends Controller
     protected function assignDriver()
     {
         $trip = $this->getTrip();
+        if ($trip->hasDriver())
+        {
+            $status = 'fail';
+            $message = 'Cannot pick up. Trip already has a driver.';
+            return compact('status', 'message');
+        }
         $trip->driver()->associate(Auth::user()->driver);
         $trip->save();
     }

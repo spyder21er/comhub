@@ -180,4 +180,11 @@ class Trip extends Model
         return $this->passengerCount() == $this->max_passenger();
     }
 
+    /**
+     * Determine if this trip has an associated driver
+     */
+    public function hasDriver()
+    {
+        return !is_null($this->driver);
+    }
 }

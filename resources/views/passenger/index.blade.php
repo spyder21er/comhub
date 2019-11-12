@@ -67,27 +67,18 @@
                 $('#tripTime').datetimepicker({
                     format: 'LT'
                 });
-                $('#defaultAlert').delay(3000).fadeOut(1000);
             });
         </script>
     @endif
 <script type="text/javascript">
-    $(function() {
-        $('table').tablesorter({
-            theme : "bootstrap",
-            widgets : [ "filter" ],
-            widgetOptions : {
-                // extra css class name (string or array) added to the filter element (input or select)
-                filter_cssFilter: [
-                    'form-control',
-                    'form-control',
-                    'form-control',
-                    'form-control',
-                    'form-control',
-                    'form-control'
-                ]
-            }
-        });
+    $('#defaultAlert').delay(3000).fadeOut(1000);
+    $('table').tablesorter({
+        theme : "bootstrap",
+        widgets : ["filter"],
+        widgetOptions : {
+            // extra css class name (string or array) added to the filter element (input or select)
+            filter_cssFilter : 'form-control'
+        }
     });
     $('.leave-btn').on('click', function() {
         $('input[name="trip_id"]').val($(this).attr("tripId"));

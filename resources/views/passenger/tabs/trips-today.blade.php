@@ -3,7 +3,8 @@
         <table class="table table-bordered table-striped tablesorter">
             <thead>
                 <tr>
-                    <th class="sorter-false filter-false">Command</th>
+                    <th class="sorter-false filter-false" scope="col">Command</th>
+                    <th scope="col">Driver</th>
                     <th scope="col">Trip Code</th>
                     <th class="filter-select filter-exact" scope="col">Origin</th>
                     <th class="filter-select filter-exact" scope="col">Destination</th>
@@ -23,13 +24,19 @@
                                         </button>
                                     @endif
                                 @else
-                                    <button tripId="{{ $trip->id }}" class="btn btn-sm btn-success join-btn" type="button">
+                                    <button
+                                        tripId="{{ $trip->id }}"
+                                        class="btn btn-sm btn-success join-btn"
+                                        type="button"
+                                        {{ ($trip->hasDriver() && Auth::user()->isDriver()) ? 'disabled' : '' }}
+                                    >
                                         {{ Auth::user()->joinButtonName() }}
                                     </button>
                                 @endif
                             </td>
                         @endif
-                        <td>{{ $trip->code }}</td>
+                        <td>{{ ($trip->driver->name) ?? '' }}</td>
+                        <td>{{ $trip->code }} </td>
                         <td>{{ $trip->origin->name }}</td>
                         <td>{{ $trip->destination->name }}</td>
                         <td>{{ $trip->departure_time }}</td>
@@ -40,7 +47,7 @@
             @if(Auth::user()->isPassenger())
             <tfoot>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         @if(Auth::user()->isPassenger() && !Auth::user()->hasTripToday())
                             <button type="button" class="btn btn-info mb-3 text-white" data-toggle="modal" data-target="#newTripModal">
                                 Create New Trip
