@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::middleware('super.admin')->group(function() {
         Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
-        Route::get('/superadmin/register_admin', 'AdminController@super')->name('register.admin');
+        Route::post('/superadmin/register_admin', 'AdminController@register_admin')->name('register.admin');
     });
 });
 

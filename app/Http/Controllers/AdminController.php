@@ -33,7 +33,18 @@ class AdminController extends Controller
 
     protected function validateDriverDetails()
     {
-        $user = request()->validate([
+        return request()->validate([
+            'plate_number' => 'required',
+            'license_number' => 'required',
+        ]);
+    }
+
+    /**
+     * Validate input from user registration form
+     */
+    protected function validateUserInformation()
+    {
+        return $this->carbonizeBirthday(request()->validate([
             'first_name' => 'required',
             'middle_name' => '',
             'last_name' => 'required',
@@ -41,22 +52,22 @@ class AdminController extends Controller
             "phone" => 'required',
             "password" => 'required|confirmed|min:8',
             "birthday" => '',
-        ]);
-        $user['birthday'] = (new Carbon($user['birthday']));
-        $user['role_id'] = 3;
-
-        $driver = request()->validate([
-            'plate_number' => 'required',
-            'license_number' => 'required',
-        ]);
-
-        return compact('user', 'driver');
+        ]));
     }
 
-    protected function createUser($validated_user)
+    /**
+     * Convert birthday key into Carbon instance
+     */
+    protected function carbonizeBirthday($user)
+    {
+        $user['birthday'] = (new Carbon($user['birthday']));
+        return $user;
+    }
+
+    protected function createUser($validated_user, $town)
     {
         $user = User::create($validated_user);
-        $user->town()->associate(Auth::user()->town);
+        $user->town()->associate($town);
         $user->save();
 
         return $user;
@@ -65,9 +76,11 @@ class AdminController extends Controller
     protected function createDriver()
     {
         // Before we create we need to validate input first
-        $validated = $this->validateDriverDetails();
-        $user = $this->createUser($validated['user']);
-        $driver = Driver::create($validated['driver']);
+        $driver = $this->validateDriverDetails();
+        $user = $this->validateUserInformation();
+        $user['role_id'] = 3;
+        $user = $this->createUser($user, Auth::user()->town);
+        $driver = Driver::create($driver);
         $driver->user()->associate($user);
         $driver->admin()->associate(Auth::user()->admin);
         $driver->save();
@@ -75,8 +88,33 @@ class AdminController extends Controller
         return $driver;
     }
 
+    /**
+     * Super admin dashboard and admin registration form.
+     */
     public function super()
     {
         return view('superadmin.index');
+    }
+
+    /**
+     * Admin registration logic
+     */
+    public function register_admin()
+    {
+        $user = $this->validateUserInformation();
+        $admin = $this->validateAdminRegistration();
+        $user['role_id'] = 2;
+        dd(request()->all());
+    }
+
+    /**
+     * Validate inputs from Admin Registration Form
+     */
+    protected function validateAdminRegistration()
+    {
+        return request()->validate([
+            'org_acronym'   => 'required',
+            'org_name'      => 'required|max:255',
+        ]);
     }
 }
