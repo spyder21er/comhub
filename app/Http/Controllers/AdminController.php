@@ -77,6 +77,6 @@ class AdminController extends Controller
 
     public function super()
     {
-        return view('admin.super');
+        return view('superadmin.index');
     }
 }
