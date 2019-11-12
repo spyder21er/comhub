@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminRole::class,
         'driver' => \App\Http\Middleware\DriverRole::class,
         'passenger' => \App\Http\Middleware\PassengerRole::class,
+        'super.admin' => \App\Http\Middleware\SuperAdminRole::class,
     ];
 
     /**
