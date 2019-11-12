@@ -118,4 +118,12 @@ class Driver extends Model
     {
         return $this->user->phone;
     }
+
+    /**
+     * Determine if this driver has trip today
+     */
+    public function hasTripToday()
+    {
+        return $this->trips()->today()->get()->isNotEmpty();
+    }
 }

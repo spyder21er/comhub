@@ -219,7 +219,7 @@ class User extends Authenticatable
     public function driverHasTripToday()
     {
         if ($this->isDriver())
-            return $this->driver->trips()->today()->get()->isNotEmpty();
+            return $this->driver->hasTripToday();
     }
 
     /**
