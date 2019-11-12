@@ -35,12 +35,15 @@ class UsersTableSeeder extends Seeder
             foreach ($towns as $town)
             {
                 if ($town->id == 11 && ($role == 'admin' || $role == 'driver')) continue;
-                // $town_name = Str::lower($town->name);
+                $town_name = Str::lower($town->name);
 
                 $user = factory(User::class)->create();
                 $user->role_id = $role_id;
                 $user->town_id = $town->id;
-                // $user->email = $town_name . "." . $role . "@comhub.com";
+                if ($role_id == 4)
+                {
+                    $user->email = $town_name . "." . $role . "@comhub.com";
+                }
                 $user->save();
 
                 if ($role == 'admin')

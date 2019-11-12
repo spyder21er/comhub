@@ -13,14 +13,16 @@
             </thead>
             <tbody>
                 @foreach ($my_trips as $trip)
-                <tr>
-                    <td>{{ $trip->created_at }} </td>
-                    <td>{{ $trip->departure_time }}</td>
-                    <td>{{ $trip->code }}</td>
-                    <td>{{ $trip->origin->name }}</td>
-                    <td>{{ $trip->destination->name }}</td>
-                    <td></td>
-                </tr>
+                    @if ($trip->isNotToday())
+                        <tr>
+                            <td>{{ $trip->created_at }} </td>
+                            <td>{{ $trip->departure_time }}</td>
+                            <td>{{ $trip->code }}</td>
+                            <td>{{ $trip->origin->name }}</td>
+                            <td>{{ $trip->destination->name }}</td>
+                            <td></td>
+                        </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

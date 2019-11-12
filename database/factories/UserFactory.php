@@ -27,7 +27,7 @@ $factory->define(User::class, function (Faker $faker) {
         'first_name'        => $firstName,
         'middle_name'       => $faker->lastName,
         'last_name'         => $lastName,
-        'email'             => Str::lower($firstName) . Str::lower($lastName) . '@comhub.com',  // $faker->unique()->safeEmail,
+        'email'             => Str::lower($firstName) . "." . Str::lower($lastName) . '@comhub.com',  // $faker->unique()->safeEmail,
         'password'          => Hash::make('asdfasdf'),
         'phone'             => $faker->regexify('\+639[0-9]{9}'),
         'birthday'          => $faker->dateTimeBetween('-45 years', '-18 years'),

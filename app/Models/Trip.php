@@ -188,4 +188,12 @@ class Trip extends Model
     {
         return !is_null($this->driver);
     }
+
+    /**
+     * Determin if trip is today
+     */
+    public function isNotToday()
+    {
+        return $this->created_at->toDateString() != Carbon::today()->toDateString();
+    }
 }
