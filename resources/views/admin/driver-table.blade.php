@@ -12,27 +12,29 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($drivers as $driver)
-                <tr>
-                    <td>
-                        <a href="{{ route('driver_profile', $driver->id) }}">
-                            {{ $driver->name }}
-                        </a>
-                    </td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-md btn-success mr-2" id="suspend-button">Suspend</button>
-                            <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban</button>
-                        </div>
-                    </td>
-                    <td>
-                    </td>
-                    <td>{{ $driver->hailedTrips() }}</td>
-                    <td>{{ $driver->confirmedTrips() }}</td>
-                    <td>{{ $driver->unconfirmedTrips() }}</td>
-                    <td>{{ $driver->credibilityPoints() }}</td>
-                </tr>
-            @endforeach
+            @if (!is_null($drivers))
+                @foreach ($drivers as $driver)
+                    <tr>
+                        <td>
+                            <a href="{{ route('driver_profile', $driver->id) }}">
+                                {{ $driver->name }}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-md btn-success mr-2" id="suspend-button">Suspend</button>
+                                <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban</button>
+                            </div>
+                        </td>
+                        <td>
+                        </td>
+                        <td>{{ $driver->hailedTrips() }}</td>
+                        <td>{{ $driver->confirmedTrips() }}</td>
+                        <td>{{ $driver->unconfirmedTrips() }}</td>
+                        <td>{{ $driver->credibilityPoints() }}</td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
     </table>
 </div>

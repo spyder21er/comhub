@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['org_acronym', 'org_name'];
+
+    /**
      * Drivers under this administrator.
      */
     public function drivers()
@@ -28,5 +35,13 @@ class Admin extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Determine if this admin has associated drivers
+     */
+    public function hasDrivers()
+    {
+        return $this->drivers->isNotEmpty();
     }
 }

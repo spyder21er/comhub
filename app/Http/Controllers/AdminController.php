@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Driver;
-use App\Models\Role;
+use App\Models\Town;
 use App\Models\Trip;
 use App\Models\User;
 use Carbon\Carbon;
@@ -20,7 +20,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $drivers = Auth::user()->admin->drivers;
+        $drivers = (Auth::user()->admin->drivers) ?? null;
         $trips = Trip::forMe()->today()->get();
         return view('admin.index', compact('drivers', 'trips'));
     }
@@ -66,6 +66,7 @@ class AdminController extends Controller
 
     protected function createUser($validated_user, $town)
     {
+        $validated_user['password'] = Hash::make($validated_user['password']);
         $user = User::create($validated_user);
         $user->town()->associate($town);
         $user->save();
@@ -105,11 +106,14 @@ class AdminController extends Controller
         $user = $this->validateUserInformation();
         $admin = $this->validateAdminRegistration();
         $user['role_id'] = 2;
-        $town_id = request()->validate([
+        $town = request()->validate([
             'town_id' => 'required|numeric'
         ]);
 
-        $this->createUser($user, $town_id);
+        $user = $this->createUser($user, Town::find($town['town_id']));
+        $admin = Admin::create($admin);
+        $admin->user()->associate($user);
+        $admin->save();
 
         return redirect()->route('admin.super');
     }
