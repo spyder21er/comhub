@@ -46,8 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/assign_driver', 'TripController@assignDriver')->name('assign.driver');
         Route::post('/admin/ban_driver', 'AdminController@banDriver')->name('ban.driver');
         Route::post('/admin/suspend_driver', 'AdminController@suspendDriver')->name('suspend.driver');
-        Route::post('/admin/unsuspend_driver', 'AdminController@unsuspendDriver')->name('unsuspend.driver');
-        Route::post('/admin/unban_driver', 'AdminController@unbanDriver')->name('unban.driver');
+        Route::post('/admin/liftPenalty_driver', 'AdminController@liftPenaltyDriver')->name('liftPenalty.driver');
     });
     Route::middleware('super.admin')->group(function() {
         Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');

@@ -61,7 +61,7 @@
     @csrf
     <input type="hidden" name="driver_id" value="">
 </form>
-<form action="{{ route('ban.driver') }}" id="banForm" class="needs-validation" method="POST" novalidate>
+<form action="{{ route('liftPenalty.driver') }}" id="liftPenaltyForm" class="needs-validation" method="POST" novalidate>
     @csrf
     <input type="hidden" name="driver_id" value="">
 </form>
@@ -91,6 +91,10 @@
         $('.ban-btn').on('click', function() {
             $('input[name="driver_id"]').val($(this).attr("driverId"));
             $('#banForm').submit();
+        });
+        $('.liftPenalty-btn').on('click', function() {
+            $('input[name="driver_id"]').val($(this).attr("driverId"));
+            $('#liftPenaltyForm').submit();
         });
     </script>
 @endsection

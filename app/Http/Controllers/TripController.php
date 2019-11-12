@@ -33,6 +33,11 @@ class TripController extends Controller
     {
         $trip = $this->validateTrip();
         $driver = (request()->has('driver_id')) ? $this->validateDriver() : Auth::user()->driver;
+        if ($driver->cannotPickUpTrips()) {
+            $status = 'fail';
+            $message = 'Cannot pick up trips. You are banned or suspended.';
+            return compact('status', 'message');
+        }
         if ($driver->hasTripToday())
         {
             if (Auth::user()->isAdmin())

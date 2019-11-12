@@ -22,8 +22,10 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                @if ($driver->status)
-                                    <button>Unsuspend</button>
+                                @if ($driver->status == "Suspended")
+                                    <button driverId="{{ $driver->id }}" type="button" class="btn btn-md btn-success mr-2 liftPenalty-btn">Unsuspend</button>
+                                @elseif ($driver->status == "Banned")
+                                    <button driverId="{{ $driver->id }}" type="button" class="btn btn-md btn-success mr-2 liftPenalty-btn">Unban</button>
                                 @else
                                     <button driverId="{{ $driver->id }}" type="button" class="btn btn-md btn-success mr-2 suspend-btn" data-toggle="modal" data-target="#suspendModal">
                                         Suspend

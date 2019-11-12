@@ -134,4 +134,28 @@ class Driver extends Model
     {
         return Str::title($value);
     }
+
+    /**
+     * Determine if this driver can pick up trips
+     */
+    public function cannotPickUpTrips()
+    {
+        return $this->isBanned() || $this->isSuspended();
+    }
+
+    /**
+     * Determine if this driver can is banned
+     */
+    public function isBanned()
+    {
+        return $this->status == "Banned";
+    }
+
+    /**
+     * Determine if this driver can is suspended
+     */
+    public function isSuspended()
+    {
+        return $this->status == "Suspended";
+    }
 }

@@ -22,8 +22,8 @@ class AdminController extends Controller
     {
         $drivers = (Auth::user()->admin->drivers) ?? null;
 
-        // We lift bans or suspension if any
-        $drivers = $this->liftPenalties($drivers);
+        // We lift suspension if it is already expired
+        $drivers = $this->liftPenaltiesIfExpired($drivers);
         $trips = Trip::forMe()->today()->get();
         return view('admin.index', compact('drivers', 'trips'));
     }
@@ -137,7 +137,16 @@ class AdminController extends Controller
      */
     public function banDriver()
     {
-        dd(request()->all());
+        // validate input
+        $input = request()->validate([
+            "driver_id" => 'required|numeric',
+        ]);
+
+        $driver = Driver::find($input['driver_id']);
+        $driver->status = "banned";
+        $driver->save();
+
+        return redirect()->route('admin.index');
     }
 
     /**
@@ -172,7 +181,7 @@ class AdminController extends Controller
     /**
      * Lift bans and suspensions to drivers
      */
-    public function liftPenalties($drivers)
+    public function liftPenaltiesIfExpired($drivers)
     {
         if ($drivers)
         {
@@ -191,5 +200,28 @@ class AdminController extends Controller
         }
 
         return $drivers;
+    }
+
+    /**
+     * Lift penalty of driver
+     */
+    public function liftPenaltyDriver()
+    {
+        // validate input
+        $input = request()->validate([
+            "driver_id" => 'required|numeric',
+        ]);
+
+        $driver = Driver::find($input['driver_id']);
+        $this->liftPenalties($driver);
+
+        return redirect()->route('admin.index');
+    }
+
+    public function liftPenalties($driver)
+    {
+        $driver->status = null;
+        $driver->penalty_lifted_at = null;
+        $driver->save();
     }
 }
