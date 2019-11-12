@@ -26,7 +26,18 @@
                             @inputbox(['type' => 'text', 'name' => 'phone', 'label' => 'Mobile Number']) @endinputbox
                             @inputbox(['type' => 'text', 'name' => 'org_acronym', 'label' => 'Organization Acronym']) @endinputbox
                             @inputbox(['type' => 'text', 'name' => 'org_name', 'label' => 'Organization Name']) @endinputbox
-                
+                            
+                            <div class="form-group">
+                                @selectMenu(['name' => "town_id", 'id' => "selectTown"])
+                                    @slot('options')
+                                        <option {{ (old("town_id") == 0 ? "selected":"") }} value="">Origin</option>
+                                        @foreach ($towns as $town)
+                                            <option {{ (old('town_id') == $town->id ? "selected":"") }} value="{{ $town->id }}">{{ $town->name }}</option>
+                                        @endforeach
+                                    @endslot
+                                @endselectMenu
+                            </div>
+                            
                             <div class="form-group row">
                                 <label for="birthday" class="col-md-4 col-form-label text-md-right">Birthdate</label>
                                 <div class="col-md-6 input-group date" id="birthday" data-target-input="nearest">

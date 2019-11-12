@@ -93,7 +93,8 @@ class AdminController extends Controller
      */
     public function super()
     {
-        return view('superadmin.index');
+        $towns = Town::all()->pluck('name', 'id');
+        return view('superadmin.index', compact('towns'));
     }
 
     /**
@@ -104,7 +105,13 @@ class AdminController extends Controller
         $user = $this->validateUserInformation();
         $admin = $this->validateAdminRegistration();
         $user['role_id'] = 2;
-        dd(request()->all());
+        $town_id = request()->validate([
+            'town_id' => 'required|numeric'
+        ]);
+
+        $this->createUser($user, $town_id);
+
+        return redirect()->route('admin.super');
     }
 
     /**
