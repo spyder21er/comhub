@@ -230,4 +230,12 @@ class User extends Authenticatable
         if ($this->isPassenger())
             return $this->trips()->today()->get()->isNotEmpty();
     }
+
+    /**
+     * Determine if this user can assign a driver to a trip
+     */
+    public function canAssignDriver()
+    {
+        return $this->isAdmin() || $this->isDriver();
+    }
 }

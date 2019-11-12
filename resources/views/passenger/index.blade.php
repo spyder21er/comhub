@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Dashboard</h4>
+                    <h3>{{ (Auth::user()->isPassenger() ? 'Passenger' : 'Driver') }} Dashboard</h3>
                 </div>
                 <div class="card-body">
                     @if(Auth::user()->isPassenger() && !Auth::user()->hasTripToday())

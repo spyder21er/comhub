@@ -21,7 +21,8 @@ class AdminController extends Controller
     public function index()
     {
         $drivers = Auth::user()->admin->drivers;
-        return view('admin.index', compact('drivers'));
+        $trips = Trip::forMe()->today()->get();
+        return view('admin.index', compact('drivers', 'trips'));
     }
 
     public function register_driver()

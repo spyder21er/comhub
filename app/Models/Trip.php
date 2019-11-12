@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Faker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Trip extends Model
 {
@@ -111,9 +112,9 @@ class Trip extends Model
     /**
      * Available trips for the logged in user
      */
-    public function scopeForMe(Builder $query, $user)
+    public function scopeForMe(Builder $query)
     {
-        return $query->where('destination_id', $user->town_id)->orWhere('origin_id', $user->town_id);
+        return $query->where('destination_id', Auth::user()->town_id)->orWhere('origin_id', Auth::user()->town_id);
     }
 
     /**

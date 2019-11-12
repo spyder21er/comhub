@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function() {
         Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
         Route::post('/admin/register_driver', 'AdminController@register_driver')->name('register.driver');
+        Route::post('/admin/assign_driver', 'TripController@assignDriver')->name('assign.driver');
         Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
     });
 });

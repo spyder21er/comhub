@@ -11,7 +11,7 @@ class TripController extends Controller
 {
     public function includeUser()
     {
-        if (Auth::user()->isDriver()) {
+        if (Auth::user()->canAssignDriver()) {
             $assigment = $this->assignDriver();
         }
         elseif (Auth::user()->isPassenger())
@@ -31,31 +31,49 @@ class TripController extends Controller
 
     protected function assignDriver()
     {
-        $trip = $this->getTrip();
+        $trip = $this->validateTrip();
+        $driver = (request()->has('driver_id')) ? $this->validateDriver() : Auth::user()->driver;
+        if ($driver->hasTripToday())
+        {
+            if (Auth::user()->isAdmin())
+            {
+                return redirect()->back()->withErrors([
+                    'default' => 'Cannot assign driver.
+                    The driver already has trip today or the driver already picked up the same trip.',
+                ]);
+            }
+            $status = 'fail';
+            $message = 'Cannot pick up. You already have trip today.';
+            return compact('status', 'message');
+        }
         if ($trip->hasDriver())
         {
             $status = 'fail';
             $message = 'Cannot pick up. Trip already has a driver.';
             return compact('status', 'message');
         }
-        $trip->driver()->associate(Auth::user()->driver);
+        $trip->driver()->associate($driver);
         $trip->save();
+        if (Auth::user()->isAdmin())
+        {
+            return redirect()->route('admin.index');
+        }
     }
 
     protected function includePassenger()
     {
-        if ($this->getTrip()->isFull())
+        if ($this->validateTrip()->isFull())
         {
             $status = 'fail';
             $message = 'Cannot join. Trip is already full.';
             return compact('status', 'message');
         }
-        $this->getTrip()->passengers()->attach(Auth::user());
+        $this->validateTrip()->passengers()->attach(Auth::user());
     }
 
     public function excludeUser()
     {
-        $trip = $this->getTrip();
+        $trip = $this->validateTrip();
         // Trips can only be cancelled if it is today
         if ($trip->created_at->isSameDay(Carbon::today())) {
             if (Auth::user()->isDriver())
@@ -72,11 +90,18 @@ class TripController extends Controller
         return redirect()->route('passenger.index');
     }
 
-    protected function getTrip()
+    protected function validateTrip()
     {
         return Trip::findOrFail(request()->validate([
             'trip_id' => 'required|numeric',
         ])['trip_id']);
+    }
+
+    protected function validateDriver()
+    {
+        return Driver::findOrFail(request()->validate([
+            'driver_id' => 'required|numeric',
+        ])['driver_id']);
     }
 
     public function show(Trip $trip)

@@ -20,8 +20,10 @@
                         </a>
                     </td>
                     <td>
-                        <button class="btn btn-md btn-success mr-2" id="suspend-button">Suspend</button>
-                        <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban</button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-md btn-success mr-2" id="suspend-button">Suspend</button>
+                            <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban</button>
+                        </div>
                     </td>
                     <td>
                     </td>
