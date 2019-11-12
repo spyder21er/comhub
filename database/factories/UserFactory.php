@@ -2,8 +2,6 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Passenger;
-use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -21,13 +19,15 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $firstName = $faker->firstName;
+    $lastName = $faker->lastName;
     return [
         'role_id'           => 4,
         'town_id'           => $faker->numberBetween(1, 20),
-        'first_name'        => $faker->firstName,
+        'first_name'        => $firstName,
         'middle_name'       => $faker->lastName,
-        'last_name'         => $faker->lastName,
-        'email'             => $faker->unique()->safeEmail,
+        'last_name'         => $lastName,
+        'email'             => Str::lower($firstName) . Str::lower($lastName) . '@comhub.com',  // $faker->unique()->safeEmail,
         'password'          => Hash::make('asdfasdf'),
         'phone'             => $faker->regexify('\+639[0-9]{9}'),
         'birthday'          => $faker->dateTimeBetween('-45 years', '-18 years'),
