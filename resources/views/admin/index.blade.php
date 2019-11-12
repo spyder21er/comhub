@@ -56,7 +56,15 @@
     </div>
 </div>
 @include('admin.assign-modal')
-
+@include('admin.suspend-modal')
+<form action="{{ route('ban.driver') }}" id="banForm" class="needs-validation" method="POST" novalidate>
+    @csrf
+    <input type="hidden" name="driver_id" value="">
+</form>
+<form action="{{ route('ban.driver') }}" id="banForm" class="needs-validation" method="POST" novalidate>
+    @csrf
+    <input type="hidden" name="driver_id" value="">
+</form>
 @endsection
 
 @section('page-scripts')
@@ -76,6 +84,13 @@
         });
         $('#selectDriver').on('change', function() {
             $('input[name="driver_id"]').val($(this).val());
+        });
+        $('.suspend-btn').on('click', function() {
+            $('input[name="driver_id"]').val($(this).attr("driverId"));
+        });
+        $('.ban-btn').on('click', function() {
+            $('input[name="driver_id"]').val($(this).attr("driverId"));
+            $('#banForm').submit();
         });
     </script>
 @endsection

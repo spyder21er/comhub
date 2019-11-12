@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Driver extends Model
 {
     protected $guarded = [];
+
+    protected $dates = ['penalty_lifted_at'];
 
     /**
      * Trips fetched by this driver
@@ -125,5 +128,10 @@ class Driver extends Model
     public function hasTripToday()
     {
         return $this->trips()->today()->get()->isNotEmpty();
+    }
+
+    public function getStatusAttribute($value)
+    {
+        return Str::title($value);
     }
 }

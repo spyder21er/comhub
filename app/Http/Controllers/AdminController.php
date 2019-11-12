@@ -21,6 +21,9 @@ class AdminController extends Controller
     public function index()
     {
         $drivers = (Auth::user()->admin->drivers) ?? null;
+
+        // We lift bans or suspension if any
+        $drivers = $this->liftPenalties($drivers);
         $trips = Trip::forMe()->today()->get();
         return view('admin.index', compact('drivers', 'trips'));
     }
@@ -127,5 +130,66 @@ class AdminController extends Controller
             'org_acronym'   => 'required',
             'org_name'      => 'required|max:255',
         ]);
+    }
+
+    /**
+     * Ban driver
+     */
+    public function banDriver()
+    {
+        dd(request()->all());
+    }
+
+    /**
+     * Suspend driver
+     */
+    public function suspendDriver()
+    {
+        // validate input
+        $input = request()->validate([
+            "driver_id" => 'required|numeric',
+            "duration" => 'required|numeric',
+            "duration_units" => 'required',
+        ]);
+        $until = Carbon::now();
+        if ($input['duration_units'] == 'day')
+        {
+            $until->addDay($input['duration']);
+        }
+        elseif ($input['duration_units'] == 'month')
+        {
+            $until->addMonth($input['duration']);
+        }
+
+        $driver = Driver::find($input['driver_id']);
+        $driver->status = "suspended";
+        $driver->penalty_lifted_at = $until;
+        $driver->save();
+
+        return redirect()->route('admin.index');
+    }
+
+    /**
+     * Lift bans and suspensions to drivers
+     */
+    public function liftPenalties($drivers)
+    {
+        if ($drivers)
+        {
+            $now = Carbon::now();
+            $drivers->each(function($driver) use ($now) {
+                if ($driver->penalty_lifted_at)
+                {
+                    if ($driver->penalty_lifted_at->lessThanOrEqualTo($now))
+                    {
+                        $driver->status = null;
+                        $driver->penalty_lifted_at = null;
+                        $driver->save();
+                    }
+                }
+            });
+        }
+
+        return $drivers;
     }
 }

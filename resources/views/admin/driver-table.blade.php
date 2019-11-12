@@ -22,11 +22,18 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <button class="btn btn-md btn-success mr-2" id="suspend-button">Suspend</button>
-                                <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban</button>
+                                @if ($driver->status)
+                                    <button>Unsuspend</button>
+                                @else
+                                    <button driverId="{{ $driver->id }}" type="button" class="btn btn-md btn-success mr-2 suspend-btn" data-toggle="modal" data-target="#suspendModal">
+                                        Suspend
+                                    </button>
+                                    <button driverId="{{ $driver->id }}" type="button" class="btn btn-md btn-danger mr-2 ban-btn">Ban</button>
+                                @endif
                             </div>
                         </td>
                         <td>
+                            {{ $driver->status }}
                         </td>
                         <td>{{ $driver->hailedTrips() }}</td>
                         <td>{{ $driver->confirmedTrips() }}</td>
