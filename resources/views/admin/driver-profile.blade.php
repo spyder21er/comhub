@@ -33,7 +33,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($driver->trips as $trip)
+                                @foreach ($driver->trips()->latest()->get() as $trip)
                                     <tr>
                                         <td>{{ $trip->created_at }} </td>
                                         <td>{{ $trip->departure_time }}</td>

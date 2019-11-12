@@ -32,19 +32,19 @@ $factory->define(Trip::class, function (Faker $faker) {
         'departure_time'            => '22:00:00',
         'exclusive'                 => false,
         'guest_count'               => $faker->numberBetween(1,10),
-        'created_at'                => $faker->dateTimeBetween('-12 days', '12 days'),
+        'created_at'                => $faker->dateTimeBetween('-12 days', '2 days'),
     ];
 })->afterCreating(Trip::class, function ($trip) {
-    $trip
-        ->passengers()
-        ->attach(Passenger::all()
-            ->filter(function ($passenger) {
-                return !$passenger->hasTripToday();
-            })
-            ->random(rand(1, (15 - $trip->guest_count))));
     $today = Carbon::now();
     if ($trip->created_at->lessThan($today))
     {
+        $trip
+            ->passengers()
+            ->attach(Passenger::all()
+                ->filter(function ($passenger) {
+                    return !$passenger->hasTripToday();
+                })
+                ->random(rand(1, (15 - $trip->guest_count))));
         $hometown = ($trip->origin_id == 11) ? $trip->destination_id : $trip->origin_id;
         $trip->driver()->associate(Driver::whereTown($hometown)->get()->filter(function ($d) {
             return !$d->hasTripToday();
