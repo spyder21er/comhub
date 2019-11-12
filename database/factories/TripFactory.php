@@ -9,15 +9,23 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Trip::class, function (Faker $faker) {
-    $origin_id = $faker->numberBetween(1, 20);
-    $destination_id = 11;
-    if ($origin_id == 11)
-        while($destination_id == 11)
-            $destination_id = $faker->numberBetween(1, 20);
+    $to = 11;
+    $from = $faker->numberBetween(1, 20);
+    while ($from == 11)
+        $from = $faker->numberBetween(1, 20);
+
+    $rand = $faker->numberBetween(1, 100);
+    if ($rand & 1)
+    {
+        $temp = $to;
+        $to = $from;
+        $from = $temp;
+    }
+
     return [
         'driver_id'                 => null,
-        'origin_id'                 => $origin_id,
-        'destination_id'            => $destination_id,
+        'origin_id'                 => $from,
+        'destination_id'            => $to,
         'code'                      => $faker->regexify('[A-Z]{3}[0-9]{6}'),
         'driver_compliance_code'    => $faker->regexify('[a-z0-9]{8}'),
         'passenger_compliance_code' => $faker->regexify('[a-z0-9]{8}'),
