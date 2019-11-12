@@ -16,7 +16,7 @@ class TripController extends Controller
         }
         elseif (Auth::user()->isPassenger())
         {
-            $this->includePassenger();
+            $assigment = $this->includePassenger();
         }
 
         if ($assigment['status'] == 'fail')
@@ -46,9 +46,9 @@ class TripController extends Controller
     {
         if ($this->getTrip()->isFull())
         {
-            return redirect()->back()->withErrors([
-                'default' => 'Cannot join. Trip is already full.',
-            ]);
+            $status = 'fail';
+            $message = 'Cannot join. Trip is already full.';
+            return compact('status', 'message');
         }
         $this->getTrip()->passengers()->attach(Auth::user());
     }

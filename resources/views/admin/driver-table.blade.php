@@ -3,6 +3,8 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Actions</th>
+                <th>Status</th>
                 <th>Total trips hailed</th>
                 <th>Confirmed trips</th>
                 <th>Unconfirmed trips</th>
@@ -16,6 +18,12 @@
                         <a href="{{ route('driver_profile', $driver->id) }}">
                             {{ $driver->name }}
                         </a>
+                    </td>
+                    <td>
+                        <button class="btn btn-md btn-success mr-2" id="suspend-button">Suspend</button>
+                        <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban</button>
+                    </td>
+                    <td>
                     </td>
                     <td>{{ $driver->hailedTrips() }}</td>
                     <td>{{ $driver->confirmedTrips() }}</td>

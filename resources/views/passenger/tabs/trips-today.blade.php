@@ -35,8 +35,14 @@
                                 @endif
                             </td>
                         @endif
-                        <td>{{ ($trip->driver->name) ?? '' }}</td>
-                        <td>{{ $trip->code }} </td>
+                        <td>
+                            @if ($trip->driver)
+                                <a href="{{ route('driver_profile', $trip->driver->id) }}">
+                                    {{ $trip->driver->name }}
+                                </a>
+                            @endif
+                        </td>
+                        <td>{{ $trip->code }}</td>
                         <td>{{ $trip->origin->name }}</td>
                         <td>{{ $trip->destination->name }}</td>
                         <td>{{ $trip->departure_time }}</td>

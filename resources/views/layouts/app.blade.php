@@ -27,7 +27,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <h3>{{ config('app.name', 'Comhub') }}
+                    <h3><strong>{{ config('app.name', 'Comhub') }}</strong>
                     @auth
                         {{ Auth::user()->brandAppend() }}
                     @endauth</h3>

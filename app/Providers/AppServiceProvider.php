@@ -29,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('components.modal', 'modal');
         Blade::component('components.select-menu', 'selectMenu');
         Blade::component('components.inputbox', 'inputbox');
-        Carbon::setToStringFormat('m-d-y');
+        Carbon::setToStringFormat('m-d-Y');
     }
 }

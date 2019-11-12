@@ -5,23 +5,47 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Driver Profile</div>
+                <div class="card-header"><h3>Driver Profile</h3></div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row mb-5">
                         <div class="col-3">
                             <img src="{{ asset('images/user.png') }}" alt="" class="img-thumbnail" height="200" width="200">
                         </div>
                         <div class="col-9">
-                            <h4>Name: {{ $driver->name }}</h4>
+                            <h2>Name: {{ $driver->name }}</h2>
+                            <h4>Organization: {{ $driver->organization }}</h4>
                             <h4>Email: {{ $driver->email }}</h4>
                             <h4>Phone: {{ $driver->phone }}</h4>
+                            <h4>Vehicle Plate Number: {{ $driver->plate_number }}</h4>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-md btn-primary mr-2" id="back-button"><< Go Back</button>
-                    <button class="btn btn-md btn-warning mr-2" id="suspend-button">Suspend this driver</button>
-                    <button class="btn btn-md btn-danger mr-2" id="ban-button">Ban this driver</button>
+                    <div><h4>Trip History</h4></div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Trip code</th>
+                                    <th>Origin</th>
+                                    <th>Destination</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($driver->trips as $trip)
+                                    <tr>
+                                        <td>{{ $trip->created_at }} </td>
+                                        <td>{{ $trip->departure_time }}</td>
+                                        <td>{{ $trip->code }}</td>
+                                        <td>{{ $trip->origin->name }}</td>
+                                        <td>{{ $trip->destination->name }}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

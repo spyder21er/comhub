@@ -78,14 +78,4 @@ class AdminController extends Controller
     {
         return view('admin.super');
     }
-
-    public function showDriver(Driver $driver)
-    {
-        // If driver is under admin, show driver profile
-        if (Auth::user()->admin->drivers->contains($driver))
-            return view('admin.driver-profile', compact('driver'));
-
-        // Redirect to admin index otherwise
-        return redirect()->route('admin.index');
-    }
 }
