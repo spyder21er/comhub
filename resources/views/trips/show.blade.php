@@ -15,6 +15,7 @@
                             <h2>Trip code: {{ $trip->code }}</h2>
                             <h4>Time: {{ $trip->departure_time }}</h4>
                             <h4>Date: {{ $trip->created_at }}</h4>
+                            <h4>Driver: {{ ($trip->driver->name) ?? '' }}</h4>
                             <h4>Origin: {{ $trip->origin->name }}</h4>
                             <h4>Destination: {{ $trip->destination->name }}</h4>
                             <h4>Registered Passengers: {{ $trip->passengers()->count() }}</h4>

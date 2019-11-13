@@ -248,4 +248,9 @@ class User extends Authenticatable
     {
         return $this->isAdmin() || $this->isDriver();
     }
+
+    public function comment($trip_id)
+    {
+        return $this->trips()->where('trip_id', $trip_id)->first()->passenger_comment;
+    }
 }
