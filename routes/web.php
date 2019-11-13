@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/passenger_dashboard', 'PassengerController@createTrip')->name('createTrip');
     Route::post('/trip/exclude_user', 'TripController@excludeUser')->name('trip.excludeUser');
     Route::post('/trip/include_user', 'TripController@includeUser')->name('trip.includeUser');
-    Route::get('/trip/{trip}', 'TripController@show')->name('trip.show');
+    Route::get('/trips/{trip}', 'TripController@show')->name('trip.show');
     Route::get('/drivers/{driver}', 'DriverController@show')->name('driver_profile');
     Route::middleware('driver')->group(function () {
         Route::get('/driver_dashboard', 'DriverController@index')->name('driver.index');

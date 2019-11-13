@@ -42,7 +42,11 @@
                                 </a>
                             @endif
                         </td>
-                        <td>{{ $trip->code }}</td>
+                        <td>
+                            <a href="{{ route('trip.show', $trip->id) }}">
+                                {{ $trip->code }}
+                            </a>
+                        </td>
                         <td>{{ $trip->origin->name }}</td>
                         <td>{{ $trip->destination->name }}</td>
                         <td>{{ $trip->departure_time }}</td>

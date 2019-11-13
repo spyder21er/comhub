@@ -111,6 +111,6 @@ class TripController extends Controller
 
     public function show(Trip $trip)
     {
-        dd($trip);
+        return view('trips.show', compact('trip'));
     }
 }
