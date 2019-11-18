@@ -25,14 +25,6 @@ class Admin extends Model
     }
 
     /**
-     * Home town of this admin
-     */
-    public function town()
-    {
-        return $this->hasOneThrough(Town::class, User::class, 'id', 'id', 'user_id', 'town_id');
-    }
-
-    /**
      * Determine if this admin has associated drivers
      */
     public function hasDrivers()

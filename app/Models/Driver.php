@@ -68,14 +68,6 @@ class Driver extends Model
     }
 
     /**
-     * Town of this driver
-     */
-    public function town()
-    {
-        return $this->hasOneThrough(Town::class, User::class, 'id', 'id', 'user_id', 'town_id');
-    }
-
-    /**
      * Organization of this driver
      */
     public function getOrganizationAttribute()

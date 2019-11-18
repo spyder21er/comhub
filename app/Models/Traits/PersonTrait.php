@@ -16,6 +16,22 @@ trait PersonTrait
     }
 
     /**
+     * Get the town model for this user
+     */
+    public function town()
+    {
+        return $this->user->town();
+    }
+
+    /**
+     * Get town name of this user
+     */
+    public function getTownNameAttribute()
+    {
+        return $this->town->name;
+    }
+
+    /**
      * Get the name of this user
      */
     public function getNameAttribute()

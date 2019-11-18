@@ -2,6 +2,7 @@
 
 @section('page-styles')
 <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
+<link href="{{ asset('css/bootstrap-tablesorter.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -40,9 +41,41 @@
 @section('page-scripts')
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-tablesorter.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-tablesorter.widgets.js') }}"></script>
     <script>
         $('#birthday').datetimepicker({
             format: 'L'
+        });
+        $('table').tablesorter({
+            theme : "bootstrap",
+            widgets : ["filter"],
+            widgetOptions : {
+                filter_cssFilter : 'form-control'
+            }
+        });
+        $('.btn-change').on('click', function() {
+            let route = "{{ route('change.admin.status', ':id') }}";
+            route = route.replace(':id', $(this).attr('admin_id'));
+            let btn = $(this);
+            let status = btn.parent().prev();
+            $.ajax({
+                url : route,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
+            })
+            .done(function(data) {
+                btn.html(data.change_status_command);
+                btn.removeClass('btn-primary');
+                btn.removeClass('btn-danger');
+                btn.addClass('btn-'+data.button_style);
+                status.html(data.account_status);
+            })
+            .fail(function(e) {
+                console.log(e)
+            })
         });
     </script>
 @endsection

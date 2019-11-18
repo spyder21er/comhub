@@ -97,7 +97,7 @@ class AdminController extends Controller
      */
     public function super()
     {
-        $admins = Admin::all();
+        $admins = Admin::orderBy('active', 'desc')->get();
         $towns = Town::all()->pluck('name', 'id');
         return view('superadmin.index', compact('towns', 'admins'));
     }
@@ -224,5 +224,32 @@ class AdminController extends Controller
         $driver->status = null;
         $driver->penalty_lifted_at = null;
         $driver->save();
+    }
+
+    /**
+     * Toggle account status of this admin
+     */
+    public function changeAdminStatus(Admin $admin)
+    {
+        // if (request()->ajax())
+        // {
+        //     $message['success'] = 'test succes woot! wehe';
+        //     return response()->json(['success' => 'test succes woot! wehe']);
+        // }
+        // only super admin can change this
+        if (Auth::user()->isSuperAdmin())
+        {
+            $admin->active = !$admin->active;
+            $admin->save();
+            if (request()->ajax())
+            {
+                return response()->json([
+                    'account_status' => $admin->account_status,
+                    'button_style' => $admin->button_style,
+                    'change_status_command' => $admin->change_status_command,
+                ]);
+            }
+            return redirect()->back();
+        }
     }
 }

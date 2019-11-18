@@ -5,10 +5,10 @@
                 <th>Name</th>
                 <th>Contact</th>
                 <th>Organization Acronym</th>
-                <th>Organization Name</th>
-                <th>Drivers</th>
-                <th>Account Status</th>
-                <th>Command</th>
+                <th class="filter-select filter-exact">Hometown</th>
+                <th class="filter-false">Drivers</th>
+                <th class="filter-select filter-exact">Account Status</th>
+                <th class="filter-false">Command</th>
             </tr>
         </thead>
         <tbody>
@@ -17,11 +17,11 @@
                     <td>{{ $admin->name }}</td>
                     <td>{{ $admin->phone }}</td>
                     <td>{{ $admin->org_acronym }}</td>
-                    <td>{{ $admin->org_name }}</td>
+                    <td>{{ $admin->town_name }}</td>
                     <td>{{ $admin->drivers_count }}</td>
                     <td>{{ $admin->account_status }}</td>
                     <td>
-                        <button class="btn btn-{{ $admin->button_style }} btn-sm">
+                        <button admin_id="{{ $admin->id }}" type="submit" class="btn btn-{{ $admin->button_style }} btn-sm btn-change">
                             {{ $admin->change_status_command }}
                         </button>
                     </td>
