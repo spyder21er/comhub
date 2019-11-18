@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Carbon;
+use Illuminate\port\Carbon;
 
 class User extends Authenticatable
 {
@@ -107,6 +107,14 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->isRole('admin');
+    }
+
+    /**
+     * Determine if user is super admin.
+     */
+    public function isSuperAdmin()
+    {
+        return $this->isRole('super_admin');
     }
 
     /**
