@@ -5,7 +5,7 @@
 use App\Models\Passenger;
 use App\Models\Trip;
 use App\Models\Driver;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Trip::class, function (Faker $faker) {

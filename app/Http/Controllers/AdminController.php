@@ -7,7 +7,7 @@ use App\Models\Driver;
 use App\Models\Town;
 use App\Models\Trip;
 use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -97,8 +97,9 @@ class AdminController extends Controller
      */
     public function super()
     {
+        $admins = Admin::all();
         $towns = Town::all()->pluck('name', 'id');
-        return view('superadmin.index', compact('towns'));
+        return view('superadmin.index', compact('towns', 'admins'));
     }
 
     /**

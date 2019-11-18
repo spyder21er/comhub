@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\PersonTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Driver extends Model
 {
+    use PersonTrait;
+
     protected $guarded = [];
 
     protected $dates = ['penalty_lifted_at'];
@@ -73,14 +76,6 @@ class Driver extends Model
     }
 
     /**
-     * Associated user account of this driver
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
      * Organization of this driver
      */
     public function getOrganizationAttribute()
@@ -96,30 +91,6 @@ class Driver extends Model
         return $query->whereHas('user', function($q) use ($town_id) {
             $q->where('town_id', $town_id);
         });
-    }
-
-    /**
-     * Get name of this driver
-     */
-    public function getNameAttribute()
-    {
-        return $this->user->name;
-    }
-
-    /**
-     * Get email of this driver
-     */
-    public function getEmailAttribute()
-    {
-        return $this->user->email;
-    }
-
-    /**
-     * Get phone of this driver
-     */
-    public function getPhoneAttribute()
-    {
-        return $this->user->phone;
     }
 
     /**

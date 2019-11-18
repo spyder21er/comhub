@@ -12,15 +12,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @foreach ($admins as $admin)
+                <tr>
+                    <td>{{ $admin->name }}</td>
+                    <td>{{ $admin->phone }}</td>
+                    <td>{{ $admin->org_acronym }}</td>
+                    <td>{{ $admin->org_name }}</td>
+                    <td>{{ $admin->drivers_count }}</td>
+                    <td>{{ $admin->account_status }}</td>
+                    <td>
+                        <button class="btn btn-{{ $admin->button_style }} btn-sm">
+                            {{ $admin->change_status_command }}
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

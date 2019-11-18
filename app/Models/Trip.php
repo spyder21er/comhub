@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Passenger;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Faker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

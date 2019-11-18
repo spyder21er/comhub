@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\PersonTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model
 {
+    use PersonTrait;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,14 +33,6 @@ class Admin extends Model
     }
 
     /**
-     * Associated user account of this driver
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
      * Determine if this admin has associated drivers
      */
     public function hasDrivers()
@@ -50,7 +45,7 @@ class Admin extends Model
      */
     public function getAccountStatusAttribute()
     {
-        return ($this->active) ? 'Active' : "Deactivated";
+        return ($this->active) ? 'Active' : 'Deactivated';
     }
 
     /**
@@ -58,6 +53,22 @@ class Admin extends Model
      */
     public function getChangeStatusCommandAttribute()
     {
-        return ($this->active) ? 'Deactivate' : "Activate";
+        return ($this->active) ? 'Deactivate' : 'Activate';
+    }
+
+    /**
+     * Get the button style for changing account status
+     */
+    public function getButtonStyleAttribute()
+    {
+        return ($this->active) ? 'success' : 'danger';
+    }
+
+    /**
+     * Get the number of drivers under this admin
+     */
+    public function getDriversCountAttribute()
+    {
+        return $this->drivers->count();
     }
 }
