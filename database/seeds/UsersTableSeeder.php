@@ -75,6 +75,6 @@ class UsersTableSeeder extends Seeder
         $this->call(DriversTableSeeder::class);
 
         // Let's create more passengers
-        factory(User::class, 400)->create();
+        factory(User::class, 100)->create();
     }
 }

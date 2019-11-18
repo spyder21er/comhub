@@ -16,6 +16,7 @@ class CreateAdminsTable extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->nullable();
+            $table->boolean('active')->default(1);
             $table->string('org_acronym');
             $table->string('org_name')->nullable();
             $table->timestamps();

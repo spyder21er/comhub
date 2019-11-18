@@ -12,6 +12,6 @@ class TripsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Trip::class, 450)->create();
+        factory(Trip::class, 150)->create();
     }
 }

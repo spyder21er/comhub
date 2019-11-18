@@ -19,7 +19,7 @@ class DriversTableSeeder extends Seeder
 
         foreach ($admins as $admin)
         {
-            $users = factory(User::class, 10)->create();
+            $users = factory(User::class, 3)->create();
 
             foreach ($users as $user)
             {

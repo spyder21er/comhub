@@ -44,4 +44,20 @@ class Admin extends Model
     {
         return $this->drivers->isNotEmpty();
     }
+
+    /**
+     * Get the account status of this admin
+     */
+    public function getAccountStatusAttribute()
+    {
+        return ($this->active) ? 'Active' : "Deactivated";
+    }
+
+    /**
+     * Get the button name for changing account status
+     */
+    public function getChangeStatusCommandAttribute()
+    {
+        return ($this->active) ? 'Deactivate' : "Activate";
+    }
 }
