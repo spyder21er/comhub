@@ -31,7 +31,7 @@ class AdminController extends Controller
     public function register_driver()
     {
         $this->createDriver();
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.index')->with('success', 'Succesfully registered new driver account!');
     }
 
     protected function validateDriverDetails()
@@ -119,7 +119,7 @@ class AdminController extends Controller
         $admin->user()->associate($user);
         $admin->save();
 
-        return redirect()->back()->with(['success' => 'Succesfully registered new admin account!']);
+        return redirect()->back()->with('success', 'Succesfully registered new admin account!');
     }
 
     /**

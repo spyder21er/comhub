@@ -21,9 +21,7 @@ class TripController extends Controller
 
         if ($assigment['status'] == 'fail')
         {
-            return redirect()->back()->withErrors([
-                'default' => $assigment['message'],
-            ]);
+            return redirect()->back()->with('danger', $assigment['message']);
         }
 
         return redirect()->route('passenger.index');
@@ -42,10 +40,10 @@ class TripController extends Controller
         {
             if (Auth::user()->isAdmin())
             {
-                return redirect()->back()->withErrors([
-                    'default' => 'Cannot assign driver.
+                return redirect()->back()->with(
+                    'danger', 'Cannot assign driver.
                     The driver already has trip today or the driver already picked up the same trip.',
-                ]);
+                );
             }
             $status = 'fail';
             $message = 'Cannot pick up. You already have trip today.';

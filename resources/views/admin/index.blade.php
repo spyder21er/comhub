@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            @include('components.default-alert')
+                            @include('components.flash')
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-controls="trips-tab" aria-selected="true" role="tab" data-toggle="tab" href="#trips-tab">Trips Today</a>

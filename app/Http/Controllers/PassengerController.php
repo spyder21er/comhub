@@ -31,9 +31,9 @@ class PassengerController extends Controller
     public function createTrip()
     {
         if (Auth::user()->hasTripToday())
-            return redirect()->back()->withErrors([
-                'default' => "Can't create new trip if you have existing trip for the day."
-            ]);
+            return redirect()->back()->with(
+                'danger', "Can't create new trip if you have existing trip for the day."
+            );
 
         $validated = request()->validate([
             'origin_id' => 'required',
@@ -45,13 +45,13 @@ class PassengerController extends Controller
         // Naga (id=11) should be in origin only or destination only
         if (($validated['origin_id'] == 11) == ($validated['destination_id'] == 11))
         {
-            return redirect()->back()->withErrors([
-                'route' => "Sorry, there is no available trip from "
+            return redirect()->back()->with(
+                'info', "Sorry, there is no available trip from "
                     . Town::find((int) $validated['origin_id'])->name
                     . " to "
                     . Town::find((int) $validated['destination_id'])->name
                     . ".",
-            ]);
+            );
         }
 
         $same_trip = Trip::today()->where([

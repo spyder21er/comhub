@@ -14,16 +14,12 @@
                     <h3>{{ (Auth::user()->isPassenger() ? 'Passenger' : 'Driver') }} Dashboard</h3>
                 </div>
                 <div class="card-body">
+                    @include('components.flash')
                     @if(Auth::user()->isPassenger() && !Auth::user()->hasTripToday())
                         <button type="button" class="btn btn-info mb-3 text-white" data-toggle="modal" data-target="#newTripModal">
                             Create New Trip
                         </button>
                     @endif
-                    @error('default')
-                        <div id="defaultAlert" class="alert alert-danger" role="alert">
-                            {{ $message }}
-                        </div>
-                    @enderror
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#trips">Trips Today</a>
@@ -57,9 +53,7 @@
         <script type="text/javascript">
             $(function() {
                 @if ($errors->any())
-                    @if (!$errors->has('default'))
-                        $('#newTripModal').modal('show');
-                    @endif
+                    $('#newTripModal').modal('show');
                 @endif
                 $('#tripdate').datetimepicker({
                     format: 'L'
