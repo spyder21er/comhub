@@ -12,23 +12,18 @@
 */
 
 Route::middleware('auth')->group(function () {
+    Route::get('/home', function () {
+        return redirect('/');
+    });
     Route::get('/', function () {
-        $roleId = Auth::user()->role->id;
-        switch ($roleId)
-        {
-            case 1:
-                return redirect()->route('admin.super');
-                break;
-            case 2:
-                return redirect()->route('admin.index');
-                break;
-            case 3:
-                return redirect()->route('driver.index');
-                break;
-            case 4:
-                return redirect()->route('passenger.index');
-                break;
-        }
+        if (Auth::user()->isSuperAdmin())
+            return redirect()->route('admin.super');
+        if (Auth::user()->isAdmin())
+            return redirect()->route('admin.index');
+        if (Auth::user()->isDriver())
+            return redirect()->route('driver.index');
+        if (Auth::user()->isPassenger())
+            return redirect()->route('passenger.index');
     });
 
     Route::get('/passenger_dashboard', 'PassengerController@index')->name('passenger.index');
@@ -42,21 +37,19 @@ Route::middleware('auth')->group(function () {
     });
     Route::middleware('admin')->group(function() {
         Route::get('/admin_dashboard', 'AdminController@index')->name('admin.index');
-        Route::post('/admin/register_driver', 'AdminController@register_driver')->name('register.driver');
-        Route::post('/admin/assign_driver', 'TripController@assignDriver')->name('assign.driver');
-        Route::post('/admin/ban_driver', 'AdminController@banDriver')->name('ban.driver');
-        Route::post('/admin/suspend_driver', 'AdminController@suspendDriver')->name('suspend.driver');
-        Route::post('/admin/liftPenalty_driver', 'AdminController@liftPenaltyDriver')->name('liftPenalty.driver');
+        Route::middleware('active.admin')->group(function() {
+            Route::post('/admin/register_driver', 'AdminController@register_driver')->name('register.driver');
+            Route::post('/admin/assign_driver', 'TripController@assignDriver')->name('assign.driver');
+            Route::post('/admin/ban_driver', 'AdminController@banDriver')->name('ban.driver');
+            Route::post('/admin/suspend_driver', 'AdminController@suspendDriver')->name('suspend.driver');
+            Route::post('/admin/liftPenalty_driver', 'AdminController@liftPenaltyDriver')->name('liftPenalty.driver');
+        });
     });
     Route::middleware('super.admin')->group(function() {
         Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
         Route::post('/superadmin/register_admin', 'AdminController@register_admin')->name('register.admin');
         Route::post('/superadmin/changeAdminStatus/{admin}', 'AdminController@changeAdminStatus')->name('change.admin.status');
     });
-});
-
-Route::get('/home', function() {
-    return redirect('/');
 });
 
 Auth::routes();

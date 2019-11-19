@@ -20,6 +20,9 @@ class AdminController extends Controller
 
     public function index()
     {
+        if (!Auth::user()->admin->active)
+            return view('admin.deactivated');
+
         $drivers = (Auth::user()->admin->drivers) ?? null;
 
         // We lift suspension if it is already expired
