@@ -65,6 +65,12 @@ class AdminController extends Controller
         $admin->user->update($updateUser);
         $admin->update($updateAdmin);
 
+        $admin->user->town()->associate(
+            Town::find(request()->validate([
+                'town_id' => 'required|numeric'
+            ])['town_id'])
+        )->save();
+
         return redirect()->route('admin.super');
     }
 
