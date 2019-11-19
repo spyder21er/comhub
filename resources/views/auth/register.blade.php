@@ -15,10 +15,10 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        @inputbox(['type' => 'text', 'name' => 'first_name', 'label' => 'First Name']) @endinputbox
-                        @inputbox(['type' => 'text', 'name' => 'middle_name', 'label' => 'Middle Name']) @endinputbox
-                        @inputbox(['type' => 'text', 'name' => 'last_name', 'label' => 'Last Name']) @endinputbox
-                        @inputbox(['type' => 'text', 'name' => 'phone', 'label' => 'Mobile Number']) @endinputbox
+                        @inputbox(['defaultVal' => '', 'type' => 'text', 'name' => 'first_name', 'label' => 'First Name']) @endinputbox
+                        @inputbox(['defaultVal' => '', 'type' => 'text', 'name' => 'middle_name', 'label' => 'Middle Name']) @endinputbox
+                        @inputbox(['defaultVal' => '', 'type' => 'text', 'name' => 'last_name', 'label' => 'Last Name']) @endinputbox
+                        @inputbox(['defaultVal' => '', 'type' => 'text', 'name' => 'phone', 'label' => 'Mobile Number']) @endinputbox
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>

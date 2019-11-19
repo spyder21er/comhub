@@ -5,15 +5,15 @@
         <form method="POST" action="{{ route('register.driver') }}">
             @csrf
 
-            @inputbox(['type' => 'text', 'name' => 'first_name', 'label' => 'Driver First Name']) @endinputbox
-            @inputbox(['type' => 'text', 'name' => 'middle_name', 'label' => 'Driver Middle Name']) @endinputbox
-            @inputbox(['type' => 'text', 'name' => 'last_name', 'label' => 'Driver Last Name']) @endinputbox
-            @inputbox(['type' => 'email', 'name' => 'email', 'label' => 'Email address']) @endinputbox
-            @inputbox(['type' => 'password', 'name' => 'password', 'label' => 'Password']) @endinputbox
-            @inputbox(['type' => 'password', 'name' => 'password_confirmation', 'label' => 'Confirm Password']) @endinputbox
-            @inputbox(['type' => 'text', 'name' => 'phone', 'label' => 'Mobile Number']) @endinputbox
-            @inputbox(['type' => 'text', 'name' => 'plate_number', 'label' => 'Vehicle Plate Number']) @endinputbox
-            @inputbox(['type' => 'text', 'name' => 'license_number', 'label' => 'License Number']) @endinputbox
+            @inputbox(['defaultVal' => $driver->first_name ?? '', 'type' => 'text', 'name' => 'first_name', 'label' => 'Driver First Name']) @endinputbox
+            @inputbox(['defaultVal' => $driver->middle_name ?? '', 'type' => 'text', 'name' => 'middle_name', 'label' => 'Driver Middle Name']) @endinputbox
+            @inputbox(['defaultVal' => $driver->last_name ?? '', 'type' => 'text', 'name' => 'last_name', 'label' => 'Driver Last Name']) @endinputbox
+            @inputbox(['defaultVal' => $driver->email ?? '', 'type' => 'email', 'name' => 'email', 'label' => 'Email address']) @endinputbox
+            @inputbox(['defaultVal' => '', 'type' => 'password', 'name' => 'password', 'label' => 'Password']) @endinputbox
+            @inputbox(['defaultVal' => '', 'type' => 'password', 'name' => 'password_confirmation', 'label' => 'Confirm Password']) @endinputbox
+            @inputbox(['defaultVal' => $driver->phone ?? '', 'type' => 'text', 'name' => 'phone', 'label' => 'Mobile Number']) @endinputbox
+            @inputbox(['defaultVal' => $driver->plate_number ?? '', 'type' => 'text', 'name' => 'plate_number', 'label' => 'Vehicle Plate Number']) @endinputbox
+            @inputbox(['defaultVal' => $driver->license_number ?? '', 'type' => 'text', 'name' => 'license_number', 'label' => 'License Number']) @endinputbox
 
             <div class="form-group row">
                 <label for="birthday" class="col-md-4 col-form-label text-md-right">Birthdate</label>

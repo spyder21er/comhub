@@ -62,4 +62,44 @@ trait PersonTrait
     {
         return Carbon::parse($this->user->birthday)->age;
     }
+
+    /**
+     * Get first name of this user
+     */
+    public function getFirstNameAttribute()
+    {
+        return $this->user->first_name;
+    }
+
+    /**
+     * Get last name of this user
+     */
+    public function getLastNameAttribute()
+    {
+        return $this->user->last_name;
+    }
+
+    /**
+     * Get middle name of this user
+     */
+    public function getMiddleNameAttribute()
+    {
+        return $this->user->middle_name;
+    }
+
+    /**
+     * Get birhtday of this user
+     */
+    public function getBirthdayAttribute()
+    {
+        return $this->user->birthday;
+    }
+
+    /**
+     * Get hometown of this user
+     */
+    public function getTownIdAttribute()
+    {
+        return $this->user->town_id;
+    }
 }

@@ -46,28 +46,46 @@ class AdminController extends Controller
     }
 
     /**
+     * Show edit admin form
+     */
+    public function edit_admin(Admin $admin)
+    {
+        $towns = Town::all()->pluck('name', 'id');
+        $edit_mode = 1;
+        return view('superadmin.edit-admin', compact('admin', 'towns', 'edit_mode'));
+    }
+
+    /**
+     * Update admin information
+     */
+    public function update_admin(Admin $admin)
+    {
+        $updateUser = $this->validateUserInformation(true);
+        $updateAdmin = $this->validateAdminInformation();
+        $admin->user->update($updateUser);
+        $admin->update($updateAdmin);
+
+        return redirect()->route('admin.super');
+    }
+
+    /**
      * Validate input from user registration form
      */
-    protected function validateUserInformation()
+    protected function validateUserInformation($edit_mode = false)
     {
-        return $this->carbonizeBirthday(request()->validate([
+        $columns = [
             'first_name' => 'required',
             'middle_name' => '',
             'last_name' => 'required',
             'email' => 'required|email',
-            "phone" => 'required',
-            "password" => 'required|confirmed|min:8',
-            "birthday" => '',
-        ]));
-    }
+            'phone' => 'required',
+            'birthday' => '',
+        ];
 
-    /**
-     * Convert birthday key into Carbon instance
-     */
-    protected function carbonizeBirthday($user)
-    {
-        $user['birthday'] = (new Carbon($user['birthday']));
-        return $user;
+        if (!$edit_mode)
+            $columns['password'] = 'required|confirmed|min:8';
+
+        return request()->validate($columns);
     }
 
     protected function createUser($validated_user, $town)
@@ -102,7 +120,8 @@ class AdminController extends Controller
     {
         $admins = Admin::orderBy('active', 'desc')->get();
         $towns = Town::all()->pluck('name', 'id');
-        return view('superadmin.index', compact('towns', 'admins'));
+        $edit_mode = 0;
+        return view('superadmin.index', compact('towns', 'admins', 'edit_mode'));
     }
 
     /**
@@ -111,7 +130,7 @@ class AdminController extends Controller
     public function register_admin()
     {
         $user = $this->validateUserInformation();
-        $admin = $this->validateAdminRegistration();
+        $admin = $this->validateAdminInformation();
         $user['role_id'] = 2;
         $town = request()->validate([
             'town_id' => 'required|numeric'
@@ -128,7 +147,7 @@ class AdminController extends Controller
     /**
      * Validate inputs from Admin Registration Form
      */
-    protected function validateAdminRegistration()
+    protected function validateAdminInformation()
     {
         return request()->validate([
             'org_acronym'   => 'required',

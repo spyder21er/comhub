@@ -25,6 +25,14 @@ class Admin extends Model
     }
 
     /**
+     * User model associated with this administrator
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Determine if this admin has associated drivers
      */
     public function hasDrivers()

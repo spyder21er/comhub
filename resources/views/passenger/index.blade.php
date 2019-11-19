@@ -65,7 +65,7 @@
         </script>
     @endif
 <script type="text/javascript">
-    $('#defaultAlert').delay(3000).fadeOut(1000);
+    $('.flash-message').delay(4000).fadeOut(1000);
     $('table').tablesorter({
         theme : "bootstrap",
         widgets : ["filter"],

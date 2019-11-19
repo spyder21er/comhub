@@ -45,6 +45,7 @@
     <script src="{{ asset('js/bootstrap-tablesorter.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-tablesorter.widgets.js') }}"></script>
     <script>
+        $('.flash-message').delay(4000).fadeOut(1000);
         $('#birthday').datetimepicker({
             format: 'L'
         });
@@ -54,6 +55,11 @@
             widgetOptions : {
                 filter_cssFilter : 'form-control'
             }
+        });
+        $('.btn-edit').on('click', function() {
+            // send ajax request
+
+            $('#updateAdminModal').modal('show');
         });
         $('.btn-change').on('click', function() {
             let route = "{{ route('change.admin.status', ':id') }}";

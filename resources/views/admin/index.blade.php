@@ -69,6 +69,7 @@
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
+        $('.flash-message').delay(4000).fadeOut(1000);
         $('table').tablesorter({
             theme : "bootstrap",
         });

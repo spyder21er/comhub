@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('super.admin')->group(function() {
         Route::get('/superadmin_dashboard', 'AdminController@super')->name('admin.super');
         Route::post('/superadmin/register_admin', 'AdminController@register_admin')->name('register.admin');
+        Route::get('/superadmin/edit/{admin}', 'AdminController@edit_admin')->name('edit.admin');
+        Route::put('/superadmin/update/{admin}', 'AdminController@update_admin')->name('update.admin');
         Route::post('/superadmin/changeAdminStatus/{admin}', 'AdminController@changeAdminStatus')->name('change.admin.status');
     });
 });
