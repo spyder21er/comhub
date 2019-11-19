@@ -119,7 +119,7 @@ class AdminController extends Controller
         $admin->user()->associate($user);
         $admin->save();
 
-        return redirect()->route('admin.super');
+        return redirect()->back()->with(['success' => 'Succesfully registered new admin account!']);
     }
 
     /**

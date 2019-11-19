@@ -14,6 +14,8 @@
                         <h3>Super Admin Dashboard</h3>
                     </div>
                     <div class="card-body">
+                        @include('components.default-alert')
+                        @include('components.flash')
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-controls="trips-tab" aria-selected="true" role="tab" data-toggle="tab" href="#admin-tab">Registered Admins</a>

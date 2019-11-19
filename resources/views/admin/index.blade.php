@@ -21,11 +21,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            @error('default')
-                                <div id="defaultAlert" class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            @include('components.default-alert')
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-controls="trips-tab" aria-selected="true" role="tab" data-toggle="tab" href="#trips-tab">Trips Today</a>
