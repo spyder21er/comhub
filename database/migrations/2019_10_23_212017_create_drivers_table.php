@@ -20,6 +20,7 @@ class CreateDriversTable extends Migration
             $table->string('profile_photo')->nullable();
             $table->string('plate_number');
             $table->string('license_number');
+            $table->date('license_expiry');
             $table->string('status')->nullable();
             $table->date('penalty_lifted_at')->nullable();
             $table->timestamps();

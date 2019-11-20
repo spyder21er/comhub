@@ -17,6 +17,7 @@
                             <h4>Email: {{ $driver->email }}</h4>
                             <h4>Phone: {{ $driver->phone }}</h4>
                             <h4>Vehicle Plate Number: {{ $driver->plate_number }}</h4>
+                            <h4>License Expiry Date: {{ $driver->license_expiry }}</h4>
                         </div>
                     </div>
                     <div><h4>Trip History</h4></div>

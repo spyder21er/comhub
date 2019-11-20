@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\PersonTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class Driver extends Model
@@ -13,6 +14,22 @@ class Driver extends Model
     protected $guarded = [];
 
     protected $dates = ['penalty_lifted_at'];
+
+    /**
+     * License expiry date mutator
+     */
+    public function setLicenseExpiryAttribute($value)
+    {
+        $this->attributes['license_expiry'] = (new Carbon($value));
+    }
+
+    /**
+     * License expiry date accessor
+     */
+    public function getLicenseExpiryAttribute()
+    {
+        return (new Carbon($this->attributes['license_expiry']))->format('M d, Y');
+    }
 
     /**
      * Trips fetched by this driver

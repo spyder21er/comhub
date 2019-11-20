@@ -42,6 +42,7 @@ class AdminController extends Controller
         return request()->validate([
             'plate_number' => 'required',
             'license_number' => 'required',
+            'license_expiry' => 'required|date',
         ]);
     }
 
@@ -83,7 +84,7 @@ class AdminController extends Controller
             'first_name' => 'required',
             'middle_name' => '',
             'last_name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'phone' => 'required',
             'birthday' => '',
         ];

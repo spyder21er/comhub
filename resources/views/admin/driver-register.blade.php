@@ -16,6 +16,25 @@
             @inputbox(['defaultVal' => $driver->license_number ?? '', 'type' => 'text', 'name' => 'license_number', 'label' => 'License Number']) @endinputbox
 
             <div class="form-group row">
+                <label for="license_expiry" class="col-md-4 col-form-label text-md-right">License expiry date</label>
+                <div class="col-md-6 input-group date" id="license_expiry" data-target-input="nearest">
+                    <input
+                        name="license_expiry"
+                        type="text"
+                        value="{{ old('license_expiry') }}"
+                        placeholder="License expiry date"
+                        class="form-control datetimepicker-input @error('license_expiry')is-invalid @enderror"
+                        data-target="#license_expiry" />
+                    <div class="input-group-append" data-target="#license_expiry" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar-o"></i></div>
+                    </div>
+                    @error('license_expiry')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <label for="birthday" class="col-md-4 col-form-label text-md-right">Birthdate</label>
                 <div class="col-md-6 input-group date" id="birthday" data-target-input="nearest">
                     <input
@@ -26,7 +45,7 @@
                         class="form-control datetimepicker-input @error('birthday')is-invalid @enderror"
                         data-target="#birthday" />
                     <div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                        <div class="input-group-text"><i class="fa fa-calendar-o"></i></div>
                     </div>
                     @error('birthday')
                         <div class="invalid-feedback">{{ $message }}</div>

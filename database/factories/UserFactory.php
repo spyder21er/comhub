@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Faker\Generator as Faker;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email'             => Str::lower($firstName) . "." . Str::lower($lastName) . '@comhub.com',  // $faker->unique()->safeEmail,
         'password'          => Hash::make('asdfasdf'),
         'phone'             => $faker->regexify('\+639[0-9]{9}'),
-        'birthday'          => $faker->dateTimeBetween('-45 years', '-18 years'),
+        'birthday'          => $faker->dateTimeBetween('-45 years', '-18 years')->format('m/d/Y'),
         'email_verified_at' => now(),
         'remember_token'    => Str::random(10),
     ];

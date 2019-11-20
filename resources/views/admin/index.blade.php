@@ -34,13 +34,13 @@
                                 </li>
                             </ul>
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="trips-tab" role="tabpanel">
+                                <div class="tab-pane fade {{ ($errors->any() ? '' : 'show active') }}" id="trips-tab" role="tabpanel">
                                     @include('admin.trips-today')
                                 </div>
                                 <div class="tab-pane fade" id="drivers-tab" role="tabpanel">
                                     @include('admin.driver-table')
                                 </div>
-                                <div class="tab-pane fade" id="accounts-tab" role="tabpanel">
+                                <div class="tab-pane fade {{ ($errors->any() ? 'show active' : '') }}" id="accounts-tab" role="tabpanel">
                                     @include('admin.driver-register')
                                 </div>
                             </div>
@@ -74,6 +74,9 @@
             theme : "bootstrap",
         });
         $('#birthday').datetimepicker({
+            format: 'L'
+        });
+        $('#license_expiry').datetimepicker({
             format: 'L'
         });
         $('.assign-btn').on('click', function() {

@@ -21,7 +21,7 @@
             class="form-control datetimepicker-input @error('birthday')is-invalid @enderror"
             data-target="#birthday" />
         <div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
-            <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+            <div class="input-group-text"><i class="fa fa-calendar-o"></i></div>
         </div>
         @error('birthday')
             <div class="invalid-feedback">{{ $message }}</div>
