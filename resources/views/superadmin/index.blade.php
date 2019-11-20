@@ -56,11 +56,6 @@
                 filter_cssFilter : 'form-control'
             }
         });
-        $('.btn-edit').on('click', function() {
-            // send ajax request
-
-            $('#updateAdminModal').modal('show');
-        });
         $('.btn-change').on('click', function() {
             let route = "{{ route('change.admin.status', ':id') }}";
             route = route.replace(':id', $(this).attr('admin_id'));

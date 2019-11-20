@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Trip;
 use App\Models\Driver;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class TripController extends Controller
 {
+    /**
+     *  Include the passenger or driver associated with this trip
+     */
     public function includeUser()
     {
         if (Auth::user()->canAssignDriver()) {
@@ -28,6 +32,9 @@ class TripController extends Controller
         return redirect()->back()->with($assigment['status'], $assigment['message']);
     }
 
+    /**
+     * Assign driver for this trip
+     */
     protected function assignDriver()
     {
         $trip = $this->validateTrip();
@@ -70,6 +77,9 @@ class TripController extends Controller
         return compact('status', 'message');
     }
 
+    /**
+     *  Include the authenticated passenger to this trip
+     */
     protected function includePassenger()
     {
         $trip = $this->validateTrip();
@@ -90,6 +100,9 @@ class TripController extends Controller
         return compact('status', 'message');
     }
 
+    /**
+     *  Remove the passenger or driver associated with this trip
+     */
     public function excludeUser()
     {
         $trip = $this->validateTrip();
@@ -116,6 +129,9 @@ class TripController extends Controller
         return redirect()->back()->with($code, $msg);
     }
 
+    /**
+     * Validate trip id from input
+     */
     protected function validateTrip()
     {
         return Trip::findOrFail(request()->validate([
@@ -123,6 +139,9 @@ class TripController extends Controller
         ])['trip_id']);
     }
 
+    /**
+     * Validate driver id from input
+     */
     protected function validateDriver()
     {
         return Driver::findOrFail(request()->validate([
@@ -130,8 +149,54 @@ class TripController extends Controller
         ])['driver_id']);
     }
 
+    /**
+     * Show the information of this trip
+     */
     public function show(Trip $trip)
     {
+        $trip = Trip::with('passengers')->find($trip->id);
         return view('trips.show', compact('trip'));
+    }
+
+    /**
+     * Add or edit a comment for this trip
+     */
+    public function comment(Trip $trip)
+    {
+        if ($trip->passengers->contains(Auth::user())) {
+            // we dont need to validate the comment so;
+            $trip->passengers()->updateExistingPivot(Auth::user()->id, ['passenger_comment' => request()->passenger_comment]);
+            $code = "success";
+            $msg = "Successfully added/edited comment!";
+        } else {
+            $code = "danger";
+            $msg = "Cannot add a comment to a trip you don't belong to.";
+        }
+        return redirect()->back()->with($code, $msg);
+    }
+
+    /**
+     * Add or edit a comment for this trip
+     */
+    public function comply(Trip $trip)
+    {
+        if ($trip->passengers->contains(Auth::user())) {
+            // we dont need to validate the comment so;
+            if ($trip->passenger_compliance_code == request()->compliance_code)
+            {
+                $trip->passengers()->updateExistingPivot(Auth::user()->id, ['passenger_complied' => 1]);
+                $code = "success";
+                $msg = "Successfully complied!";
+            }
+            else
+            {
+                $code = "danger";
+                $msg = "Incorrect compliance code!";
+            }
+        } else {
+            $code = "danger";
+            $msg = "Cannot comply to a trip you don't belong to.";
+        }
+        return redirect()->back()->with($code, $msg);
     }
 }

@@ -7,6 +7,7 @@
             <div class="card">
                 <div class="card-header"><h3>Trip Information</h3></div>
                 <div class="card-body">
+                    @include('components.flash')
                     <div class="row mb-5">
                         <div class="col-3">
                             <img src="{{ asset('images/user.png') }}" alt="" class="img-thumbnail" height="200" width="200">
@@ -27,8 +28,8 @@
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>User ID</th>
-                                    <th>Status</th>
+                                    <th>Passenger</th>
+                                    <th>Compliance</th>
                                     <th>Passenger comment</th>
                                     <th>Rating</th>
                                 </tr>
@@ -36,10 +37,43 @@
                             <tbody>
                                 @foreach ($trip->passengers as $passenger)
                                     <tr>
-                                        <td>{{ $passenger->id }} </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>
+                                            {{ $passenger->first_name }}
+                                        </td>
+                                        <td>
+                                            @if ($passenger->complied($trip->id))
+                                                Complied
+                                            @else
+                                                Not confirmed
+                                                @if ($passenger->id == Auth::user()->id)
+                                                <button class="btn btn-sm btn-primary btn-comply">
+                                                    <i class="fa fa-pencil"></i>
+                                                    comply
+                                                </button>
+                                                @endif
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <span>
+                                                {{ $passenger->pivot->passenger_comment }}
+                                            </span>
+
+                                            @if ($passenger->id == Auth::user()->id)
+                                            <button class="btn btn-sm btn-primary btn-edit">
+                                                <i class="fa fa-pencil"></i>
+                                                edit
+                                            </button>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $passenger->pivot->passenger_rating }}
+                                            @if ($passenger->id == Auth::user()->id)
+                                            <button class="btn btn-sm btn-primary btn-rate">
+                                                <i class="fa fa-pencil"></i>
+                                                rate
+                                            </button>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -50,4 +84,22 @@
         </div>
     </div>
 </div>
+@include('trips.edit-modal')
+@include('trips.comply-modal')
+@endsection
+
+@section('page-scripts')
+    <script>
+        $('.flash-message').delay(4000).fadeOut(1000);
+        $('.btn-comply').on('click', function () {
+            $('#complyModal').modal('show');
+        });
+        $('.btn-edit').on('click', function () {
+            $('#passenger_comment').val($(this).prev().text().trim());
+            $('#editCommentModal').modal('show');
+        });
+        $('.btn-rate').on('click', function () {
+
+        });
+    </script>
 @endsection

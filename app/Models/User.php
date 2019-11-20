@@ -263,8 +263,21 @@ class User extends Authenticatable
         return $this->isAdmin() || $this->isDriver();
     }
 
+    /**
+     * Get the comment of this user for the given trip id
+     */
     public function comment($trip_id)
     {
-        return $this->trips()->where('trip_id', $trip_id)->first()->passenger_comment;
+        if ($this->trips->contains(Trip::find($trip_id)))
+            return $this->trips()->where('trip_id', $trip_id)->first()->pivot->passenger_comment;
+    }
+
+    /**
+     * Determin if this user complied for the given trip id
+     */
+    public function complied($trip_id)
+    {
+        if ($this->trips->contains(Trip::find($trip_id)))
+            return $this->trips()->where('trip_id', $trip_id)->first()->pivot->passenger_complied;
     }
 }
