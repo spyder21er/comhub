@@ -58,16 +58,16 @@ class TripController extends Controller
         }
         $trip->driver()->associate($driver);
         $trip->save();
-        $status = 'success';
-        $message = "You are picking up a trip with trip code: " . $trip->link;
-        return compact('status', 'message');
 
         if (Auth::user()->isAdmin())
         {
             return redirect()
-                ->route('admin.index')
-                ->with('info', $trip->code . " was assigned to " . $driver->name);
+                ->back()
+                ->with('info', $trip->link . " was assigned to " . $driver->name);
         }
+        $status = 'success';
+        $message = "You are picking up a trip with trip code: " . $trip->link;
+        return compact('status', 'message');
     }
 
     protected function includePassenger()
