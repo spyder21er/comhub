@@ -21,7 +21,7 @@ class CreateDriversTable extends Migration
             $table->string('plate_number');
             $table->string('license_number');
             $table->date('license_expiry');
-            $table->string('status')->nullable();
+            $table->string('status')->default('active');
             $table->date('penalty_lifted_at')->nullable();
             $table->timestamps();
         });

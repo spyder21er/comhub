@@ -5,21 +5,29 @@
         <input type="hidden" name="driver_id" value="">
         <div class="row">
             <div class="col-12">
-                @if (Auth::user()->admin->hasDrivers())
+                @if (Auth::user()->admin->hasDriversThatCanFetch())
                     <div class="form-group">
                         @selectMenu(['name' => "driver_id", 'id' => "selectDriver"])
                             @slot('options')
                                 <option {{ (old("driver_id") == 0 ? "selected":"") }} value="">Driver Name</option>
-                                @foreach (Auth::user()->admin->drivers as $driver)
-                                    <option {{ (old("driver_id") == $driver->id ? "selected":"") }} value="{{ $driver->id }}">{{ $driver->name }}</option>
+                                @foreach ($drivers as $driver)
+                                    @if ($driver->canFetch())
+                                        <option {{ (old("driver_id") == $driver->id ? "selected":"") }} value="{{ $driver->id }}">{{ $driver->name }}</option>
+                                    @endif
                                 @endforeach
                             @endslot
                         @endselectMenu
                     </div>
                 @else
-                    <div class="alert alert-info" role="alert">
-                        <p>You need to Add Driver Account before you can Assign</p>
-                    </div>
+                    @if (Auth::user()->admin->hasDrivers())
+                        <div class="alert alert-info" role="alert">
+                            <p>You have no available drivers that can fetch.</p>
+                        </div>
+                    @else
+                        <div class="alert alert-info" role="alert">
+                            <p>You need to Add Driver Account before you can Assign</p>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>

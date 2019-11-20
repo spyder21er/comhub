@@ -97,9 +97,17 @@ class Driver extends Model
      */
     public function scopeWhereTown($query, $town_id)
     {
-        return $query->whereHas('user', function($q) use ($town_id) {
+        return $query->whereHas('user', function ($q) use ($town_id) {
             $q->where('town_id', $town_id);
         });
+    }
+
+    /**
+     * Determine whether this driver can fetch trips
+     */
+    public function canFetch()
+    {
+        return Str::lower($this->status) == 'active';
     }
 
     /**

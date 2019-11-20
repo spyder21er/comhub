@@ -41,6 +41,18 @@ class Admin extends Model
     }
 
     /**
+     * Determine if this admin has some drivers that can fetch
+     */
+    public function hasDriversThatCanFetch()
+    {
+        if ($this->hasDrivers())
+            return $this->drivers->filter(function($d) {
+                return $d->canFetch();
+            })->isNotEmpty();
+        return false;
+    }
+
+    /**
      * Get the account status of this admin
      */
     public function getAccountStatusAttribute()
