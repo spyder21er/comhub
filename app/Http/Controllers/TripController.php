@@ -34,7 +34,7 @@ class TripController extends Controller
         $driver = (request()->has('driver_id')) ? $this->validateDriver() : Auth::user()->driver;
         if ($driver->cannotPickUpTrips()) {
             $status = 'fail';
-            $message = 'You cannot pick up trips because you are ' . Str::lower($driver->status) . " until " . $driver->penalty_lifted_at .".";
+            $message = 'You cannot pick up trips because you are ' . Str::lower($driver->status) . ($driver->status == "Banned" ? "." : " until " . $driver->penalty_lifted_at . ".");
             return compact('status', 'message');
         }
         if ($driver->hasTripToday())
