@@ -25,7 +25,7 @@
                                 </button>
                             @endif
                         </td>
-                        <td>{{ $trip->code }}</td>
+                        <td>{!! $trip->link !!}</td>
                         <td>{{ $trip->origin->name }}</td>
                         <td>{{ $trip->destination->name }}</td>
                         <td>{{ $trip->departure_time }}</td>

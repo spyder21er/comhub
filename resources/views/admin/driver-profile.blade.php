@@ -38,7 +38,7 @@
                                     <tr>
                                         <td>{{ $trip->created_at }} </td>
                                         <td>{{ $trip->departure_time }}</td>
-                                        <td>{{ $trip->code }}</td>
+                                        <td>{!! $trip->link !!}</td>
                                         <td>{{ $trip->origin->name }}</td>
                                         <td>{{ $trip->destination->name }}</td>
                                         <td></td>

@@ -182,6 +182,14 @@ class Trip extends Model
     }
 
     /**
+     * Provide a link for this trip
+     */
+    public function getLinkAttribute()
+    {
+        return "<a href=" . route('trip.show', $this->id) . ">" . $this->code . "</a>";
+    }
+
+    /**
      * Determine if this trip has an associated driver
      */
     public function hasDriver()

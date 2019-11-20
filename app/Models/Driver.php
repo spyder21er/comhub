@@ -146,4 +146,35 @@ class Driver extends Model
     {
         return $this->status == "Suspended";
     }
+
+    /**
+     * Lift the suspension of this driver if already expired.
+     */
+    public function liftSuspensionIfExpired()
+    {
+        if ($this->suspensionExpired()) {
+            if (Str::lower($this->status) != 'active')
+            {
+                $this->status = 'active';
+                $this->save();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the suspension of this driver is already expired.
+     */
+    public function suspensionExpired()
+    {
+        $now = Carbon::now();
+        if ($this->penalty_lifted_at) {
+            if ($this->penalty_lifted_at->lessThanOrEqualTo($now)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

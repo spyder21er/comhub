@@ -6,6 +6,7 @@ use App\Models\Trip;
 use App\Models\Driver;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TripController extends Controller
 {
@@ -24,7 +25,7 @@ class TripController extends Controller
             return redirect()->back()->with('danger', $assigment['message']);
         }
 
-        return redirect()->route('passenger.index');
+        return redirect()->back()->with($assigment['status'], $assigment['message']);
     }
 
     protected function assignDriver()
@@ -33,7 +34,7 @@ class TripController extends Controller
         $driver = (request()->has('driver_id')) ? $this->validateDriver() : Auth::user()->driver;
         if ($driver->cannotPickUpTrips()) {
             $status = 'fail';
-            $message = 'Cannot pick up trips. You are banned or suspended.';
+            $message = 'You cannot pick up trips because you are ' . Str::lower($driver->status) . " until " . $driver->penalty_lifted_at .".";
             return compact('status', 'message');
         }
         if ($driver->hasTripToday())
@@ -57,21 +58,36 @@ class TripController extends Controller
         }
         $trip->driver()->associate($driver);
         $trip->save();
+        $status = 'success';
+        $message = "You are picking up a trip with trip code: " . $trip->link;
+        return compact('status', 'message');
+
         if (Auth::user()->isAdmin())
         {
-            return redirect()->route('admin.index');
+            return redirect()
+                ->route('admin.index')
+                ->with('info', $trip->code . " was assigned to " . $driver->name);
         }
     }
 
     protected function includePassenger()
     {
-        if ($this->validateTrip()->isFull())
+        $trip = $this->validateTrip();
+        if ($trip->isFull())
         {
             $status = 'fail';
             $message = 'Cannot join. Trip is already full.';
-            return compact('status', 'message');
+        } else {
+            $trip->passengers()->attach(Auth::user());
+            $status = 'success';
+            $message = 'You joined a trip going from '
+                . $trip->origin->name
+                . ' to '
+                . $trip->destination->name
+                . " with trip code: "
+                . $trip->link;
         }
-        $this->validateTrip()->passengers()->attach(Auth::user());
+        return compact('status', 'message');
     }
 
     public function excludeUser()
@@ -83,14 +99,21 @@ class TripController extends Controller
             {
                 $trip->driver()->dissociate();
                 $trip->save();
+                $code = 'success';
+                $msg = 'You canceled picking up trip with code ' . $trip->link . ".";
             }
             elseif (Auth::user()->isPassenger())
             {
                 $trip->passengers()->detach(Auth::user());
+                $code = 'success';
+                $msg = 'You left trip with code ' . $trip->link . ".";
             }
+        } else {
+            $code = 'danger';
+            $msg = 'Cannot cancel/leave trips from history.';
         }
 
-        return redirect()->route('passenger.index');
+        return redirect()->back()->with($code, $msg);
     }
 
     protected function validateTrip()

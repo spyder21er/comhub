@@ -23,7 +23,21 @@ class PassengerController extends Controller
     {
 
         $my_trips = Auth::user()->trips()->orderBy('created_at', 'desc')->get();
-        $trips = Trip::today()->get();
+        $trips = Trip::today()->with('passengers')->get();
+
+        $my_trip_today = null;
+        foreach ($trips as $key => $trip)
+        {
+            // if the user is a passenger of this trip
+            // let's move this trip to the top of the list
+            if ($trip->passengers->contains(Auth::user()))
+            {
+                $my_trip_today = $trips->pull($key);
+                break;
+            }
+        }
+        if ($my_trip_today) $trips->prepend($my_trip_today);
+
         $towns = Town::all()->pluck('name', 'id');
         return view('passenger.index', compact('towns', 'trips', 'my_trips'));
     }

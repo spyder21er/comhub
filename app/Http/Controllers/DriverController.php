@@ -12,6 +12,7 @@ class DriverController extends Controller
     {
         $my_trips = Auth::user()->driver->trips()->latest()->get();
         $trips = Trip::today()->forMe(Auth::user())->get();
+        Auth::user()->driver->liftSuspensionIfExpired();
         return view('passenger.index', compact('trips', 'my_trips'));
     }
 
