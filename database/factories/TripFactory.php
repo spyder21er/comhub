@@ -34,10 +34,21 @@ $factory->define(Trip::class, function (Faker $faker) {
         'guest_count'               => $faker->numberBetween(1,10),
         'created_at'                => $faker->dateTimeBetween('-12 days', '2 days'),
     ];
-})->afterCreating(Trip::class, function ($trip) {
+})->afterCreating(Trip::class, function ($trip, $faker) {
     $today = Carbon::now();
     if ($trip->created_at->lessThan($today))
     {
+        // set driver
+        $hometown = ($trip->origin_id == 11) ? $trip->destination_id : $trip->origin_id;
+        $trip->driver()->associate(Driver::whereTown($hometown)->get()->filter(function ($d) {
+            return !$d->hasTripToday();
+        })->random());
+
+        // set driver complied
+        $trip->driver_complied = !((random_int(1,100) % 7) == 0);
+        $trip->save();
+
+        // set passengers
         $trip
             ->passengers()
             ->attach(Passenger::all()
@@ -45,11 +56,19 @@ $factory->define(Trip::class, function (Faker $faker) {
                     return !$passenger->hasTripToday();
                 })
                 ->random(rand(1, (15 - $trip->guest_count))));
-        $hometown = ($trip->origin_id == 11) ? $trip->destination_id : $trip->origin_id;
-        $trip->driver()->associate(Driver::whereTown($hometown)->get()->filter(function ($d) {
-            return !$d->hasTripToday();
-        })->random());
-        $trip->driver_complied = true;
-        $trip->save();
+
+        if ($trip->driver_complied)
+        {
+            // passenger rating, comment, and compliance
+            foreach ($trip->passengers as $passenger)
+            {
+                if (random_int(1, 99) % 3 == 0)
+                {
+                    $trip->passengers()->updateExistingPivot($passenger->id, ['passenger_complied' => 1]);
+                    $trip->passengers()->updateExistingPivot($passenger->id, ['passenger_rating' => (random_int(1, 100) % 3) + 3 ]);
+                    $trip->passengers()->updateExistingPivot($passenger->id, ['passenger_comment' => $faker->sentence(18)]);
+                }
+            }
+        }
     }
 });

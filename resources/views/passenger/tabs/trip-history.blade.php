@@ -20,7 +20,19 @@
                             <td>{!! $trip->link !!}</td>
                             <td>{{ $trip->origin->name }}</td>
                             <td>{{ $trip->destination->name }}</td>
-                            <td></td>
+                            <td>
+                                @if (Auth::user()->complied($trip))
+                                    Complied
+                                @else
+                                    Not confirmed
+                                    @if (Auth::user()->joined($trip))
+                                        <button type="button" class="btn btn-sm btn-primary btn-comply" id="{{ $trip->id }}">
+                                            <i class="fa fa-pencil"></i>
+                                            comply
+                                        </button>
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
                     @endif
                 @endforeach

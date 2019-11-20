@@ -163,12 +163,23 @@ class TripController extends Controller
      */
     public function comment(Trip $trip)
     {
-        if ($trip->passengers->contains(Auth::user())) {
-            // we dont need to validate the comment so;
-            $trip->passengers()->updateExistingPivot(Auth::user()->id, ['passenger_comment' => request()->passenger_comment]);
-            $code = "success";
-            $msg = "Successfully added/edited comment!";
-        } else {
+        if (Auth::user()->joined($trip))
+        {
+            if (Auth::user()->complied($trip))
+            {
+                // we dont need to validate the comment so;
+                $trip->passengers()->updateExistingPivot(Auth::user()->id, ['passenger_comment' => request()->passenger_comment]);
+                $code = "success";
+                $msg = "Successfully added/edited comment!";
+            }
+            else
+            {
+                $code = "danger";
+                $msg = "You must comply first before you can comment!";
+            }
+        }
+        else
+        {
             $code = "danger";
             $msg = "Cannot add a comment to a trip you don't belong to.";
         }
@@ -176,28 +187,56 @@ class TripController extends Controller
     }
 
     /**
-     * Add or edit a comment for this trip
+     * Confirm compliance with this trip
      */
     public function comply(Trip $trip)
     {
-        if ($trip->passengers->contains(Auth::user())) {
-            // we dont need to validate the comment so;
-            if ($trip->passenger_compliance_code == request()->compliance_code)
-            {
-                $trip->passengers()->updateExistingPivot(Auth::user()->id, ['passenger_complied' => 1]);
-                $code = "success";
-                $msg = "Successfully complied!";
-            }
+        if (Auth::user()->joined($trip)) {
+            if (Auth::user()->isDriver())
+                $status = $this->complyDriver($trip);
             else
-            {
-                $code = "danger";
-                $msg = "Incorrect compliance code!";
-            }
+                $status = $this->complyPassenger($trip);
+        } else {
+            $status['code'] = "danger";
+            $status['msg'] = "Cannot comply to a trip you don't belong to.";
+        }
+        return redirect()->back()->with($status['code'], $status['msg']);
+    }
+
+    /**
+     * Confirm compliance with this trip for drivers
+     */
+    public function complyDriver(Trip $trip)
+    {
+        if ($trip->driver_compliance_code == request()->compliance_code) {
+            $trip->driver_complied = 1;
+            $trip->save();
+            $code = "success";
+            $msg = "Successfully complied!";
         } else {
             $code = "danger";
-            $msg = "Cannot comply to a trip you don't belong to.";
+            $msg = "Incorrect compliance code!";
         }
-        return redirect()->back()->with($code, $msg);
+        return compact('code', 'msg');
+    }
+
+    /**
+     * Confirm compliance with this trip for drivers
+     */
+    public function complyPassenger(Trip $trip)
+    {
+        if ($trip->passenger_compliance_code == request()->compliance_code)
+        {
+            $trip->passengers()->updateExistingPivot(Auth::user()->id, ['passenger_complied' => 1]);
+            $code = "success";
+            $msg = "Successfully complied!";
+        }
+        else
+        {
+            $code = "danger";
+            $msg = "Incorrect compliance code!";
+        }
+        return compact('code', 'msg');
     }
 
     /**

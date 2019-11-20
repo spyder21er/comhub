@@ -21,6 +21,11 @@
                             <h4>Destination: {{ $trip->destination->name }}</h4>
                             <h4>Registered Passengers: {{ $trip->passengers()->count() }}</h4>
                             <h4>Guest Passengers: {{ $trip->guest_count }}</h4>
+                            @if (Auth::user()->isDriver() || Auth::user()->isPassenger())
+                                <h4>
+                                    {{ Auth::user()->isDriver() ? 'Passenger' : 'Driver' }} Compliance code: {{ $trip->compliance_code }}
+                                </h4>
+                            @endif
                         </div>
                     </div>
                     <div><h4>Passengers</h4></div>
@@ -46,7 +51,7 @@
                                             @else
                                                 Not confirmed
                                                 @if ($passenger->id == Auth::user()->id)
-                                                <button type="button" class="btn btn-sm btn-primary btn-comply" >
+                                                <button type="button" class="btn btn-sm btn-primary btn-comply" id="{{ $trip->id }}">
                                                     <i class="fa fa-pencil"></i>
                                                     comply
                                                 </button>
@@ -96,6 +101,9 @@
         <script>
             $('.flash-message').delay(4000).fadeOut(1000);
             $('.btn-comply').on('click', function () {
+                let uri = $('#complyForm').attr('action');
+                let trip_id = $(this).attr('id');
+                $('#complyForm').attr('action', uri.replace('trip::id', trip_id));
                 $('#complyModal').modal('show');
             });
             $('.btn-edit').on('click', function () {

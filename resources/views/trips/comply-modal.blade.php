@@ -1,5 +1,5 @@
 @modal(['id' => "complyModal", 'label' => "complyModalLabel", 'title' => "Enter compliance code"])
-    <form method="POST" action="{{ route('trip.comply', $trip->id) }}" id="complyForm">
+    <form method="POST" action="{{ route('trip.comply', 'trip::id') }}" id="complyForm">
         @csrf
         @inputbox(['defaultVal' => '', 'type' => 'text', 'name' => 'compliance_code', 'label' => 'Compliance Code']) @endinputbox
     </form>

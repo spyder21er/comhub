@@ -42,6 +42,7 @@
 @endif
 @include('passenger.exclude-form')
 @include('passenger.include-form')
+@include('trips.comply-modal')
 @endsection
 
 @section('page-scripts')
@@ -51,16 +52,14 @@
         <script src="{{ asset('js/moment.js') }}"></script>
         <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
         <script type="text/javascript">
-            $(function() {
-                @if ($errors->any())
-                    $('#newTripModal').modal('show');
-                @endif
-                $('#tripdate').datetimepicker({
-                    format: 'L'
-                });
-                $('#tripTime').datetimepicker({
-                    format: 'LT'
-                });
+            @if ($errors->any())
+                $('#newTripModal').modal('show');
+            @endif
+            $('#tripdate').datetimepicker({
+                format: 'L'
+            });
+            $('#tripTime').datetimepicker({
+                format: 'LT'
             });
         </script>
     @endif
@@ -81,6 +80,12 @@
     $('.join-btn').on('click', function() {
         $('input[name="trip_id"]').val($(this).attr("tripId"));
         $('#include_form').submit();
+    });
+    $('.btn-comply').on('click', function () {
+        let uri = $('#complyForm').attr('action');
+        let trip_id = $(this).attr('id');
+        $('#complyForm').attr('action', uri.replace('trip::id', trip_id));
+        $('#complyModal').modal('show');
     });
 </script>
 @endsection

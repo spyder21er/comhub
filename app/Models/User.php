@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -284,11 +285,18 @@ class User extends Authenticatable
     {
         if ($this->joined($trip))
         {
-            if ($trip instanceof Trip)
-                $trip = $trip->id;
+            if (!($trip instanceof Trip))
+                $trip = Trip::findOrFail($trip);
 
-            return $this->trips()->where('trip_id', $trip)->first()->pivot->passenger_complied;
+            if ($this->isDriver())
+                return $trip->driver_complied;
+            else
+            {
+                return $this->trips()->where('trip_id', $trip->id)->first()->pivot->passenger_complied;
+            }
         }
+
+        return false;
     }
 
     /**
@@ -296,8 +304,13 @@ class User extends Authenticatable
      */
     public function joined($trip)
     {
-        if (!($trip instanceof Trip))
-            $trip = Trip::findOrFail($trip);
-        return $this->trips->contains($trip);
+        if ($this->isDriver() || $this->isPassenger())
+        {
+            if (!($trip instanceof Trip))
+                $trip = Trip::findOrFail($trip);
+            return $this->trips->contains($trip);
+        }
+
+        return false;
     }
 }

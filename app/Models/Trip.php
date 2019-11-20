@@ -204,4 +204,16 @@ class Trip extends Model
     {
         return $this->created_at->toDateString() != Carbon::today()->toDateString();
     }
+
+    /**
+     * Get compliance code depending on role of auth user
+     */
+    public function getComplianceCodeAttribute()
+    {
+        if (Auth::user()->isDriver())
+            return $this->passenger_compliance_code;
+
+        if (Auth::user()->isPassenger())
+            return $this->driver_compliance_code;
+    }
 }

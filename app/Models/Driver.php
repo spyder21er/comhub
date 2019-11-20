@@ -60,8 +60,9 @@ class Driver extends Model
      */
     public function confirmedTrips()
     {
-        // TODO: This should be fixed
-        return $this->trips->count();
+        return $this->trips->filter(function ($trip) {
+            return $trip->driver_complied;
+        })->count();
     }
 
     /**
@@ -69,8 +70,7 @@ class Driver extends Model
      */
     public function unconfirmedTrips()
     {
-        // TODO: This should be fixed
-        return $this->trips->count();
+        return $this->hailedTrips() - $this->confirmedTrips();
     }
 
     /**
