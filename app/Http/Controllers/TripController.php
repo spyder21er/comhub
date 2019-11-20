@@ -199,4 +199,37 @@ class TripController extends Controller
         }
         return redirect()->back()->with($code, $msg);
     }
+
+    /**
+     * Rate this trip
+     */
+    public function rate(Trip $trip)
+    {
+        if (Auth::user()->joined($trip)) {
+            if (Auth::user()->complied($trip))
+            {
+                $value = (int) request()->validate(['passenger_rating' => 'required|min:1|max:1'])['passenger_rating'];
+                if ($value > 0 && $value < 6)
+                {
+                    $trip->passengers()->updateExistingPivot(Auth::user()->id, ['passenger_rating' => $value]);
+                    $code = "success";
+                    $msg = "Successfully rated this trip!";
+                }
+                else
+                {
+                    $code = "danger";
+                    $msg = "Invalid rating value!";
+                }
+            }
+            else
+            {
+                $code = "danger";
+                $msg = "You must comply first before you can rate!";
+            }
+        } else {
+            $code = "danger";
+            $msg = "Cannot rate trip you don't belong to.";
+        }
+        return redirect()->back()->with($code, $msg);
+    }
 }

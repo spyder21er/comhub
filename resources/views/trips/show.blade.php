@@ -46,7 +46,7 @@
                                             @else
                                                 Not confirmed
                                                 @if ($passenger->id == Auth::user()->id)
-                                                <button class="btn btn-sm btn-primary btn-comply">
+                                                <button type="button" class="btn btn-sm btn-primary btn-comply" >
                                                     <i class="fa fa-pencil"></i>
                                                     comply
                                                 </button>
@@ -59,7 +59,7 @@
                                             </span>
 
                                             @if ($passenger->id == Auth::user()->id)
-                                            <button class="btn btn-sm btn-primary btn-edit">
+                                            <button type="button" class="btn btn-sm btn-primary btn-edit">
                                                 <i class="fa fa-pencil"></i>
                                                 edit
                                             </button>
@@ -67,9 +67,9 @@
                                         </td>
                                         <td>
                                             {{ $passenger->pivot->passenger_rating }}
-                                            @if ($passenger->id == Auth::user()->id)
-                                            <button class="btn btn-sm btn-primary btn-rate">
-                                                <i class="fa fa-pencil"></i>
+                                            @if ($passenger->id == Auth::user()->id && !$passenger->pivot->passenger_rating)
+                                            <button type="button" class="btn btn-sm btn-primary btn-rate" data-toggle="modal" data-target="#rateModal">
+                                                <i class="fa fa-star"></i>
                                                 rate
                                             </button>
                                             @endif
@@ -84,22 +84,24 @@
         </div>
     </div>
 </div>
-@include('trips.edit-modal')
-@include('trips.comply-modal')
+@if (Auth::user()->joined($trip->id))
+    @include('trips.edit-modal')
+    @include('trips.comply-modal')
+    @include('trips.rate-modal')
+@endif
 @endsection
 
-@section('page-scripts')
-    <script>
-        $('.flash-message').delay(4000).fadeOut(1000);
-        $('.btn-comply').on('click', function () {
-            $('#complyModal').modal('show');
-        });
-        $('.btn-edit').on('click', function () {
-            $('#passenger_comment').val($(this).prev().text().trim());
-            $('#editCommentModal').modal('show');
-        });
-        $('.btn-rate').on('click', function () {
-
-        });
-    </script>
-@endsection
+@if (Auth::user()->joined($trip->id))
+    @section('page-scripts')
+        <script>
+            $('.flash-message').delay(4000).fadeOut(1000);
+            $('.btn-comply').on('click', function () {
+                $('#complyModal').modal('show');
+            });
+            $('.btn-edit').on('click', function () {
+                $('#passenger_comment').val($(this).prev().text().trim());
+                $('#editCommentModal').modal('show');
+            });
+        </script>
+    @endsection
+@endif

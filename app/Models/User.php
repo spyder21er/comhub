@@ -266,18 +266,38 @@ class User extends Authenticatable
     /**
      * Get the comment of this user for the given trip id
      */
-    public function comment($trip_id)
+    public function comment($trip)
     {
-        if ($this->trips->contains(Trip::find($trip_id)))
-            return $this->trips()->where('trip_id', $trip_id)->first()->pivot->passenger_comment;
+        if ($this->joined($trip))
+        {
+            if ($trip instanceof Trip)
+                $trip = $trip->id;
+
+            return $this->trips()->where('trip_id', $trip)->first()->pivot->passenger_comment;
+        }
     }
 
     /**
-     * Determin if this user complied for the given trip id
+     * Determine if this user complied for the given trip id
      */
-    public function complied($trip_id)
+    public function complied($trip)
     {
-        if ($this->trips->contains(Trip::find($trip_id)))
-            return $this->trips()->where('trip_id', $trip_id)->first()->pivot->passenger_complied;
+        if ($this->joined($trip))
+        {
+            if ($trip instanceof Trip)
+                $trip = $trip->id;
+
+            return $this->trips()->where('trip_id', $trip)->first()->pivot->passenger_complied;
+        }
+    }
+
+    /**
+     * Determine if this user joined in given trip id
+     */
+    public function joined($trip)
+    {
+        if (!($trip instanceof Trip))
+            $trip = Trip::findOrFail($trip);
+        return $this->trips->contains($trip);
     }
 }
