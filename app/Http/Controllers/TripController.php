@@ -50,7 +50,7 @@ class TripController extends Controller
             {
                 return redirect()->back()->with(
                     'danger', 'Cannot assign driver.
-                    The driver already has trip today or the driver already picked up the same trip.',
+                    The driver already has trip today or the driver already picked up the same trip.'
                 );
             }
             $status = 'fail';
