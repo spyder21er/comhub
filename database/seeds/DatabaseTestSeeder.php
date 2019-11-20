@@ -1,15 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
-use App\Models\Admin;
-use App\Models\Driver;
-use App\Models\Passenger;
 
-class DatabaseSeeder extends Seeder
+class DatabaseTestSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
@@ -31,5 +27,11 @@ class DatabaseSeeder extends Seeder
         $user->town_id = 11;
         $user->role_id = 1;
         $user->save();
+        
+        // For development only:
+        $this->call([
+            UsersTableSeeder::class,
+            TripsTableSeeder::class,
+        ]);
     }
 }

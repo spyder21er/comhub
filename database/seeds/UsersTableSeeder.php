@@ -16,15 +16,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // superadmin
-        $user = factory(User::class)->create();
-        $user->first_name = 'Allen';
-        $user->middle_name = 'Besmonte';
-        $user->last_name = 'Mabana';
-        $user->email = 'spyder21er@gmail.com';
-        $user->role_id = 1;
-        $user->save();
-
         $towns = Town::all();
 
         $roles = [2 => 'admin', 3 => 'driver', 4 => 'passenger'];

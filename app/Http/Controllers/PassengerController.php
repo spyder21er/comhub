@@ -64,7 +64,7 @@ class PassengerController extends Controller
                     . Town::find((int) $validated['origin_id'])->name
                     . " to "
                     . Town::find((int) $validated['destination_id'])->name
-                    . ".",
+                    . "."
             );
         }
 
