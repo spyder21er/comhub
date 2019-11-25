@@ -16,16 +16,10 @@ Route::middleware('auth')->group(function () {
         return redirect('/');
     });
     Route::get('/', function () {
-        if (Auth::user()->isSuperAdmin())
-            return redirect()->route('admin.super');
-        if (Auth::user()->isAdmin())
-            return redirect()->route('admin.index');
-        if (Auth::user()->isDriver())
-            return redirect()->route('driver.index');
-        if (Auth::user()->isPassenger())
-            return redirect()->route('passenger.index');
-    });
-
+        return redirect()->route(Auth::user()->getHomeView());
+    })->name('home');
+    Route::get('/change_password', 'UserController@getChangePasswordForm')->name('get.change.password');
+    Route::post('/change_password', 'UserController@postChangePasswordForm')->name('post.change.password');
     Route::get('/passenger_dashboard', 'PassengerController@index')->name('passenger.index');
     Route::post('/passenger_dashboard', 'PassengerController@createTrip')->name('createTrip');
     Route::post('/trip/exclude_user', 'TripController@excludeUser')->name('trip.excludeUser');

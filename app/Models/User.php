@@ -313,4 +313,19 @@ class User extends Authenticatable
 
         return false;
     }
+
+    /**
+     * Get home view for this user
+     */
+    public function getHomeView()
+    {
+        if ($this->isSuperAdmin())
+            return 'admin.super';
+        if ($this->isAdmin())
+            return 'admin.index';
+        if ($this->isDriver())
+            return 'driver.index';
+
+        return 'passenger.index';
+    }
 }

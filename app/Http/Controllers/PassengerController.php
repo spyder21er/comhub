@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class PassengerController extends Controller
 {
+    /**
+     * Only passengers can access this part
+     */
     public function __construct()
     {
         $this->middleware('passenger');
