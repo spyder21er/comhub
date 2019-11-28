@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -61,7 +62,7 @@ class AdminController extends Controller
      */
     public function update_admin(Admin $admin)
     {
-        $updateUser = $this->validateUserInformation(true);
+        $updateUser = $this->validateUserInformation(true, $admin->user);
         $updateAdmin = $this->validateAdminInformation();
         $admin->user->update($updateUser);
         $admin->update($updateAdmin);
@@ -72,25 +73,31 @@ class AdminController extends Controller
             ])['town_id'])
         )->save();
 
-        return redirect()->route('admin.super');
+        return redirect()->route('admin.super')->with('success', 'Succesfully updated admin information!');
     }
 
     /**
      * Validate input from user registration form
      */
-    protected function validateUserInformation($edit_mode = false)
+    protected function validateUserInformation($edit_mode = false, $user = null)
     {
         $columns = [
             'first_name' => 'required',
             'middle_name' => '',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($user),
+            ],
             'phone' => 'required',
             'birthday' => '',
         ];
 
         if (!$edit_mode)
+        {
             $columns['password'] = 'required|confirmed|min:8';
+        }
 
         return request()->validate($columns);
     }
