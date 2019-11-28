@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseTestSeeder extends Seeder
@@ -27,7 +28,7 @@ class DatabaseTestSeeder extends Seeder
         $user->town_id = 11;
         $user->role_id = 1;
         $user->save();
-        
+
         // For development only:
         $this->call([
             UsersTableSeeder::class,
